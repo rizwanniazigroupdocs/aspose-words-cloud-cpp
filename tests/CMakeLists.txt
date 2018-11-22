@@ -31,12 +31,10 @@ add_executable(words-cloud-test oauthtest.cpp)
 add_subdirectory(../thirdparty/gtest gtest)
 target_link_libraries(words-cloud-test PRIVATE gtest Aspose::Words.Cloud)
 
+# Copy cpprest dynamic library
+find_package(cpprestsdk CONFIG REQUIRED)
+add_custom_command(TARGET words-cloud-test POST_BUILD 
+  COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_PROPERTY:cpprestsdk::cpprest,IMPORTED_LOCATION_DEBUG> $<TARGET_FILE_DIR:words-cloud-test>
+  COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_PROPERTY:cpprestsdk::cpprest,IMPORTED_LOCATION_RELEASE> $<TARGET_FILE_DIR:words-cloud-test>)
+
 add_test(NAME words-cloud-test COMMAND words-cloud-test) 
-
-#set(CREDS_PATH  ${CMAKE_CURRENT_BINARY_DIR}/servcreds.json)
-#configure_file(servcreds.json ${CREDS_PATH})
-
-#target_sources(runUnitTests PUBLIC ${CREDS_PATH})
-
-#add_custom_command(TARGET runUnitTests POST_BUILD 
-#COMMAND ${CMAKE_COMMAND} -E copy ${CREDS_PATH} $<TARGET_FILE_DIR:runUnitTests>)
