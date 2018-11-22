@@ -24,24 +24,17 @@
 
 cmake_minimum_required(VERSION 3.13 FATAL_ERROR)
 
-project(Aspose.Words.Cloud LANGUAGES CXX)
+project(aspose-words-cloud-cpp CXX)
 
-add_library(Words.Cloud)
+option(BUILD_TESTS "Build tests" ON)
 
-file(GLOB_RECURSE srcs "*.h" "*.cpp")
-target_sources(Words.Cloud PRIVATE ${srcs})
-target_include_directories(Words.Cloud PUBLIC api model model/requests ${CMAKE_CURRENT_SOURCE_DIR})
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Boost 1.68 REQUIRED)
-find_package(cpprestsdk CONFIG REQUIRED)
-target_link_libraries(Words.Cloud PRIVATE Boost::boost PUBLIC cpprestsdk::cpprest)
+include(thirdparty/cotire.cmake)
+add_subdirectory(sources Words.Cloud)
 
-if (COMMAND cotire)
-    cotire(Words.Cloud)
-endif()
-
-if (COMMAND cotire)
-    add_library(Aspose::Words.Cloud ALIAS Words.Cloud_unity)
-else()
-    add_library(Aspose::Words.Cloud ALIAS Words.Cloud)
+if (BUILD_TESTS)
+  enable_testing()
+  add_subdirectory(tests)
 endif()
