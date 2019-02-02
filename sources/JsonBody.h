@@ -41,7 +41,6 @@ class  JsonBody
 {
 public:
     explicit JsonBody( const web::json::value& value );
-    virtual ~JsonBody();
 
     void writeTo( std::ostream& target ) const override;
 
