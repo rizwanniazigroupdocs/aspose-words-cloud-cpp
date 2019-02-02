@@ -240,7 +240,7 @@
 #include "TiffSaveOptionsData.h"
 #include "WatermarkText.h"
 #include <cpprest/details/basic_types.h>
-#undef U
+
 #include <boost/optional.hpp>
 namespace io {
 namespace swagger {

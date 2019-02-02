@@ -35,6 +35,7 @@ target_include_directories(Words.Cloud PUBLIC api model model/requests ${CMAKE_C
 find_package(Boost 1.68 REQUIRED COMPONENTS thread system regex date_time program_options filesystem)
 find_package(cpprestsdk CONFIG REQUIRED)
 target_link_libraries(Words.Cloud PUBLIC Boost::boost  Boost::thread Boost::system Boost::regex Boost::date_time Boost::program_options Boost::filesystem cpprestsdk::cpprest)
+target_compile_definitions(Words.Cloud PUBLIC _TURN_OFF_PLATFORM_STRING)
 
 if (COMMAND cotire)
     cotire(Words.Cloud)
