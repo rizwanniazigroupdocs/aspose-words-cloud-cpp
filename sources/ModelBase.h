@@ -48,8 +48,7 @@ class FormFieldTextInput;
 class  ModelBase
 {
 public:
-    ModelBase();
-    virtual ~ModelBase();
+    virtual ~ModelBase() = default;
 
     virtual void validate() = 0;
 
@@ -61,8 +60,8 @@ public:
 
     static web::json::value toJson( const utility::string_t& value );
     static web::json::value toJson( const utility::datetime& value );
-    static web::json::value toJson( std::shared_ptr<HttpContent> value );
-    static web::json::value toJson( std::shared_ptr<ModelBase> value );
+    static web::json::value toJson(const std::shared_ptr<HttpContent>& value );
+    static web::json::value toJson(const std::shared_ptr<ModelBase>& value );
     static web::json::value toJson( int32_t value );
     static web::json::value toJson( int64_t value );
     static web::json::value toJson( double value );
@@ -89,18 +88,18 @@ public:
     template <class T>
     static std::shared_ptr<HttpContent> toHttpContent( const utility::string_t& name, const std::vector<T>& value, const utility::string_t& contentType = _XPLATSTR("") );
 
-    static int64_t int64_tFromHttpContent(std::shared_ptr<HttpContent> val);
-    static int32_t int32_tFromHttpContent(std::shared_ptr<HttpContent> val);
-    static float floatFromHttpContent(std::shared_ptr<HttpContent> val);
-    static utility::string_t stringFromHttpContent(std::shared_ptr<HttpContent> val);
-    static utility::datetime dateFromHttpContent(std::shared_ptr<HttpContent> val);
-    static bool boolFromHttpContent(std::shared_ptr<HttpContent> val);
-    static double doubleFromHttpContent(std::shared_ptr<HttpContent> val);
-    static web::json::value valueFromHttpContent(std::shared_ptr<HttpContent> val);
+    static int64_t int64_tFromHttpContent(const std::shared_ptr<HttpContent>& val);
+    static int32_t int32_tFromHttpContent(const std::shared_ptr<HttpContent>& val);
+    static float floatFromHttpContent(const std::shared_ptr<HttpContent>& val);
+    static utility::string_t stringFromHttpContent(const std::shared_ptr<HttpContent>& val);
+    static utility::datetime dateFromHttpContent(const std::shared_ptr<HttpContent>& val);
+    static bool boolFromHttpContent(const std::shared_ptr<HttpContent>& val);
+    static double doubleFromHttpContent(const std::shared_ptr<HttpContent>& val);
+    static web::json::value valueFromHttpContent(const std::shared_ptr<HttpContent>& val);
 
 
-    static utility::string_t toBase64( utility::string_t value );
-    static utility::string_t toBase64( std::shared_ptr<std::istream> value );
+    static utility::string_t toBase64(const utility::string_t& value );
+    static utility::string_t toBase64(const std::shared_ptr<std::istream>& value );
     static std::shared_ptr<std::istream> fromBase64( const utility::string_t& encoded );
 };
 
