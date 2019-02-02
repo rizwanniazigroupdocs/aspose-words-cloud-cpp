@@ -36,11 +36,6 @@ using namespace io::swagger::client::model;
 ApiClient::ApiClient(std::shared_ptr<ApiConfiguration> configuration )
     : m_Configuration(configuration)
 {
-    defaultHeaders.push_back(std::make_pair(_XPLATSTR("x-aspose-client-version"),
-		_XPLATSTR("1.0")));
-
-	defaultHeaders.push_back(std::make_pair(_XPLATSTR("x-aspose-client"),
-		_XPLATSTR("C++ SDK")));
 }
 
 pplx::task<void> ApiClient::requestToken()

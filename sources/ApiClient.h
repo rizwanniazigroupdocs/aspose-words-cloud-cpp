@@ -35,6 +35,7 @@
 
 #include <memory>
 #include <vector>
+#include <array>
 
 #include <cpprest/details/basic_types.h>
 #include <cpprest/http_client.h>
@@ -100,7 +101,11 @@ protected:
 
 private:
     utility::string_t m_AccessToken;
-    std::vector<std::pair<utility::string_t, utility::string_t>> defaultHeaders;
+    std::array<std::pair<utility::string_t, utility::string_t>, 2> defaultHeaders =
+    {
+        std::make_pair<utility::string_t, utility::string_t>(_XPLATSTR("x-aspose-client-version"), _XPLATSTR("1.0")),
+        std::make_pair<utility::string_t, utility::string_t>(_XPLATSTR("x-aspose-client"), _XPLATSTR("C++ SDK"))
+    };
 
 private:
     utility::string_t getTokenUrl() const;
