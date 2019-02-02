@@ -1,7 +1,6 @@
 #include "TestBase.h"
 
 
-
 std::shared_ptr<ApiConfiguration> get_config()
 {
 	ifstream fileStream(STCONVERT(TEST_ROOT) + SYSTEM_DELIMITER + STCONVERT("servercreds.json"));
