@@ -35,8 +35,7 @@ vector<utility::string_t> split(utility::string_t stringToSplit)
 	vector<utility::string_t> parts;
 	utility::string_t temp;
 	utility::stringstream_t wss(stringToSplit);
-
-	while (getline(wss, temp, (utility::char_t)'/'))
+	while (std::getline(wss, temp, _XPLATSTR('/')))
 	{
 		parts.push_back(temp);
 	}
