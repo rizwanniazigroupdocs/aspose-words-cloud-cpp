@@ -237,51 +237,56 @@ pplx::task<web::http::http_response> ApiClient::callApi(
     });
 }
 
-				utility::string_t ApiClient::copyDataFromStream(const Concurrency::streams::istream& stream)
-				{
-					if (!stream.is_valid()) return _XPLATSTR("EMPTY");
+utility::string_t ApiClient::copyDataFromStream(const Concurrency::streams::istream& stream)
+{
+    if (!stream.is_valid()) return _XPLATSTR("EMPTY");
 
-					auto bodyStreamBuf = stream.streambuf();
-					size_t streamSize = bodyStreamBuf.size();
-					uint8_t* data;
-					if (streamSize)
-					{
-						data = new uint8_t[streamSize];
-						bodyStreamBuf.scopy(data, streamSize);
-					}
-					else
-					{
-						streamSize = bodyStreamBuf.in_avail();
-						data = new uint8_t[streamSize];
-						bodyStreamBuf.acquire(data, streamSize);
-					}
-					std::vector<uint8_t> saveVector(data, data + streamSize);
-                    return utility::string_t(saveVector.begin(), saveVector.end());
-				}
+    auto bodyStreamBuf = stream.streambuf();
+    size_t streamSize = bodyStreamBuf.size();
+    uint8_t* data;
+    if (streamSize)
+    {
+        data = new uint8_t[streamSize];
+        bodyStreamBuf.scopy(data, streamSize);
+    }
+    else
+    {
+        streamSize = bodyStreamBuf.in_avail();
+        data = new uint8_t[streamSize];
+        bodyStreamBuf.acquire(data, streamSize);
+    }
+    std::vector<uint8_t> saveVector(data, data + streamSize);
+    std::ostringstream oss;
+    std::copy(saveVector.begin(), saveVector.end(),
+        std::ostream_iterator<uint8_t>(oss, ""));
+
+    std::string s = std::string(oss.str());
+    oss.flush();
+    ucout << utility::conversions::to_string_t(s) << std::endl;
+    return utility::conversions::to_string_t(s);
+}
 
 
-				void ApiClient::logRequest(web::http::http_request request) {
-					if (!m_Configuration->isDebugMode()) return;
+void ApiClient::logRequest(web::http::http_request request) {
+    if (!m_Configuration->isDebugMode()) return;
 
-					utility::string_t header = request.method() + _XPLATSTR(": ") +
-						request.request_uri().to_string(),
-						body = copyDataFromStream(request.body());
+    utility::string_t header = request.method() + _XPLATSTR(": ") +
+        request.request_uri().to_string(),
+        body = copyDataFromStream(request.body());
 
-					ucout << header << std::endl << body << std::endl;
-					ucout.clear();
-				}
+    ucout << header << std::endl << body << std::endl;
+}
 
-				void ApiClient::logResponse(web::http::http_response response) {
-					if (!m_Configuration->isDebugMode()) return;
-					
-					utility::string_t header = _XPLATSTR("Response ") + 
-						utility::conversions::to_string_t(std::to_string(response.status_code())) +
-						_XPLATSTR(": ") + response.reason_phrase(),
-						body = copyDataFromStream(response.body());
+void ApiClient::logResponse(web::http::http_response response) {
+    if (!m_Configuration->isDebugMode()) return;
 
-					ucout << header << std::endl << body << std::endl;
-					ucout.clear();
-				}
+    utility::string_t header = _XPLATSTR("Response ") +
+        utility::conversions::to_string_t(std::to_string(response.status_code())) +
+        _XPLATSTR(": ") + response.reason_phrase(),
+        body = copyDataFromStream(response.body());
+
+    ucout << header << std::endl << body << std::endl;
+}
 
 }
 }
