@@ -122,17 +122,17 @@ pplx::task<web::http::http_response> ApiClient::callApi(
     const utility::string_t& contentType
 )
 {
-    if (postBody != nullptr && formParams.size() != 0)
+    if (postBody && !formParams.empty())
     {
         throw ApiException(400, _XPLATSTR("Cannot have body and form params"));
     }
 
-    if (postBody != nullptr && fileParams.size() != 0)
+    if (postBody && !fileParams.empty())
     {
         throw ApiException(400, _XPLATSTR("Cannot have body and file params"));
     }
 
-    if (fileParams.size() > 0 && contentType != _XPLATSTR("multipart/form-data"))
+    if (!fileParams.empty() && contentType != _XPLATSTR("multipart/form-data"))
     {
         throw ApiException(400, _XPLATSTR("Operations with file parameters must be called with multipart/form-data"));
     }
@@ -140,12 +140,14 @@ pplx::task<web::http::http_response> ApiClient::callApi(
     web::http::client::http_client client(m_Configuration->getBaseUrl(), m_Configuration->getHttpConfig());
 
     web::http::http_request request;
+
+    auto & request_header = request.headers();
     for ( auto& kvp : headerParams )
     {
-        request.headers().add(kvp.first, kvp.second);
+        request_header.add(kvp.first, kvp.second);
     }
 
-    if (fileParams.size() > 0)
+    if (!fileParams.empty())
     {
         MultipartFormData uploadData;
         for (auto& kvp : formParams)
@@ -156,21 +158,26 @@ pplx::task<web::http::http_response> ApiClient::callApi(
         {
             uploadData.add(ModelBase::toHttpContent(kvp.first, kvp.second));
         }
-        std::stringstream data;
+        std::ostringstream data;
         uploadData.writeTo(data);
         auto bodyString = data.str();
         auto length = bodyString.size();
+
         if (fileParams.size() + formParams.size() > 1)
+        {
 			request.set_body(concurrency::streams::bytestream::open_istream(std::move(bodyString)), length, 
 				_XPLATSTR("multipart/form-data; boundary = ") + uploadData.getBoundary());
+        }
 		else
-        request.set_body(concurrency::streams::bytestream::open_istream(std::move(bodyString)), length, _XPLATSTR("multipart/form-data;"));
+		{
+            request.set_body(concurrency::streams::bytestream::open_istream(std::move(bodyString)), length, _XPLATSTR("multipart/form-data;"));
+		}
     }
     else
     {
-        if (postBody != nullptr)
+        if (postBody)
         {
-            std::stringstream data;
+            std::ostringstream data;
             postBody->writeTo(data);
             auto bodyString = data.str();
             auto length = bodyString.size();
@@ -196,10 +203,15 @@ pplx::task<web::http::http_response> ApiClient::callApi(
                 for (auto& kvp : formParams)
                 {
                    if (contentType == _XPLATSTR("multipart/form-data"))
-										formData.append_query(kvp.second);
-									else
-									formData.append_query(kvp.first, kvp.second);
+                   {
+                       formData.append_query(kvp.second);
+                   }
+                   else
+                   {
+                       formData.append_query(kvp.first, kvp.second);
+                   }
                 }
+
                 if (!formParams.empty())
                 {
                     request.set_body(formData.query(), contentType);
