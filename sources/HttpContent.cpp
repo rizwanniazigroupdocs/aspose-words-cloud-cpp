@@ -77,7 +77,7 @@ void HttpContent::setContentType( const utility::string_t & value )
     m_ContentType = value;
 }
 
-std::shared_ptr<std::istream> HttpContent::getData()
+std::shared_ptr<std::istream> HttpContent::getData() const
 {
     return m_Data;
 }

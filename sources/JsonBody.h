@@ -43,7 +43,7 @@ public:
     explicit JsonBody( const web::json::value& value );
     virtual ~JsonBody();
 
-    void writeTo( std::ostream& target ) override;
+    void writeTo( std::ostream& target ) const override;
 
 protected:
     web::json::value m_Json;

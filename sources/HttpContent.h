@@ -55,7 +55,7 @@ public:
     virtual utility::string_t getContentType();
     virtual void setContentType( const utility::string_t& value );
 
-    virtual std::shared_ptr<std::istream> getData();
+    virtual std::shared_ptr<std::istream> getData() const;
     virtual void setData( std::shared_ptr<std::istream> value );
 
     virtual void writeTo( std::ostream& stream );

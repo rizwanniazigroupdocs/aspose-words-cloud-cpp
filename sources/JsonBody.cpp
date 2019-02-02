@@ -38,7 +38,7 @@ JsonBody::~JsonBody()
 {
 }
 
-void JsonBody::writeTo( std::ostream& target )
+void JsonBody::writeTo( std::ostream& target ) const
 {
     m_Json.serialize(target);
 }
