@@ -73,10 +73,10 @@ void TableCellFormatResponse::fromJson(web::json::value& val)
     }
 }
 
-void TableCellFormatResponse::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix) const
+void TableCellFormatResponse::toMultipart(const std::shared_ptr<MultipartFormData>& multipart, const utility::string_t& prefix) const
 {
     utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t("."))
+    if(!namePrefix.empty() && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t("."))
     {
         namePrefix += utility::conversions::to_string_t(".");
     }
@@ -97,10 +97,10 @@ void TableCellFormatResponse::toMultipart(std::shared_ptr<MultipartFormData> mul
     }
 }
 
-void TableCellFormatResponse::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix)
+void TableCellFormatResponse::fromMultiPart(const std::shared_ptr<MultipartFormData>& multipart, const utility::string_t& prefix)
 {
     utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t("."))
+    if(!namePrefix.empty() && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t("."))
     {
         namePrefix += utility::conversions::to_string_t(".");
     }
