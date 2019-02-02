@@ -71,7 +71,7 @@ void LinkElement::fromJson(web::json::value& val)
     }
 }
 
-void LinkElement::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix) const
+void LinkElement::toMultipart(const std::shared_ptr<MultipartFormData>& multipart, const utility::string_t& prefix) const
 {
     utility::string_t namePrefix = prefix;
     if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != _XPLATSTR("."))
@@ -89,7 +89,7 @@ void LinkElement::toMultipart(std::shared_ptr<MultipartFormData> multipart, cons
     }
 }
 
-void LinkElement::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix)
+void LinkElement::fromMultiPart(const std::shared_ptr<MultipartFormData>& multipart, const utility::string_t& prefix)
 {
     utility::string_t namePrefix = prefix;
     if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != _XPLATSTR("."))

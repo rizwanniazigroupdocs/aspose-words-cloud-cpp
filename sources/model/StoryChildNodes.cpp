@@ -90,7 +90,7 @@ void StoryChildNodes::fromJson(web::json::value& val)
     }
 }
 
-void StoryChildNodes::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix) const
+void StoryChildNodes::toMultipart(const std::shared_ptr<MultipartFormData>& multipart, const utility::string_t& prefix) const
 {
     utility::string_t namePrefix = prefix;
     if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t("."))
@@ -111,7 +111,7 @@ void StoryChildNodes::toMultipart(std::shared_ptr<MultipartFormData> multipart, 
     }
 }
 
-void StoryChildNodes::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix)
+void StoryChildNodes::fromMultiPart(const std::shared_ptr<MultipartFormData>& multipart, const utility::string_t& prefix)
 {
     utility::string_t namePrefix = prefix;
     if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t("."))

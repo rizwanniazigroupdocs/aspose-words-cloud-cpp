@@ -80,7 +80,7 @@ void ClassificationResult::fromJson(web::json::value& val)
     }
 }
 
-void ClassificationResult::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix) const
+void ClassificationResult::toMultipart(const std::shared_ptr<MultipartFormData>& multipart, const utility::string_t& prefix) const
 {
     utility::string_t namePrefix = prefix;
     if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != _XPLATSTR("."))
@@ -96,7 +96,7 @@ void ClassificationResult::toMultipart(std::shared_ptr<MultipartFormData> multip
     multipart->add(ModelBase::toHttpContent(namePrefix + _XPLATSTR("ClassProbability"), m_ClassProbability));
 }
 
-void ClassificationResult::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix)
+void ClassificationResult::fromMultiPart(const std::shared_ptr<MultipartFormData>& multipart, const utility::string_t& prefix)
 {
     utility::string_t namePrefix = prefix;
     if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != _XPLATSTR("."))

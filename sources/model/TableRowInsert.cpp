@@ -80,7 +80,7 @@ void TableRowInsert::fromJson(web::json::value& val)
     }
 }
 
-void TableRowInsert::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix) const
+void TableRowInsert::toMultipart(const std::shared_ptr<MultipartFormData>& multipart, const utility::string_t& prefix) const
 {
     utility::string_t namePrefix = prefix;
     if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t("."))
@@ -95,7 +95,7 @@ void TableRowInsert::toMultipart(std::shared_ptr<MultipartFormData> multipart, c
     multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("ColumnsCount"), m_ColumnsCount));
 }
 
-void TableRowInsert::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix)
+void TableRowInsert::fromMultiPart(const std::shared_ptr<MultipartFormData>& multipart, const utility::string_t& prefix)
 {
     utility::string_t namePrefix = prefix;
     if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t("."))

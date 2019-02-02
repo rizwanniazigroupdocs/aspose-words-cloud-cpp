@@ -104,7 +104,7 @@ void PageNumber::fromJson(web::json::value& val)
     }
 }
 
-void PageNumber::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix) const
+void PageNumber::toMultipart(const std::shared_ptr<MultipartFormData>& multipart, const utility::string_t& prefix) const
 {
     utility::string_t namePrefix = prefix;
     if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != _XPLATSTR("."))
@@ -126,7 +126,7 @@ void PageNumber::toMultipart(std::shared_ptr<MultipartFormData> multipart, const
     multipart->add(ModelBase::toHttpContent(namePrefix + _XPLATSTR("SetPageNumberOnFirstPage"), m_SetPageNumberOnFirstPage));
 }
 
-void PageNumber::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix)
+void PageNumber::fromMultiPart(const std::shared_ptr<MultipartFormData>& multipart, const utility::string_t& prefix)
 {
     utility::string_t namePrefix = prefix;
     if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != _XPLATSTR("."))

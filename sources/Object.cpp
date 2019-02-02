@@ -29,15 +29,6 @@ namespace swagger {
 namespace client {
 namespace model {
 
-Object::Object()
-{
-    m_object = web::json::value::object();
-}
-
-Object::~Object()
-{
-}
-
 void Object::validate()
 {
     // TODO: implement validation
@@ -56,22 +47,22 @@ void Object::fromJson(web::json::value& val)
     }
 }
 
-void Object::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix) const
+void Object::toMultipart(const std::shared_ptr<MultipartFormData>& multipart, const utility::string_t& prefix) const
 {
     utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != _XPLATSTR("."))
+    if(!namePrefix.empty() && namePrefix.back() != _XPLATSTR('.'))
     {
-        namePrefix += _XPLATSTR(".");
+        namePrefix.push_back(_XPLATSTR('.'));
     }
     multipart->add(ModelBase::toHttpContent(namePrefix + _XPLATSTR("object"), m_object));
 }
 
-void Object::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix)
+void Object::fromMultiPart(const std::shared_ptr<MultipartFormData>& multipart, const utility::string_t& prefix)
 {
     utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != _XPLATSTR("."))
+    if(!namePrefix.empty() && namePrefix.back() != _XPLATSTR('.'))
     {
-        namePrefix += _XPLATSTR(".");
+        namePrefix.push_back(_XPLATSTR('.'));
     }
 
     m_object = ModelBase::valueFromHttpContent(multipart->getContent(namePrefix + _XPLATSTR("object")));
