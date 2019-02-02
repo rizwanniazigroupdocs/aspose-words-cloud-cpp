@@ -113,7 +113,7 @@ utility::string_t ApiConfiguration::getApiKey( const utility::string_t& prefix) 
     {
         return result->second;
     }
-    return utility::conversions::to_string_t("");
+    return _XPLATSTR("");
 }
 
 void ApiConfiguration::setApiKey( const utility::string_t& prefix, const utility::string_t& apiKey )

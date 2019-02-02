@@ -100,7 +100,7 @@ utility::string_t ApiClient::parameterToString(const std::vector<T>& value)
 
     for( size_t i = 0; i < value.size(); i++)
     {
-        if( i > 0) ss << utility::conversions::to_string_t(", ");
+        if( i > 0) ss << _XPLATSTR(", ");
         ss << ApiClient::parameterToString(value[i]);
     }
 

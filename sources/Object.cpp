@@ -59,22 +59,22 @@ void Object::fromJson(web::json::value& val)
 void Object::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix) const
 {
     utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t("."))
+    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != _XPLATSTR("."))
     {
-        namePrefix += utility::conversions::to_string_t(".");
+        namePrefix += _XPLATSTR(".");
     }
-    multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("object"), m_object));
+    multipart->add(ModelBase::toHttpContent(namePrefix + _XPLATSTR("object"), m_object));
 }
 
 void Object::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix)
 {
     utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t("."))
+    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != _XPLATSTR("."))
     {
-        namePrefix += utility::conversions::to_string_t(".");
+        namePrefix += _XPLATSTR(".");
     }
 
-    m_object = ModelBase::valueFromHttpContent(multipart->getContent(namePrefix + utility::conversions::to_string_t("object")));
+    m_object = ModelBase::valueFromHttpContent(multipart->getContent(namePrefix + _XPLATSTR("object")));
 }
 
 web::json::value Object::getValue(const utility::string_t& key) const

@@ -33,7 +33,7 @@ namespace model {
 
 ParagraphInsert::ParagraphInsert()
 {
-    m_Text = utility::conversions::to_string_t("");
+    m_Text = _XPLATSTR("");
     m_TextIsSet = false;
 }
 
@@ -52,7 +52,7 @@ web::json::value ParagraphInsert::toJson() const
 
     if(m_TextIsSet)
     {
-        val[utility::conversions::to_string_t("Text")] = ModelBase::toJson(m_Text);
+        val[_XPLATSTR("Text")] = ModelBase::toJson(m_Text);
     }
 
     return val;
@@ -60,9 +60,9 @@ web::json::value ParagraphInsert::toJson() const
 
 void ParagraphInsert::fromJson(web::json::value& val)
 {
-    if(val.has_field(utility::conversions::to_string_t("Text")))
+    if(val.has_field(_XPLATSTR("Text")))
     {
-        web::json::value& fieldValue = val[utility::conversions::to_string_t("Text")];
+        web::json::value& fieldValue = val[_XPLATSTR("Text")];
         if(!fieldValue.is_null())
         {
             setText(ModelBase::stringFromJson(fieldValue));
@@ -73,14 +73,14 @@ void ParagraphInsert::fromJson(web::json::value& val)
 void ParagraphInsert::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix) const
 {
     utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t("."))
+    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != _XPLATSTR("."))
     {
-        namePrefix += utility::conversions::to_string_t(".");
+        namePrefix += _XPLATSTR(".");
     }
 
     if(m_TextIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("Text"), m_Text));
+        multipart->add(ModelBase::toHttpContent(namePrefix + _XPLATSTR("Text"), m_Text));
         
     }
 }
@@ -88,14 +88,14 @@ void ParagraphInsert::toMultipart(std::shared_ptr<MultipartFormData> multipart, 
 void ParagraphInsert::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix)
 {
     utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t("."))
+    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != _XPLATSTR("."))
     {
-        namePrefix += utility::conversions::to_string_t(".");
+        namePrefix += _XPLATSTR(".");
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t("Text")))
+    if(multipart->hasContent(_XPLATSTR("Text")))
     {
-        setText(ModelBase::stringFromHttpContent(multipart->getContent(utility::conversions::to_string_t("Text"))));
+        setText(ModelBase::stringFromHttpContent(multipart->getContent(_XPLATSTR("Text"))));
     }
 }
 

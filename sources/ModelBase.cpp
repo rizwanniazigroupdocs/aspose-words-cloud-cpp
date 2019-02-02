@@ -63,10 +63,10 @@ web::json::value ModelBase::toJson(bool value) {
 web::json::value ModelBase::toJson( std::shared_ptr<HttpContent> content )
 {
     web::json::value value;
-    value[utility::conversions::to_string_t("ContentDisposition")] = ModelBase::toJson(content->getContentDisposition());
-    value[utility::conversions::to_string_t("ContentType")] = ModelBase::toJson(content->getContentType());
-    value[utility::conversions::to_string_t("FileName")] = ModelBase::toJson(content->getFileName());
-    value[utility::conversions::to_string_t("InputStream")] = web::json::value::string( ModelBase::toBase64(content->getData()) );
+    value[_XPLATSTR("ContentDisposition")] = ModelBase::toJson(content->getContentDisposition());
+    value[_XPLATSTR("ContentType")] = ModelBase::toJson(content->getContentType());
+    value[_XPLATSTR("FileName")] = ModelBase::toJson(content->getFileName());
+    value[_XPLATSTR("InputStream")] = web::json::value::string( ModelBase::toBase64(content->getData()) );
     return value;
 }
 
@@ -74,21 +74,21 @@ std::shared_ptr<HttpContent> ModelBase::fileFromJson(web::json::value& val)
 {
     std::shared_ptr<HttpContent> content(new HttpContent);
 
-    if(val.has_field(utility::conversions::to_string_t("ContentDisposition")))
+    if(val.has_field(_XPLATSTR("ContentDisposition")))
     {
-        content->setContentDisposition( ModelBase::stringFromJson(val[utility::conversions::to_string_t("ContentDisposition")]) );
+        content->setContentDisposition( ModelBase::stringFromJson(val[_XPLATSTR("ContentDisposition")]) );
     }
-    if(val.has_field(utility::conversions::to_string_t("ContentType")))
+    if(val.has_field(_XPLATSTR("ContentType")))
     {
-        content->setContentType( ModelBase::stringFromJson(val[utility::conversions::to_string_t("ContentType")]) );
+        content->setContentType( ModelBase::stringFromJson(val[_XPLATSTR("ContentType")]) );
     }
-    if(val.has_field(utility::conversions::to_string_t("FileName")))
+    if(val.has_field(_XPLATSTR("FileName")))
     {
-        content->setFileName( ModelBase::stringFromJson(val[utility::conversions::to_string_t("FileName")]) );
+        content->setFileName( ModelBase::stringFromJson(val[_XPLATSTR("FileName")]) );
     }
-    if(val.has_field(utility::conversions::to_string_t("InputStream")))
+    if(val.has_field(_XPLATSTR("InputStream")))
     {
-        content->setData( ModelBase::fromBase64( ModelBase::stringFromJson(val[utility::conversions::to_string_t("InputStream")]) ) );
+        content->setData( ModelBase::fromBase64( ModelBase::stringFromJson(val[_XPLATSTR("InputStream")]) ) );
     }
 
     return content;
@@ -103,7 +103,7 @@ std::shared_ptr<HttpContent> ModelBase::toHttpContent( const utility::string_t& 
 {
     std::shared_ptr<HttpContent> content(new HttpContent);
     content->setName( name );
-    content->setContentDisposition( utility::conversions::to_string_t("form-data") );
+    content->setContentDisposition( _XPLATSTR("form-data") );
     content->setContentType( contentType );
     content->setData( std::shared_ptr<std::istream>( new std::stringstream( utility::conversions::to_utf8string(value) ) ) );
     return content;
@@ -112,7 +112,7 @@ std::shared_ptr<HttpContent> ModelBase::toHttpContent( const utility::string_t& 
 {
     std::shared_ptr<HttpContent> content( new HttpContent );
     content->setName( name );
-    content->setContentDisposition( utility::conversions::to_string_t("form-data") );
+    content->setContentDisposition( _XPLATSTR("form-data") );
     content->setContentType( contentType );
     content->setData( std::shared_ptr<std::istream>( new std::stringstream( utility::conversions::to_utf8string(value.to_string(utility::datetime::ISO_8601) ) ) ) );
     return content;
@@ -131,7 +131,7 @@ std::shared_ptr<HttpContent> ModelBase::toHttpContent( const utility::string_t& 
 {
     std::shared_ptr<HttpContent> content( new HttpContent );
     content->setName( name );
-    content->setContentDisposition( utility::conversions::to_string_t("form-data") );
+    content->setContentDisposition( _XPLATSTR("form-data") );
     content->setContentType( contentType );
     content->setData( std::shared_ptr<std::istream>( new std::stringstream( utility::conversions::to_utf8string(value.serialize()) ) ) );
     return content;
@@ -140,7 +140,7 @@ std::shared_ptr<HttpContent> ModelBase::toHttpContent( const utility::string_t& 
 {
     std::shared_ptr<HttpContent> content( new HttpContent );
     content->setName( name );
-    content->setContentDisposition( utility::conversions::to_string_t("form-data") );
+    content->setContentDisposition( _XPLATSTR("form-data") );
     content->setContentType( contentType );
 	std::stringstream* valueAsStringStream = new std::stringstream();
 	(*valueAsStringStream) << value;
@@ -151,7 +151,7 @@ std::shared_ptr<HttpContent> ModelBase::toHttpContent( const utility::string_t& 
 {
     std::shared_ptr<HttpContent> content( new HttpContent );
     content->setName( name );
-    content->setContentDisposition( utility::conversions::to_string_t("form-data") );
+    content->setContentDisposition( _XPLATSTR("form-data") );
     content->setContentType( contentType );
 	std::stringstream* valueAsStringStream = new std::stringstream();
 	(*valueAsStringStream) << value;
@@ -162,7 +162,7 @@ std::shared_ptr<HttpContent> ModelBase::toHttpContent( const utility::string_t& 
 {
     std::shared_ptr<HttpContent> content( new HttpContent );
     content->setName( name );
-    content->setContentDisposition( utility::conversions::to_string_t("form-data") );
+    content->setContentDisposition( _XPLATSTR("form-data") );
     content->setContentType( contentType );
 	std::stringstream* valueAsStringStream = new std::stringstream();
 	(*valueAsStringStream) << value;
@@ -301,7 +301,7 @@ float ModelBase::floatFromJson(web::json::value& val)
 }
 utility::string_t ModelBase::stringFromJson(web::json::value& val)
 {
-    return val.is_string() ? val.as_string() : utility::conversions::to_string_t("");
+    return val.is_string() ? val.as_string() : _XPLATSTR("");
 }
 
 utility::datetime ModelBase::dateFromJson(web::json::value& val)

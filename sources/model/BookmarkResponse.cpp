@@ -51,7 +51,7 @@ web::json::value BookmarkResponse::toJson() const
 
     if(m_BookmarkIsSet)
     {
-        val[utility::conversions::to_string_t("Bookmark")] = ModelBase::toJson(m_Bookmark);
+        val[_XPLATSTR("Bookmark")] = ModelBase::toJson(m_Bookmark);
     }
 
     return val;
@@ -61,9 +61,9 @@ void BookmarkResponse::fromJson(web::json::value& val)
 {
     this->AsposeResponse::fromJson(val);
 
-    if(val.has_field(utility::conversions::to_string_t("Bookmark")))
+    if(val.has_field(_XPLATSTR("Bookmark")))
     {
-        web::json::value& fieldValue = val[utility::conversions::to_string_t("Bookmark")];
+        web::json::value& fieldValue = val[_XPLATSTR("Bookmark")];
         if(!fieldValue.is_null())
         {
             std::shared_ptr<Bookmark> newItem(new Bookmark());
@@ -76,22 +76,22 @@ void BookmarkResponse::fromJson(web::json::value& val)
 void BookmarkResponse::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix) const
 {
     utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t("."))
+    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != _XPLATSTR("."))
     {
-        namePrefix += utility::conversions::to_string_t(".");
+        namePrefix += _XPLATSTR(".");
     }
 
-    multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("Code"), m_Code));
+    multipart->add(ModelBase::toHttpContent(namePrefix + _XPLATSTR("Code"), m_Code));
     if(m_StatusIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("Status"), m_Status));
+        multipart->add(ModelBase::toHttpContent(namePrefix + _XPLATSTR("Status"), m_Status));
         
     }
     if(m_BookmarkIsSet)
     {
         if (m_Bookmark.get())
         {
-            m_Bookmark->toMultipart(multipart, utility::conversions::to_string_t("Bookmark."));
+            m_Bookmark->toMultipart(multipart, _XPLATSTR("Bookmark."));
         }
         
     }
@@ -100,22 +100,22 @@ void BookmarkResponse::toMultipart(std::shared_ptr<MultipartFormData> multipart,
 void BookmarkResponse::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix)
 {
     utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t("."))
+    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != _XPLATSTR("."))
     {
-        namePrefix += utility::conversions::to_string_t(".");
+        namePrefix += _XPLATSTR(".");
     }
 
-    setCode(ModelBase::int32_tFromHttpContent(multipart->getContent(utility::conversions::to_string_t("Code"))));
-    if(multipart->hasContent(utility::conversions::to_string_t("Status")))
+    setCode(ModelBase::int32_tFromHttpContent(multipart->getContent(_XPLATSTR("Code"))));
+    if(multipart->hasContent(_XPLATSTR("Status")))
     {
-        setStatus(ModelBase::stringFromHttpContent(multipart->getContent(utility::conversions::to_string_t("Status"))));
+        setStatus(ModelBase::stringFromHttpContent(multipart->getContent(_XPLATSTR("Status"))));
     }
-    if(multipart->hasContent(utility::conversions::to_string_t("Bookmark")))
+    if(multipart->hasContent(_XPLATSTR("Bookmark")))
     {
-        if(multipart->hasContent(utility::conversions::to_string_t("Bookmark")))
+        if(multipart->hasContent(_XPLATSTR("Bookmark")))
         {
             std::shared_ptr<Bookmark> newItem(new Bookmark());
-            newItem->fromMultiPart(multipart, utility::conversions::to_string_t("Bookmark."));
+            newItem->fromMultiPart(multipart, _XPLATSTR("Bookmark."));
             setBookmark( newItem );
         }
     }

@@ -36,11 +36,11 @@ using namespace io::swagger::client::model;
 ApiClient::ApiClient(std::shared_ptr<ApiConfiguration> configuration )
     : m_Configuration(configuration)
 {
-    defaultHeaders.push_back(std::make_pair(utility::conversions::to_string_t("x-aspose-client-version"),
-		utility::conversions::to_string_t("1.0")));
+    defaultHeaders.push_back(std::make_pair(_XPLATSTR("x-aspose-client-version"),
+		_XPLATSTR("1.0")));
 
-	defaultHeaders.push_back(std::make_pair(utility::conversions::to_string_t("x-aspose-client"),
-		utility::conversions::to_string_t("C++ SDK")));
+	defaultHeaders.push_back(std::make_pair(_XPLATSTR("x-aspose-client"),
+		_XPLATSTR("C++ SDK")));
 }
 ApiClient::~ApiClient()
 {
@@ -54,29 +54,29 @@ pplx::task<void> ApiClient::requestToken()
     std::map<utility::string_t, utility::string_t> queryParams, formParams, headerParams;
     std::vector<std::pair<utility::string_t, std::shared_ptr<io::swagger::client::model::HttpContent>>> fileParams;
 
-    formParams.insert(std::make_pair(utility::conversions::to_string_t("grant_type"), 
-		utility::conversions::to_string_t("client_credentials")));
-	formParams.insert(std::make_pair(utility::conversions::to_string_t("client_id"),
+    formParams.insert(std::make_pair(_XPLATSTR("grant_type"), 
+		_XPLATSTR("client_credentials")));
+	formParams.insert(std::make_pair(_XPLATSTR("client_id"),
 		m_Configuration->getAppSid()));
-	formParams.insert(std::make_pair(utility::conversions::to_string_t("client_secret"),
+	formParams.insert(std::make_pair(_XPLATSTR("client_secret"),
 		m_Configuration->getAppKey()));
 
-    return callApi(getTokenUrl(), utility::conversions::to_string_t("POST"), queryParams,nullptr, headerParams, formParams, fileParams, 
-		utility::conversions::to_string_t("application/x-www-form-urlencoded")).then([=](web::http::http_response response) {
+    return callApi(getTokenUrl(), _XPLATSTR("POST"), queryParams,nullptr, headerParams, formParams, fileParams, 
+		_XPLATSTR("application/x-www-form-urlencoded")).then([=](web::http::http_response response) {
 		
 		if (response.status_code() >= 400)
 			throw ApiException(response.status_code()
-				, utility::conversions::to_string_t("error requesting token: ") + response.reason_phrase()
+				, _XPLATSTR("error requesting token: ") + response.reason_phrase()
 				, std::make_shared<std::stringstream>(response.extract_utf8string(true).get()));
 
 		return response.extract_json();
     }).then([this](web::json::value val) {
-        this->setAccessToken(val[utility::conversions::to_string_t("access_token")].as_string());
+        this->setAccessToken(val[_XPLATSTR("access_token")].as_string());
     });
 }
 
 utility::string_t ApiClient::getTokenUrl() const {
-	return m_Configuration->getBaseUrl() + utility::conversions::to_string_t("/oauth2/token");            
+	return m_Configuration->getBaseUrl() + _XPLATSTR("/oauth2/token");            
 }
 
 void ApiClient::setAccessToken(utility::string_t token){
@@ -138,17 +138,17 @@ pplx::task<web::http::http_response> ApiClient::callApi(
 {
     if (postBody != nullptr && formParams.size() != 0)
     {
-        throw ApiException(400, utility::conversions::to_string_t("Cannot have body and form params"));
+        throw ApiException(400, _XPLATSTR("Cannot have body and form params"));
     }
 
     if (postBody != nullptr && fileParams.size() != 0)
     {
-        throw ApiException(400, utility::conversions::to_string_t("Cannot have body and file params"));
+        throw ApiException(400, _XPLATSTR("Cannot have body and file params"));
     }
 
-    if (fileParams.size() > 0 && contentType != utility::conversions::to_string_t("multipart/form-data"))
+    if (fileParams.size() > 0 && contentType != _XPLATSTR("multipart/form-data"))
     {
-        throw ApiException(400, utility::conversions::to_string_t("Operations with file parameters must be called with multipart/form-data"));
+        throw ApiException(400, _XPLATSTR("Operations with file parameters must be called with multipart/form-data"));
     }
 
     web::http::client::http_client client(m_Configuration->getBaseUrl(), m_Configuration->getHttpConfig());
@@ -176,9 +176,9 @@ pplx::task<web::http::http_response> ApiClient::callApi(
         auto length = bodyString.size();
         if (fileParams.size() + formParams.size() > 1)
 			request.set_body(concurrency::streams::bytestream::open_istream(std::move(bodyString)), length, 
-				utility::conversions::to_string_t("multipart/form-data; boundary = ") + uploadData.getBoundary());
+				_XPLATSTR("multipart/form-data; boundary = ") + uploadData.getBoundary());
 		else
-        request.set_body(concurrency::streams::bytestream::open_istream(std::move(bodyString)), length, utility::conversions::to_string_t("multipart/form-data;"));
+        request.set_body(concurrency::streams::bytestream::open_istream(std::move(bodyString)), length, _XPLATSTR("multipart/form-data;"));
     }
     else
     {
@@ -192,7 +192,7 @@ pplx::task<web::http::http_response> ApiClient::callApi(
         }
         else
         {
-            if (contentType == utility::conversions::to_string_t("application/json"))
+            if (contentType == _XPLATSTR("application/json"))
             {
                 web::json::value body_data = web::json::value::object();
                 for (auto& kvp : formParams)
@@ -209,7 +209,7 @@ pplx::task<web::http::http_response> ApiClient::callApi(
                 web::http::uri_builder formData;
                 for (auto& kvp : formParams)
                 {
-                   if (contentType == utility::conversions::to_string_t("multipart/form-data"))
+                   if (contentType == _XPLATSTR("multipart/form-data"))
 										formData.append_query(kvp.second);
 									else
 									formData.append_query(kvp.first, kvp.second);
@@ -238,7 +238,7 @@ pplx::task<web::http::http_response> ApiClient::callApi(
 			requestToken().wait();
 		}
 
-		request.headers().add(web::http::header_names::authorization, utility::conversions::to_string_t("Bearer ") + m_AccessToken);
+		request.headers().add(web::http::header_names::authorization, _XPLATSTR("Bearer ") + m_AccessToken);
 	}
     for (auto header : defaultHeaders) {
 		request.headers().add(header.first, header.second);
@@ -253,7 +253,7 @@ pplx::task<web::http::http_response> ApiClient::callApi(
 
 				utility::string_t ApiClient::copyDataFromStream(const Concurrency::streams::istream& stream)
 				{
-					if (!stream.is_valid()) return utility::conversions::to_string_t("EMPTY");
+					if (!stream.is_valid()) return _XPLATSTR("EMPTY");
 
 					auto bodyStreamBuf = stream.streambuf();
 					size_t streamSize = bodyStreamBuf.size();
@@ -277,7 +277,7 @@ pplx::task<web::http::http_response> ApiClient::callApi(
 				void ApiClient::logRequest(web::http::http_request request) {
 					if (!m_Configuration->isDebugMode()) return;
 
-					utility::string_t header = request.method() + utility::conversions::to_string_t(": ") +
+					utility::string_t header = request.method() + _XPLATSTR(": ") +
 						request.request_uri().to_string(),
 						body = copyDataFromStream(request.body());
 
@@ -288,9 +288,9 @@ pplx::task<web::http::http_response> ApiClient::callApi(
 				void ApiClient::logResponse(web::http::http_response response) {
 					if (!m_Configuration->isDebugMode()) return;
 					
-					utility::string_t header = utility::conversions::to_string_t("Response ") + 
+					utility::string_t header = _XPLATSTR("Response ") + 
 						utility::conversions::to_string_t(std::to_string(response.status_code())) +
-						utility::conversions::to_string_t(": ") + response.reason_phrase(),
+						_XPLATSTR(": ") + response.reason_phrase(),
 						body = copyDataFromStream(response.body());
 
 					ucout << header << std::endl << body << std::endl;

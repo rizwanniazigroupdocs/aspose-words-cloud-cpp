@@ -51,7 +51,7 @@ web::json::value LinkElement::toJson() const
 
     if(m_LinkIsSet)
     {
-        val[utility::conversions::to_string_t("link")] = ModelBase::toJson(m_Link);
+        val[_XPLATSTR("link")] = ModelBase::toJson(m_Link);
     }
 
     return val;
@@ -59,9 +59,9 @@ web::json::value LinkElement::toJson() const
 
 void LinkElement::fromJson(web::json::value& val)
 {
-    if(val.has_field(utility::conversions::to_string_t("link")))
+    if(val.has_field(_XPLATSTR("link")))
     {
-        web::json::value& fieldValue = val[utility::conversions::to_string_t("link")];
+        web::json::value& fieldValue = val[_XPLATSTR("link")];
         if(!fieldValue.is_null())
         {
             std::shared_ptr<WordsApiLink> newItem(new WordsApiLink());
@@ -74,16 +74,16 @@ void LinkElement::fromJson(web::json::value& val)
 void LinkElement::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix) const
 {
     utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t("."))
+    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != _XPLATSTR("."))
     {
-        namePrefix += utility::conversions::to_string_t(".");
+        namePrefix += _XPLATSTR(".");
     }
 
     if(m_LinkIsSet)
     {
         if (m_Link.get())
         {
-            m_Link->toMultipart(multipart, utility::conversions::to_string_t("link."));
+            m_Link->toMultipart(multipart, _XPLATSTR("link."));
         }
         
     }
@@ -92,17 +92,17 @@ void LinkElement::toMultipart(std::shared_ptr<MultipartFormData> multipart, cons
 void LinkElement::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix)
 {
     utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t("."))
+    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != _XPLATSTR("."))
     {
-        namePrefix += utility::conversions::to_string_t(".");
+        namePrefix += _XPLATSTR(".");
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t("link")))
+    if(multipart->hasContent(_XPLATSTR("link")))
     {
-        if(multipart->hasContent(utility::conversions::to_string_t("link")))
+        if(multipart->hasContent(_XPLATSTR("link")))
         {
             std::shared_ptr<WordsApiLink> newItem(new WordsApiLink());
-            newItem->fromMultiPart(multipart, utility::conversions::to_string_t("link."));
+            newItem->fromMultiPart(multipart, _XPLATSTR("link."));
             setLink( newItem );
         }
     }

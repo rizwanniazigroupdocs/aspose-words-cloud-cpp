@@ -126,7 +126,7 @@ void InfrastructureTest::UploadFileToStorage(utility::string_t path, utility::st
 	map<utility::string_t, utility::string_t> queryParams, headerParams, formParams;
     std::shared_ptr<HttpContent> fileToUpload = generate_http_content_from_file(filePath);
     fileParams.push_back(std::make_pair(STCONVERT("file"), fileToUpload));
-	queryParams[utility::conversions::to_string_t("path")] = path;
+	queryParams[_XPLATSTR("path")] = path;
 
 	std::shared_ptr<ApiClient> client = get_client();
 
@@ -135,7 +135,7 @@ void InfrastructureTest::UploadFileToStorage(utility::string_t path, utility::st
 		.then([=](web::http::http_response response) {
 
             if (response.status_code() >= 400)
-			throw ApiException(response.status_code(), utility::conversions::to_string_t("error requesting token: ") + response.reason_phrase(), std::make_shared<std::stringstream>(response.extract_utf8string(true).get()));
+			throw ApiException(response.status_code(), _XPLATSTR("error requesting token: ") + response.reason_phrase(), std::make_shared<std::stringstream>(response.extract_utf8string(true).get()));
 	})
 		.wait();
 	//else
@@ -151,14 +151,14 @@ bool InfrastructureTest::GetIsExists(utility::string_t path)
 
 	std::vector<std::pair<utility::string_t, std::shared_ptr<HttpContent>>> fileParams;
 	map<utility::string_t, utility::string_t> queryParams, headerParams, formParams;
-	queryParams[utility::conversions::to_string_t("path")] = path;
+	queryParams[_XPLATSTR("path")] = path;
 
 	std::shared_ptr<ApiClient> client = get_client();
 	return (client->callApi(client->getConfiguration()->getBaseUrl() + STCONVERT("/v1.1/storage/exist"),
 		STCONVERT("GET"), queryParams, nullptr, headerParams, formParams, fileParams, STCONVERT("application/json"))
 		.then([=](web::http::http_response response) {
 		if (response.status_code() >= 400)
-			throw ApiException(response.status_code(), utility::conversions::to_string_t("error requesting token: ") + response.reason_phrase(), std::make_shared<std::stringstream>(response.extract_utf8string(true).get()));
+			throw ApiException(response.status_code(), _XPLATSTR("error requesting token: ") + response.reason_phrase(), std::make_shared<std::stringstream>(response.extract_utf8string(true).get()));
 		return response.extract_json();
 	}).then([=](web::json::value ans) {
 		
