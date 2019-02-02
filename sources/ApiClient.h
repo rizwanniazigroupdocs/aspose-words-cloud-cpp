@@ -47,11 +47,10 @@ namespace api {
 
 using namespace io::swagger::client::model;
 
-class  ApiClient
+class ApiClient
 {
 public:
     explicit ApiClient( std::shared_ptr<ApiConfiguration> configuration = nullptr );
-    virtual ~ApiClient();
 
     std::shared_ptr<ApiConfiguration> getConfiguration() const;
     void setConfiguration(std::shared_ptr<ApiConfiguration> configuration);

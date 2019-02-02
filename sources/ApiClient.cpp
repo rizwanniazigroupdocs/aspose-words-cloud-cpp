@@ -42,9 +42,6 @@ ApiClient::ApiClient(std::shared_ptr<ApiConfiguration> configuration )
 	defaultHeaders.push_back(std::make_pair(_XPLATSTR("x-aspose-client"),
 		_XPLATSTR("C++ SDK")));
 }
-ApiClient::~ApiClient()
-{
-}
 
 pplx::task<void> ApiClient::requestToken()
 {
