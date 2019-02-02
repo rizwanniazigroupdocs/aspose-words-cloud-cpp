@@ -61,8 +61,25 @@ public:
     static utility::string_t parameterToString(float value);
     static utility::string_t parameterToString(double value);
     static utility::string_t parameterToString(const utility::datetime &value);
+
     template<class T>
-    static utility::string_t parameterToString(const std::vector<T>& value);
+    static utility::string_t parameterToString(const std::vector<T>& value)
+    {
+        utility::string_t result;
+        for (auto & item : value)
+        {
+            result.append(ApiClient::parameterToString(item));
+            result.append(_XPLATSTR(", "));
+        }
+
+        if (!value.empty())
+        {
+            result.resize(result.size() - 2);
+        }
+
+        return result;
+    }
+
 
     pplx::task<web::http::http_response> callApi(
         const utility::string_t& path,
@@ -91,20 +108,6 @@ private:
 	void logResponse(web::http::http_response response);
 	utility::string_t copyDataFromStream(const Concurrency::streams::istream& stream);
 };
-
-template<class T>
-utility::string_t ApiClient::parameterToString(const std::vector<T>& value)
-{
-    utility::stringstream_t ss;
-
-    for( size_t i = 0; i < value.size(); i++)
-    {
-        if( i > 0) ss << _XPLATSTR(", ");
-        ss << ApiClient::parameterToString(value[i]);
-    }
-
-    return ss.str();
-}
 
 }
 }
