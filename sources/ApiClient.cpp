@@ -43,17 +43,15 @@ pplx::task<void> ApiClient::requestToken()
     if (m_Configuration == nullptr)
             throw "Configuration must be set before calling an api methods";
 
-    std::map<utility::string_t, utility::string_t> queryParams, formParams, headerParams;
-    std::vector<std::pair<utility::string_t, std::shared_ptr<io::swagger::client::model::HttpContent>>> fileParams;
+    std::map<utility::string_t, utility::string_t> queryParams, headerParams;
 
-    formParams.insert(std::make_pair(_XPLATSTR("grant_type"), 
-		_XPLATSTR("client_credentials")));
-	formParams.insert(std::make_pair(_XPLATSTR("client_id"),
-		m_Configuration->getAppSid()));
-	formParams.insert(std::make_pair(_XPLATSTR("client_secret"),
-		m_Configuration->getAppKey()));
+    std::map<utility::string_t, utility::string_t> formParams = {
+        {_XPLATSTR("grant_type"), _XPLATSTR("client_credentials")},
+        {_XPLATSTR("client_id"), m_Configuration->getAppSid()},
+        {_XPLATSTR("client_secret"), m_Configuration->getAppKey()}
+    };
 
-    return callApi(getTokenUrl(), _XPLATSTR("POST"), queryParams,nullptr, headerParams, formParams, fileParams, 
+    return callApi(getTokenUrl(), _XPLATSTR("POST"), queryParams,nullptr, headerParams, formParams, {}, 
 		_XPLATSTR("application/x-www-form-urlencoded")).then([=](web::http::http_response response) {
 		
 		if (response.status_code() >= 400)
@@ -91,30 +89,26 @@ utility::string_t ApiClient::parameterToString(utility::string_t value)
 }
 utility::string_t ApiClient::parameterToString(int64_t value)
 {
-	std::stringstream valueAsStringStream;
-	valueAsStringStream << value;
-    return utility::conversions::to_string_t(valueAsStringStream.str());
+    return utility::conversions::details::to_string_t(value);
 }
 utility::string_t ApiClient::parameterToString(int32_t value)
 {
-	std::stringstream valueAsStringStream;
-	valueAsStringStream << value;
-    return utility::conversions::to_string_t(valueAsStringStream.str());
+    return utility::conversions::details::to_string_t(value);
 }
 
 utility::string_t ApiClient::parameterToString(float value)
 {
-    return utility::conversions::to_string_t(std::to_string(value));
+    return utility::conversions::details::to_string_t(value);
 }
 
 utility::string_t ApiClient::parameterToString(double value)
 {
-    return utility::conversions::to_string_t(std::to_string(value));
+    return utility::conversions::details::to_string_t(value);
 }
 
 utility::string_t ApiClient::parameterToString(const utility::datetime &value)
 {
-    return utility::conversions::to_string_t(value.to_string(utility::datetime::ISO_8601));
+    return value.to_string(utility::datetime::ISO_8601);
 }
 
 pplx::task<web::http::http_response> ApiClient::callApi(
