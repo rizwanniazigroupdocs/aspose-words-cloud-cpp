@@ -188,6 +188,16 @@ std::shared_ptr<std::istream> ModelBase::fromBase64( const utility::string_t& en
     return result;
 }
 
+utility::string_t ModelBase::fixNamePrefix(utility::string_t prefix)
+{
+    if(!prefix.empty() && prefix.back() != _XPLATSTR('.'))
+    {
+        prefix.push_back(_XPLATSTR('.'));
+    }
+
+    return prefix;
+}
+
 int64_t ModelBase::int64_tFromJson(web::json::value& val)
 {
     return val.as_number().to_int64();

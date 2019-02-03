@@ -75,11 +75,7 @@ void PreferredWidth::fromJson(web::json::value& val)
 
 void PreferredWidth::toMultipart(const std::shared_ptr<MultipartFormData>& multipart, const utility::string_t& prefix) const
 {
-    utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != _XPLATSTR("."))
-    {
-        namePrefix += _XPLATSTR(".");
-    }
+    auto namePrefix = ModelBase::fixNamePrefix(prefix);
 
     multipart->add(ModelBase::toHttpContent(namePrefix + _XPLATSTR("Type"), m_Type));
     if(m_ValueIsSet)
@@ -90,11 +86,7 @@ void PreferredWidth::toMultipart(const std::shared_ptr<MultipartFormData>& multi
 
 void PreferredWidth::fromMultiPart(const std::shared_ptr<MultipartFormData>& multipart, const utility::string_t& prefix)
 {
-    utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != _XPLATSTR("."))
-    {
-        namePrefix += _XPLATSTR(".");
-    }
+    auto namePrefix = ModelBase::fixNamePrefix(prefix);
 
     setType(ModelBase::stringFromHttpContent(multipart->getContent(_XPLATSTR("Type"))));
     if(multipart->hasContent(_XPLATSTR("Value")))

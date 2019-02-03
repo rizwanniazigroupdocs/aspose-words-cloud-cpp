@@ -143,11 +143,7 @@ void GraphicsQualityOptionsData::fromJson(web::json::value& val)
 
 void GraphicsQualityOptionsData::toMultipart(const std::shared_ptr<MultipartFormData>& multipart, const utility::string_t& prefix) const
 {
-    utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != _XPLATSTR("."))
-    {
-        namePrefix += _XPLATSTR(".");
-    }
+    auto namePrefix = ModelBase::fixNamePrefix(prefix);
 
     if(m_CompositingModeIsSet)
     {
@@ -186,11 +182,7 @@ void GraphicsQualityOptionsData::toMultipart(const std::shared_ptr<MultipartForm
 
 void GraphicsQualityOptionsData::fromMultiPart(const std::shared_ptr<MultipartFormData>& multipart, const utility::string_t& prefix)
 {
-    utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != _XPLATSTR("."))
-    {
-        namePrefix += _XPLATSTR(".");
-    }
+    auto namePrefix = ModelBase::fixNamePrefix(prefix);
 
     if(multipart->hasContent(_XPLATSTR("CompositingMode")))
     {

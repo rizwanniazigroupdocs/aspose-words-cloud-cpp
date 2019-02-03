@@ -144,11 +144,7 @@ void Document::fromJson(web::json::value& val)
 
 void Document::toMultipart(const std::shared_ptr<MultipartFormData>& multipart, const utility::string_t& prefix) const
 {
-    utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != _XPLATSTR("."))
-    {
-        namePrefix += _XPLATSTR(".");
-    }
+    auto namePrefix = ModelBase::fixNamePrefix(prefix);
 
     {
         std::vector<web::json::value> jsonArray;
@@ -181,11 +177,7 @@ void Document::toMultipart(const std::shared_ptr<MultipartFormData>& multipart, 
 
 void Document::fromMultiPart(const std::shared_ptr<MultipartFormData>& multipart, const utility::string_t& prefix)
 {
-    utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != _XPLATSTR("."))
-    {
-        namePrefix += _XPLATSTR(".");
-    }
+    auto namePrefix = ModelBase::fixNamePrefix(prefix);
 
     {
         m_Links.clear();

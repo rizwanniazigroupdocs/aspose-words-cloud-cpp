@@ -78,11 +78,7 @@ void FootnotesStatData::fromJson(web::json::value& val)
 
 void FootnotesStatData::toMultipart(const std::shared_ptr<MultipartFormData>& multipart, const utility::string_t& prefix) const
 {
-    utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != _XPLATSTR("."))
-    {
-        namePrefix += _XPLATSTR(".");
-    }
+    auto namePrefix = ModelBase::fixNamePrefix(prefix);
 
     multipart->add(ModelBase::toHttpContent(namePrefix + _XPLATSTR("WordCount"), m_WordCount));
     multipart->add(ModelBase::toHttpContent(namePrefix + _XPLATSTR("ParagraphCount"), m_ParagraphCount));
@@ -90,11 +86,7 @@ void FootnotesStatData::toMultipart(const std::shared_ptr<MultipartFormData>& mu
 
 void FootnotesStatData::fromMultiPart(const std::shared_ptr<MultipartFormData>& multipart, const utility::string_t& prefix)
 {
-    utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != _XPLATSTR("."))
-    {
-        namePrefix += _XPLATSTR(".");
-    }
+    auto namePrefix = ModelBase::fixNamePrefix(prefix);
 
     setWordCount(ModelBase::int32_tFromHttpContent(multipart->getContent(_XPLATSTR("WordCount"))));
     setParagraphCount(ModelBase::int32_tFromHttpContent(multipart->getContent(_XPLATSTR("ParagraphCount"))));

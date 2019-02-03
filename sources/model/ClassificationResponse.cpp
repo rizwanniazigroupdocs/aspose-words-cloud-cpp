@@ -122,11 +122,7 @@ void ClassificationResponse::fromJson(web::json::value& val)
 
 void ClassificationResponse::toMultipart(const std::shared_ptr<MultipartFormData>& multipart, const utility::string_t& prefix) const
 {
-    utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != _XPLATSTR("."))
-    {
-        namePrefix += _XPLATSTR(".");
-    }
+    auto namePrefix = ModelBase::fixNamePrefix(prefix);
 
     multipart->add(ModelBase::toHttpContent(namePrefix + _XPLATSTR("Code"), m_Code));
     if(m_StatusIsSet)
@@ -158,11 +154,7 @@ void ClassificationResponse::toMultipart(const std::shared_ptr<MultipartFormData
 
 void ClassificationResponse::fromMultiPart(const std::shared_ptr<MultipartFormData>& multipart, const utility::string_t& prefix)
 {
-    utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != _XPLATSTR("."))
-    {
-        namePrefix += _XPLATSTR(".");
-    }
+    auto namePrefix = ModelBase::fixNamePrefix(prefix);
 
     setCode(ModelBase::int32_tFromHttpContent(multipart->getContent(_XPLATSTR("Code"))));
     if(multipart->hasContent(_XPLATSTR("Status")))

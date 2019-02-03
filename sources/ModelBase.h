@@ -101,6 +101,7 @@ public:
     static utility::string_t toBase64(const utility::string_t& value );
     static utility::string_t toBase64(const std::shared_ptr<std::istream>& value );
     static std::shared_ptr<std::istream> fromBase64( const utility::string_t& encoded );
+    static utility::string_t fixNamePrefix(utility::string_t prefix);
 };
 
 template<class T>
@@ -117,11 +118,11 @@ web::json::value ModelBase::toJson(const std::vector<T>& value) {
 template <class T>
 std::shared_ptr<HttpContent> ModelBase::toHttpContent( const utility::string_t& name, const std::vector<T>& value, const utility::string_t& contentType ) {
     web::json::value json_array = ModelBase::toJson(value);
-    std::shared_ptr<HttpContent> content( new HttpContent );
+    auto content = std::make_shared<HttpContent>();
     content->setName( name );
     content->setContentDisposition( _XPLATSTR("form-data") );
     content->setContentType( contentType );
-    content->setData( std::shared_ptr<std::istream>( new std::stringstream( utility::conversions::to_utf8string(json_array.serialize()) ) ) );
+    content->setData(std::make_shared<std::stringstream>( utility::conversions::to_utf8string(json_array.serialize()) ) );
     return content;
 }
 

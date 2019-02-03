@@ -49,21 +49,13 @@ void Object::fromJson(web::json::value& val)
 
 void Object::toMultipart(const std::shared_ptr<MultipartFormData>& multipart, const utility::string_t& prefix) const
 {
-    utility::string_t namePrefix = prefix;
-    if(!namePrefix.empty() && namePrefix.back() != _XPLATSTR('.'))
-    {
-        namePrefix.push_back(_XPLATSTR('.'));
-    }
+    auto namePrefix = ModelBase::fixNamePrefix(prefix);
     multipart->add(ModelBase::toHttpContent(namePrefix + _XPLATSTR("object"), m_object));
 }
 
 void Object::fromMultiPart(const std::shared_ptr<MultipartFormData>& multipart, const utility::string_t& prefix)
 {
-    utility::string_t namePrefix = prefix;
-    if(!namePrefix.empty() && namePrefix.back() != _XPLATSTR('.'))
-    {
-        namePrefix.push_back(_XPLATSTR('.'));
-    }
+    auto namePrefix = ModelBase::fixNamePrefix(prefix);
 
     m_object = ModelBase::valueFromHttpContent(multipart->getContent(namePrefix + _XPLATSTR("object")));
 }
