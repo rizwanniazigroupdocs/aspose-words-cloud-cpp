@@ -31,6 +31,7 @@
 #include <unordered_set>
 
 #include <boost/algorithm/string/replace.hpp>
+#include <utility>
 
 namespace io
 {
@@ -44,14 +45,14 @@ std::shared_ptr<FormField> deserializeFormField(web::json::value json)
 {
     std::shared_ptr<FormField> field;
     if (json.has_field(_XPLATSTR("Checked")))
-        field.reset(new FormFieldCheckbox());
+        field = std::make_shared<FormFieldCheckbox>();
 
     if (json.has_field(_XPLATSTR("TextInputFormat")) ||
         json.has_field(_XPLATSTR("TextInputDefault")))
-        field.reset(new FormFieldTextInput());
+        field = std::make_shared<FormFieldTextInput>();
 
     if (json.has_field(_XPLATSTR("DropDownItems")))
-        field.reset(new FormFieldDropDown());
+        field = std::make_shared<FormFieldDropDown>();
 
     if (!field) throw std::invalid_argument("Wrong json provided for FormFieldResponse");
     field->fromJson(json);
@@ -95,7 +96,7 @@ void postInitializeResponse(web::json::value json, void* response)
     }
 }
 
-utility::string_t replacePathParameter(utility::string_t path, utility::string_t paramName, utility::string_t value)
+utility::string_t replacePathParameter(utility::string_t path, const utility::string_t& paramName, const utility::string_t& value)
 {
     if (!value.empty())
     {
@@ -105,28 +106,24 @@ utility::string_t replacePathParameter(utility::string_t path, utility::string_t
     else
     {
         boost::replace_all(path, _XPLATSTR("/{") + paramName + _XPLATSTR("}"),
-            utility::conversions::to_string_t(value));
+            value);
     }
     return path;
 }
 
 template <class T>
-utility::string_t extractOptional(boost::optional<T> parameter)
+utility::string_t extractOptional(const boost::optional<T>& parameter)
 {
     if (parameter.has_value())
         return ApiClient::parameterToString(parameter.value());
-    else
-        return _XPLATSTR("");
+
+    return {};
 }
 
 using namespace io::swagger::client::model;
 
 WordsApi::WordsApi(std::shared_ptr<ApiClient> apiClient)
-    : m_ApiClient(apiClient)
-{
-}
-
-WordsApi::~WordsApi()
+    : m_ApiClient(std::move(apiClient))
 {
 }
 
@@ -134,8 +131,7 @@ pplx::task<std::shared_ptr<RevisionsModificationResponse>> WordsApi::acceptAllRe
     std::shared_ptr<AcceptAllRevisionsRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
-"/words/{name}/revisions/acceptAll"),
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR("/words/{name}/revisions/acceptAll"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
     path = replacePathParameter(path, _XPLATSTR("folder"), extractOptional(request->getFolder()));
@@ -156,7 +152,7 @@ pplx::task<std::shared_ptr<RevisionsModificationResponse>> WordsApi::acceptAllRe
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -206,7 +202,7 @@ pplx::task<std::shared_ptr<RevisionsModificationResponse>> WordsApi::acceptAllRe
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -286,7 +282,7 @@ pplx::task<std::shared_ptr<ClassificationResponse>> WordsApi::classify(std::shar
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -320,7 +316,7 @@ pplx::task<std::shared_ptr<ClassificationResponse>> WordsApi::classify(std::shar
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -418,7 +414,7 @@ pplx::task<std::shared_ptr<ClassificationResponse>> WordsApi::classifyDocument(
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -472,7 +468,7 @@ pplx::task<std::shared_ptr<ClassificationResponse>> WordsApi::classifyDocument(
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -570,7 +566,7 @@ pplx::task<std::shared_ptr<DocumentPropertyResponse>> WordsApi::createOrUpdateDo
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -629,7 +625,7 @@ pplx::task<std::shared_ptr<DocumentPropertyResponse>> WordsApi::createOrUpdateDo
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -736,7 +732,7 @@ pplx::task<std::shared_ptr<BorderResponse>> WordsApi::deleteBorder(std::shared_p
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -794,7 +790,7 @@ pplx::task<std::shared_ptr<BorderResponse>> WordsApi::deleteBorder(std::shared_p
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -882,7 +878,7 @@ pplx::task<std::shared_ptr<BordersResponse>> WordsApi::deleteBorders(std::shared
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -940,7 +936,7 @@ pplx::task<std::shared_ptr<BordersResponse>> WordsApi::deleteBorders(std::shared
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -1029,7 +1025,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteComment(std::shared_
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -1087,7 +1083,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteComment(std::shared_
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -1174,7 +1170,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteDocumentMacros(
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -1232,7 +1228,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteDocumentMacros(
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -1322,7 +1318,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteDocumentProperty(
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -1381,7 +1377,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteDocumentProperty(
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -1469,7 +1465,7 @@ pplx::task<std::shared_ptr<DocumentResponse>> WordsApi::deleteDocumentWatermark(
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -1528,7 +1524,7 @@ pplx::task<std::shared_ptr<DocumentResponse>> WordsApi::deleteDocumentWatermark(
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -1619,7 +1615,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteDrawingObject(
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -1681,7 +1677,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteDrawingObject(
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -1770,7 +1766,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteField(std::shared_pt
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -1832,7 +1828,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteField(std::shared_pt
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -1920,7 +1916,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteFields(std::shared_p
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -1982,7 +1978,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteFields(std::shared_p
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -2071,7 +2067,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteFootnote(std::shared
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -2133,7 +2129,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteFootnote(std::shared
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -2222,7 +2218,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteFormField(std::share
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -2284,7 +2280,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteFormField(std::share
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -2374,7 +2370,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteHeaderFooter(
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -2436,7 +2432,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteHeaderFooter(
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -2527,7 +2523,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteHeadersFooters(
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -2594,7 +2590,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteHeadersFooters(
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -2684,7 +2680,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteOfficeMathObject(
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -2747,7 +2743,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteOfficeMathObject(
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -2837,7 +2833,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteParagraph(std::share
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -2899,7 +2895,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteParagraph(std::share
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -2989,7 +2985,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteRun(std::shared_ptr<
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -3047,7 +3043,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteRun(std::shared_ptr<
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -3136,7 +3132,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteTable(std::shared_pt
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -3198,7 +3194,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteTable(std::shared_pt
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -3288,7 +3284,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteTableCell(std::share
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -3346,7 +3342,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteTableCell(std::share
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -3435,7 +3431,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteTableRow(std::shared
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -3493,7 +3489,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteTableRow(std::shared
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -3587,7 +3583,7 @@ pplx::task<std::shared_ptr<ProtectionDataResponse>> WordsApi::deleteUnprotectDoc
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -3638,7 +3634,7 @@ pplx::task<std::shared_ptr<ProtectionDataResponse>> WordsApi::deleteUnprotectDoc
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -3734,7 +3730,7 @@ pplx::task<std::shared_ptr<AvailableFontsResponse>> WordsApi::getAvailableFonts(
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -3768,7 +3764,7 @@ pplx::task<std::shared_ptr<AvailableFontsResponse>> WordsApi::getAvailableFonts(
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -3854,7 +3850,7 @@ pplx::task<std::shared_ptr<BorderResponse>> WordsApi::getBorder(std::shared_ptr<
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -3900,7 +3896,7 @@ pplx::task<std::shared_ptr<BorderResponse>> WordsApi::getBorder(std::shared_ptr<
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -3985,7 +3981,7 @@ pplx::task<std::shared_ptr<BordersResponse>> WordsApi::getBorders(std::shared_pt
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -4031,7 +4027,7 @@ pplx::task<std::shared_ptr<BordersResponse>> WordsApi::getBorders(std::shared_pt
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -4117,7 +4113,7 @@ pplx::task<std::shared_ptr<CommentResponse>> WordsApi::getComment(std::shared_pt
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -4163,7 +4159,7 @@ pplx::task<std::shared_ptr<CommentResponse>> WordsApi::getComment(std::shared_pt
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -4246,7 +4242,7 @@ pplx::task<std::shared_ptr<CommentsResponse>> WordsApi::getComments(std::shared_
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -4292,7 +4288,7 @@ pplx::task<std::shared_ptr<CommentsResponse>> WordsApi::getComments(std::shared_
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -4376,7 +4372,7 @@ pplx::task<std::shared_ptr<DocumentResponse>> WordsApi::getDocument(std::shared_
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -4422,7 +4418,7 @@ pplx::task<std::shared_ptr<DocumentResponse>> WordsApi::getDocument(std::shared_
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -4509,7 +4505,7 @@ pplx::task<std::shared_ptr<BookmarkResponse>> WordsApi::getDocumentBookmarkByNam
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -4556,7 +4552,7 @@ pplx::task<std::shared_ptr<BookmarkResponse>> WordsApi::getDocumentBookmarkByNam
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -4641,7 +4637,7 @@ pplx::task<std::shared_ptr<BookmarksResponse>> WordsApi::getDocumentBookmarks(
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -4687,7 +4683,7 @@ pplx::task<std::shared_ptr<BookmarksResponse>> WordsApi::getDocumentBookmarks(
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -4774,7 +4770,7 @@ pplx::task<std::shared_ptr<DrawingObjectResponse>> WordsApi::getDocumentDrawingO
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -4825,7 +4821,7 @@ pplx::task<std::shared_ptr<DrawingObjectResponse>> WordsApi::getDocumentDrawingO
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -4915,7 +4911,7 @@ pplx::task<HttpContent> WordsApi::getDocumentDrawingObjectImageData(
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -4966,7 +4962,7 @@ pplx::task<HttpContent> WordsApi::getDocumentDrawingObjectImageData(
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -5039,7 +5035,7 @@ pplx::task<HttpContent> WordsApi::getDocumentDrawingObjectOleData(
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -5090,7 +5086,7 @@ pplx::task<HttpContent> WordsApi::getDocumentDrawingObjectOleData(
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -5162,7 +5158,7 @@ pplx::task<std::shared_ptr<DrawingObjectsResponse>> WordsApi::getDocumentDrawing
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -5213,7 +5209,7 @@ pplx::task<std::shared_ptr<DrawingObjectsResponse>> WordsApi::getDocumentDrawing
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -5300,7 +5296,7 @@ pplx::task<std::shared_ptr<FieldNamesResponse>> WordsApi::getDocumentFieldNames(
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -5350,7 +5346,7 @@ pplx::task<std::shared_ptr<FieldNamesResponse>> WordsApi::getDocumentFieldNames(
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -5437,7 +5433,7 @@ pplx::task<std::shared_ptr<HyperlinkResponse>> WordsApi::getDocumentHyperlinkByI
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -5484,7 +5480,7 @@ pplx::task<std::shared_ptr<HyperlinkResponse>> WordsApi::getDocumentHyperlinkByI
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -5573,7 +5569,7 @@ pplx::task<std::shared_ptr<HyperlinksResponse>> WordsApi::getDocumentHyperlinks(
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -5619,7 +5615,7 @@ pplx::task<std::shared_ptr<HyperlinksResponse>> WordsApi::getDocumentHyperlinks(
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -5706,7 +5702,7 @@ pplx::task<std::shared_ptr<ParagraphResponse>> WordsApi::getDocumentParagraph(
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -5756,7 +5752,7 @@ pplx::task<std::shared_ptr<ParagraphResponse>> WordsApi::getDocumentParagraph(
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -5843,7 +5839,7 @@ pplx::task<std::shared_ptr<ParagraphFormatResponse>> WordsApi::getDocumentParagr
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -5894,7 +5890,7 @@ pplx::task<std::shared_ptr<ParagraphFormatResponse>> WordsApi::getDocumentParagr
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -5983,7 +5979,7 @@ pplx::task<std::shared_ptr<RunResponse>> WordsApi::getDocumentParagraphRun(
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -6030,7 +6026,7 @@ pplx::task<std::shared_ptr<RunResponse>> WordsApi::getDocumentParagraphRun(
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -6119,7 +6115,7 @@ pplx::task<std::shared_ptr<FontResponse>> WordsApi::getDocumentParagraphRunFont(
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -6166,7 +6162,7 @@ pplx::task<std::shared_ptr<FontResponse>> WordsApi::getDocumentParagraphRunFont(
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -6257,7 +6253,7 @@ pplx::task<std::shared_ptr<RunsResponse>> WordsApi::getDocumentParagraphRuns(
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -6304,7 +6300,7 @@ pplx::task<std::shared_ptr<RunsResponse>> WordsApi::getDocumentParagraphRuns(
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -6391,7 +6387,7 @@ pplx::task<std::shared_ptr<ParagraphLinkCollectionResponse>> WordsApi::getDocume
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -6441,7 +6437,7 @@ pplx::task<std::shared_ptr<ParagraphLinkCollectionResponse>> WordsApi::getDocume
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -6527,7 +6523,7 @@ pplx::task<std::shared_ptr<DocumentPropertiesResponse>> WordsApi::getDocumentPro
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -6573,7 +6569,7 @@ pplx::task<std::shared_ptr<DocumentPropertiesResponse>> WordsApi::getDocumentPro
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -6660,7 +6656,7 @@ pplx::task<std::shared_ptr<DocumentPropertyResponse>> WordsApi::getDocumentPrope
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -6706,7 +6702,7 @@ pplx::task<std::shared_ptr<DocumentPropertyResponse>> WordsApi::getDocumentPrope
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -6791,7 +6787,7 @@ pplx::task<std::shared_ptr<ProtectionDataResponse>> WordsApi::getDocumentProtect
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -6837,7 +6833,7 @@ pplx::task<std::shared_ptr<ProtectionDataResponse>> WordsApi::getDocumentProtect
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -6926,7 +6922,7 @@ pplx::task<std::shared_ptr<StatDataResponse>> WordsApi::getDocumentStatistics(
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -6985,7 +6981,7 @@ pplx::task<std::shared_ptr<StatDataResponse>> WordsApi::getDocumentStatistics(
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -7069,7 +7065,7 @@ pplx::task<std::shared_ptr<TextItemsResponse>> WordsApi::getDocumentTextItems(
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -7115,7 +7111,7 @@ pplx::task<std::shared_ptr<TextItemsResponse>> WordsApi::getDocumentTextItems(
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -7201,7 +7197,7 @@ pplx::task<HttpContent> WordsApi::getDocumentWithFormat(std::shared_ptr<GetDocum
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -7259,7 +7255,7 @@ pplx::task<HttpContent> WordsApi::getDocumentWithFormat(std::shared_ptr<GetDocum
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -7329,7 +7325,7 @@ pplx::task<std::shared_ptr<FieldResponse>> WordsApi::getField(std::shared_ptr<Ge
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -7379,7 +7375,7 @@ pplx::task<std::shared_ptr<FieldResponse>> WordsApi::getField(std::shared_ptr<Ge
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -7464,7 +7460,7 @@ pplx::task<std::shared_ptr<FieldsResponse>> WordsApi::getFields(std::shared_ptr<
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -7514,7 +7510,7 @@ pplx::task<std::shared_ptr<FieldsResponse>> WordsApi::getFields(std::shared_ptr<
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -7600,7 +7596,7 @@ pplx::task<std::shared_ptr<FootnoteResponse>> WordsApi::getFootnote(std::shared_
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -7650,7 +7646,7 @@ pplx::task<std::shared_ptr<FootnoteResponse>> WordsApi::getFootnote(std::shared_
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -7735,7 +7731,7 @@ pplx::task<std::shared_ptr<FootnotesResponse>> WordsApi::getFootnotes(std::share
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -7785,7 +7781,7 @@ pplx::task<std::shared_ptr<FootnotesResponse>> WordsApi::getFootnotes(std::share
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -7871,7 +7867,7 @@ pplx::task<std::shared_ptr<FormFieldResponse>> WordsApi::getFormField(std::share
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -7921,7 +7917,7 @@ pplx::task<std::shared_ptr<FormFieldResponse>> WordsApi::getFormField(std::share
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -8006,7 +8002,7 @@ pplx::task<std::shared_ptr<FormFieldsResponse>> WordsApi::getFormFields(std::sha
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -8056,7 +8052,7 @@ pplx::task<std::shared_ptr<FormFieldsResponse>> WordsApi::getFormFields(std::sha
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -8144,7 +8140,7 @@ pplx::task<std::shared_ptr<HeaderFooterResponse>> WordsApi::getHeaderFooter(
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -8194,7 +8190,7 @@ pplx::task<std::shared_ptr<HeaderFooterResponse>> WordsApi::getHeaderFooter(
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -8284,7 +8280,7 @@ pplx::task<std::shared_ptr<HeaderFooterResponse>> WordsApi::getHeaderFooterOfSec
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -8335,7 +8331,7 @@ pplx::task<std::shared_ptr<HeaderFooterResponse>> WordsApi::getHeaderFooterOfSec
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -8423,7 +8419,7 @@ pplx::task<std::shared_ptr<HeaderFootersResponse>> WordsApi::getHeaderFooters(
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -8477,7 +8473,7 @@ pplx::task<std::shared_ptr<HeaderFootersResponse>> WordsApi::getHeaderFooters(
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -8564,7 +8560,7 @@ pplx::task<std::shared_ptr<OfficeMathObjectResponse>> WordsApi::getOfficeMathObj
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -8614,7 +8610,7 @@ pplx::task<std::shared_ptr<OfficeMathObjectResponse>> WordsApi::getOfficeMathObj
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -8700,7 +8696,7 @@ pplx::task<std::shared_ptr<OfficeMathObjectsResponse>> WordsApi::getOfficeMathOb
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -8750,7 +8746,7 @@ pplx::task<std::shared_ptr<OfficeMathObjectsResponse>> WordsApi::getOfficeMathOb
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -8836,7 +8832,7 @@ pplx::task<std::shared_ptr<SectionResponse>> WordsApi::getSection(std::shared_pt
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -8882,7 +8878,7 @@ pplx::task<std::shared_ptr<SectionResponse>> WordsApi::getSection(std::shared_pt
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -8969,7 +8965,7 @@ pplx::task<std::shared_ptr<SectionPageSetupResponse>> WordsApi::getSectionPageSe
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -9015,7 +9011,7 @@ pplx::task<std::shared_ptr<SectionPageSetupResponse>> WordsApi::getSectionPageSe
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -9099,7 +9095,7 @@ pplx::task<std::shared_ptr<SectionLinkCollectionResponse>> WordsApi::getSections
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -9145,7 +9141,7 @@ pplx::task<std::shared_ptr<SectionLinkCollectionResponse>> WordsApi::getSections
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -9231,7 +9227,7 @@ pplx::task<std::shared_ptr<TableResponse>> WordsApi::getTable(std::shared_ptr<Ge
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -9281,7 +9277,7 @@ pplx::task<std::shared_ptr<TableResponse>> WordsApi::getTable(std::shared_ptr<Ge
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -9368,7 +9364,7 @@ pplx::task<std::shared_ptr<TableCellResponse>> WordsApi::getTableCell(std::share
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -9414,7 +9410,7 @@ pplx::task<std::shared_ptr<TableCellResponse>> WordsApi::getTableCell(std::share
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -9502,7 +9498,7 @@ pplx::task<std::shared_ptr<TableCellFormatResponse>> WordsApi::getTableCellForma
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -9548,7 +9544,7 @@ pplx::task<std::shared_ptr<TableCellFormatResponse>> WordsApi::getTableCellForma
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -9635,7 +9631,7 @@ pplx::task<std::shared_ptr<TablePropertiesResponse>> WordsApi::getTablePropertie
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -9685,7 +9681,7 @@ pplx::task<std::shared_ptr<TablePropertiesResponse>> WordsApi::getTablePropertie
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -9771,7 +9767,7 @@ pplx::task<std::shared_ptr<TableRowResponse>> WordsApi::getTableRow(std::shared_
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -9817,7 +9813,7 @@ pplx::task<std::shared_ptr<TableRowResponse>> WordsApi::getTableRow(std::shared_
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -9904,7 +9900,7 @@ pplx::task<std::shared_ptr<TableRowFormatResponse>> WordsApi::getTableRowFormat(
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -9950,7 +9946,7 @@ pplx::task<std::shared_ptr<TableRowFormatResponse>> WordsApi::getTableRowFormat(
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -10035,7 +10031,7 @@ pplx::task<std::shared_ptr<TableLinkCollectionResponse>> WordsApi::getTables(std
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -10085,7 +10081,7 @@ pplx::task<std::shared_ptr<TableLinkCollectionResponse>> WordsApi::getTables(std
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -10173,7 +10169,7 @@ pplx::task<std::shared_ptr<TableResponse>> WordsApi::insertTable(std::shared_ptr
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -10235,7 +10231,7 @@ pplx::task<std::shared_ptr<TableResponse>> WordsApi::insertTable(std::shared_ptr
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -10340,7 +10336,7 @@ pplx::task<std::shared_ptr<TableCellResponse>> WordsApi::insertTableCell(
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -10398,7 +10394,7 @@ pplx::task<std::shared_ptr<TableCellResponse>> WordsApi::insertTableCell(
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -10501,7 +10497,7 @@ pplx::task<std::shared_ptr<TableRowResponse>> WordsApi::insertTableRow(std::shar
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -10559,7 +10555,7 @@ pplx::task<std::shared_ptr<TableRowResponse>> WordsApi::insertTableRow(std::shar
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -10670,7 +10666,7 @@ pplx::task<std::shared_ptr<DocumentResponse>> WordsApi::postAppendDocument(
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -10728,7 +10724,7 @@ pplx::task<std::shared_ptr<DocumentResponse>> WordsApi::postAppendDocument(
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -10838,7 +10834,7 @@ pplx::task<std::shared_ptr<ProtectionDataResponse>> WordsApi::postChangeDocument
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -10889,7 +10885,7 @@ pplx::task<std::shared_ptr<ProtectionDataResponse>> WordsApi::postChangeDocument
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -11004,7 +11000,7 @@ pplx::task<std::shared_ptr<CommentResponse>> WordsApi::postComment(std::shared_p
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -11062,7 +11058,7 @@ pplx::task<std::shared_ptr<CommentResponse>> WordsApi::postComment(std::shared_p
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -11171,7 +11167,7 @@ pplx::task<std::shared_ptr<DocumentResponse>> WordsApi::postCompareDocument(
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -11221,7 +11217,7 @@ pplx::task<std::shared_ptr<DocumentResponse>> WordsApi::postCompareDocument(
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -11328,7 +11324,7 @@ pplx::task<std::shared_ptr<DocumentResponse>> WordsApi::postDocumentExecuteMailM
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -11400,7 +11396,7 @@ pplx::task<std::shared_ptr<DocumentResponse>> WordsApi::postDocumentExecuteMailM
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -11502,7 +11498,7 @@ pplx::task<std::shared_ptr<ParagraphFormatResponse>> WordsApi::postDocumentParag
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -11561,7 +11557,7 @@ pplx::task<std::shared_ptr<ParagraphFormatResponse>> WordsApi::postDocumentParag
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -11679,7 +11675,7 @@ pplx::task<std::shared_ptr<FontResponse>> WordsApi::postDocumentParagraphRunFont
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -11738,7 +11734,7 @@ pplx::task<std::shared_ptr<FontResponse>> WordsApi::postDocumentParagraphRunFont
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -11851,7 +11847,7 @@ pplx::task<std::shared_ptr<SaveResponse>> WordsApi::postDocumentSaveAs(
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -11905,7 +11901,7 @@ pplx::task<std::shared_ptr<SaveResponse>> WordsApi::postDocumentSaveAs(
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -12020,7 +12016,7 @@ pplx::task<std::shared_ptr<DrawingObjectResponse>> WordsApi::postDrawingObject(
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -12088,7 +12084,7 @@ pplx::task<std::shared_ptr<DrawingObjectResponse>> WordsApi::postDrawingObject(
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -12179,7 +12175,7 @@ pplx::task<std::shared_ptr<DocumentResponse>> WordsApi::postExecuteTemplate(
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -12245,7 +12241,7 @@ pplx::task<std::shared_ptr<DocumentResponse>> WordsApi::postExecuteTemplate(
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -12341,7 +12337,7 @@ pplx::task<std::shared_ptr<FieldResponse>> WordsApi::postField(std::shared_ptr<P
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -12403,7 +12399,7 @@ pplx::task<std::shared_ptr<FieldResponse>> WordsApi::postField(std::shared_ptr<P
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -12515,7 +12511,7 @@ pplx::task<std::shared_ptr<FootnoteResponse>> WordsApi::postFootnote(std::shared
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -12577,7 +12573,7 @@ pplx::task<std::shared_ptr<FootnoteResponse>> WordsApi::postFootnote(std::shared
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -12689,7 +12685,7 @@ pplx::task<std::shared_ptr<FormFieldResponse>> WordsApi::postFormField(std::shar
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -12751,7 +12747,7 @@ pplx::task<std::shared_ptr<FormFieldResponse>> WordsApi::postFormField(std::shar
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -12856,7 +12852,7 @@ pplx::task<std::shared_ptr<DocumentResponse>> WordsApi::postInsertDocumentWaterm
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -12926,7 +12922,7 @@ pplx::task<std::shared_ptr<DocumentResponse>> WordsApi::postInsertDocumentWaterm
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -13026,7 +13022,7 @@ pplx::task<std::shared_ptr<DocumentResponse>> WordsApi::postInsertDocumentWaterm
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -13085,7 +13081,7 @@ pplx::task<std::shared_ptr<DocumentResponse>> WordsApi::postInsertDocumentWaterm
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -13199,7 +13195,7 @@ pplx::task<std::shared_ptr<DocumentResponse>> WordsApi::postInsertPageNumbers(
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -13257,7 +13253,7 @@ pplx::task<std::shared_ptr<DocumentResponse>> WordsApi::postInsertPageNumbers(
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -13360,7 +13356,7 @@ pplx::task<std::shared_ptr<SaveResponse>> WordsApi::postLoadWebDocument(
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -13394,7 +13390,7 @@ pplx::task<std::shared_ptr<SaveResponse>> WordsApi::postLoadWebDocument(
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -13506,7 +13502,7 @@ pplx::task<std::shared_ptr<ReplaceTextResponse>> WordsApi::postReplaceText(
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -13564,7 +13560,7 @@ pplx::task<std::shared_ptr<ReplaceTextResponse>> WordsApi::postReplaceText(
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -13676,7 +13672,7 @@ pplx::task<std::shared_ptr<RunResponse>> WordsApi::postRun(std::shared_ptr<PostR
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -13734,7 +13730,7 @@ pplx::task<std::shared_ptr<RunResponse>> WordsApi::postRun(std::shared_ptr<PostR
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -13839,7 +13835,7 @@ pplx::task<std::shared_ptr<SplitDocumentResponse>> WordsApi::postSplitDocument(
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -13909,7 +13905,7 @@ pplx::task<std::shared_ptr<SplitDocumentResponse>> WordsApi::postSplitDocument(
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -14007,7 +14003,7 @@ pplx::task<std::shared_ptr<BookmarkResponse>> WordsApi::postUpdateDocumentBookma
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -14066,7 +14062,7 @@ pplx::task<std::shared_ptr<BookmarkResponse>> WordsApi::postUpdateDocumentBookma
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -14168,7 +14164,7 @@ pplx::task<std::shared_ptr<DocumentResponse>> WordsApi::postUpdateDocumentFields
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -14219,7 +14215,7 @@ pplx::task<std::shared_ptr<DocumentResponse>> WordsApi::postUpdateDocumentFields
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -14313,7 +14309,7 @@ pplx::task<std::shared_ptr<CommentResponse>> WordsApi::putComment(std::shared_pt
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -14371,7 +14367,7 @@ pplx::task<std::shared_ptr<CommentResponse>> WordsApi::putComment(std::shared_pt
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -14477,7 +14473,7 @@ pplx::task<HttpContent> WordsApi::putConvertDocument(std::shared_ptr<PutConvertD
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -14530,7 +14526,7 @@ pplx::task<HttpContent> WordsApi::putConvertDocument(std::shared_ptr<PutConvertD
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -14596,7 +14592,7 @@ pplx::task<std::shared_ptr<DocumentResponse>> WordsApi::putCreateDocument(
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -14638,7 +14634,7 @@ pplx::task<std::shared_ptr<DocumentResponse>> WordsApi::putCreateDocument(
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -14727,7 +14723,7 @@ pplx::task<std::shared_ptr<FieldNamesResponse>> WordsApi::putDocumentFieldNames(
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -14764,7 +14760,7 @@ pplx::task<std::shared_ptr<FieldNamesResponse>> WordsApi::putDocumentFieldNames(
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -14881,7 +14877,7 @@ pplx::task<std::shared_ptr<SaveResponse>> WordsApi::putDocumentSaveAsTiff(
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -15010,7 +15006,7 @@ pplx::task<std::shared_ptr<SaveResponse>> WordsApi::putDocumentSaveAsTiff(
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -15124,7 +15120,7 @@ pplx::task<std::shared_ptr<DrawingObjectResponse>> WordsApi::putDrawingObject(
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -15192,7 +15188,7 @@ pplx::task<std::shared_ptr<DrawingObjectResponse>> WordsApi::putDrawingObject(
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -15288,7 +15284,7 @@ pplx::task<HttpContent> WordsApi::putExecuteMailMergeOnline(std::shared_ptr<PutE
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -15338,7 +15334,7 @@ pplx::task<HttpContent> WordsApi::putExecuteMailMergeOnline(std::shared_ptr<PutE
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -15421,7 +15417,7 @@ pplx::task<HttpContent> WordsApi::putExecuteTemplateOnline(std::shared_ptr<PutEx
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -15477,7 +15473,7 @@ pplx::task<HttpContent> WordsApi::putExecuteTemplateOnline(std::shared_ptr<PutEx
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -15558,7 +15554,7 @@ pplx::task<std::shared_ptr<FieldResponse>> WordsApi::putField(std::shared_ptr<Pu
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -15624,7 +15620,7 @@ pplx::task<std::shared_ptr<FieldResponse>> WordsApi::putField(std::shared_ptr<Pu
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -15735,7 +15731,7 @@ pplx::task<std::shared_ptr<FootnoteResponse>> WordsApi::putFootnote(std::shared_
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -15797,7 +15793,7 @@ pplx::task<std::shared_ptr<FootnoteResponse>> WordsApi::putFootnote(std::shared_
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -15909,7 +15905,7 @@ pplx::task<std::shared_ptr<FormFieldResponse>> WordsApi::putFormField(std::share
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -15975,7 +15971,7 @@ pplx::task<std::shared_ptr<FormFieldResponse>> WordsApi::putFormField(std::share
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -16081,7 +16077,7 @@ pplx::task<std::shared_ptr<HeaderFooterResponse>> WordsApi::putHeaderFooter(
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -16143,7 +16139,7 @@ pplx::task<std::shared_ptr<HeaderFooterResponse>> WordsApi::putHeaderFooter(
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -16250,7 +16246,7 @@ pplx::task<std::shared_ptr<ParagraphResponse>> WordsApi::putParagraph(std::share
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -16316,7 +16312,7 @@ pplx::task<std::shared_ptr<ParagraphResponse>> WordsApi::putParagraph(std::share
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -16425,7 +16421,7 @@ pplx::task<std::shared_ptr<ProtectionDataResponse>> WordsApi::putProtectDocument
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -16475,7 +16471,7 @@ pplx::task<std::shared_ptr<ProtectionDataResponse>> WordsApi::putProtectDocument
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -16587,7 +16583,7 @@ pplx::task<std::shared_ptr<RunResponse>> WordsApi::putRun(std::shared_ptr<PutRun
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -16649,7 +16645,7 @@ pplx::task<std::shared_ptr<RunResponse>> WordsApi::putRun(std::shared_ptr<PutRun
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -16750,7 +16746,7 @@ pplx::task<std::shared_ptr<RevisionsModificationResponse>> WordsApi::rejectAllRe
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -16800,7 +16796,7 @@ pplx::task<std::shared_ptr<RevisionsModificationResponse>> WordsApi::rejectAllRe
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -16888,7 +16884,7 @@ pplx::task<HttpContent> WordsApi::renderDrawingObject(std::shared_ptr<RenderDraw
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -16946,7 +16942,7 @@ pplx::task<HttpContent> WordsApi::renderDrawingObject(std::shared_ptr<RenderDraw
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -17018,7 +17014,7 @@ pplx::task<HttpContent> WordsApi::renderMathObject(std::shared_ptr<RenderMathObj
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -17076,7 +17072,7 @@ pplx::task<HttpContent> WordsApi::renderMathObject(std::shared_ptr<RenderMathObj
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -17147,7 +17143,7 @@ pplx::task<HttpContent> WordsApi::renderPage(std::shared_ptr<RenderPageRequest> 
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -17201,7 +17197,7 @@ pplx::task<HttpContent> WordsApi::renderPage(std::shared_ptr<RenderPageRequest> 
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -17273,7 +17269,7 @@ pplx::task<HttpContent> WordsApi::renderParagraph(std::shared_ptr<RenderParagrap
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -17331,7 +17327,7 @@ pplx::task<HttpContent> WordsApi::renderParagraph(std::shared_ptr<RenderParagrap
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -17403,7 +17399,7 @@ pplx::task<HttpContent> WordsApi::renderTable(std::shared_ptr<RenderTableRequest
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -17461,7 +17457,7 @@ pplx::task<HttpContent> WordsApi::renderTable(std::shared_ptr<RenderTableRequest
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -17523,7 +17519,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::resetCache(std::shared_ptr
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -17553,7 +17549,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::resetCache(std::shared_ptr
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -17637,7 +17633,7 @@ pplx::task<std::shared_ptr<SearchResponse>> WordsApi::search(std::shared_ptr<Sea
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -17686,7 +17682,7 @@ pplx::task<std::shared_ptr<SearchResponse>> WordsApi::search(std::shared_ptr<Sea
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -17783,7 +17779,7 @@ pplx::task<std::shared_ptr<BorderResponse>> WordsApi::updateBorder(std::shared_p
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -17841,7 +17837,7 @@ pplx::task<std::shared_ptr<BorderResponse>> WordsApi::updateBorder(std::shared_p
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -17954,7 +17950,7 @@ pplx::task<std::shared_ptr<SectionPageSetupResponse>> WordsApi::updateSectionPag
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -18013,7 +18009,7 @@ pplx::task<std::shared_ptr<SectionPageSetupResponse>> WordsApi::updateSectionPag
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -18120,7 +18116,7 @@ pplx::task<std::shared_ptr<TableCellFormatResponse>> WordsApi::updateTableCellFo
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -18178,7 +18174,7 @@ pplx::task<std::shared_ptr<TableCellFormatResponse>> WordsApi::updateTableCellFo
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -18283,7 +18279,7 @@ pplx::task<std::shared_ptr<TablePropertiesResponse>> WordsApi::updateTableProper
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -18345,7 +18341,7 @@ pplx::task<std::shared_ptr<TablePropertiesResponse>> WordsApi::updateTableProper
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
@@ -18450,7 +18446,7 @@ pplx::task<std::shared_ptr<TableRowFormatResponse>> WordsApi::updateTableRowForm
     utility::string_t responseHttpContentType;
 
     // use JSON if possible
-    if (responseHttpContentTypes.size() == 0)
+    if (responseHttpContentTypes.empty())
     {
         responseHttpContentType = _XPLATSTR("application/json");
     }
@@ -18508,7 +18504,7 @@ pplx::task<std::shared_ptr<TableRowFormatResponse>> WordsApi::updateTableRowForm
     utility::string_t requestHttpContentType;
 
     // use JSON if possible
-    if (consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
+    if (consumeHttpContentTypes.empty() || consumeHttpContentTypes.find(_XPLATSTR("application/json")) !=
         consumeHttpContentTypes.end())
     {
         requestHttpContentType = _XPLATSTR("application/json");
