@@ -62,24 +62,24 @@ web::json::value Section::toJson() const
         
         if(jsonArray.size() > 0)
         {
-            val[utility::conversions::to_string_t("ChildNodes")] = web::json::value::array(jsonArray);
+            val[_XPLATSTR("ChildNodes")] = web::json::value::array(jsonArray);
         }
     }
     if(m_HeaderFootersIsSet)
     {
-        val[utility::conversions::to_string_t("HeaderFooters")] = ModelBase::toJson(m_HeaderFooters);
+        val[_XPLATSTR("HeaderFooters")] = ModelBase::toJson(m_HeaderFooters);
     }
     if(m_PageSetupIsSet)
     {
-        val[utility::conversions::to_string_t("PageSetup")] = ModelBase::toJson(m_PageSetup);
+        val[_XPLATSTR("PageSetup")] = ModelBase::toJson(m_PageSetup);
     }
     if(m_ParagraphsIsSet)
     {
-        val[utility::conversions::to_string_t("Paragraphs")] = ModelBase::toJson(m_Paragraphs);
+        val[_XPLATSTR("Paragraphs")] = ModelBase::toJson(m_Paragraphs);
     }
     if(m_TablesIsSet)
     {
-        val[utility::conversions::to_string_t("Tables")] = ModelBase::toJson(m_Tables);
+        val[_XPLATSTR("Tables")] = ModelBase::toJson(m_Tables);
     }
 
     return val;
@@ -91,10 +91,10 @@ void Section::fromJson(web::json::value& val)
 
     {
         m_ChildNodes.clear();
-        if(val.has_field(utility::conversions::to_string_t("ChildNodes")) 
-                            && !val[utility::conversions::to_string_t("ChildNodes")].is_null())
+        if(val.has_field(_XPLATSTR("ChildNodes")) 
+                            && !val[_XPLATSTR("ChildNodes")].is_null())
         {
-        auto arr = val[utility::conversions::to_string_t("ChildNodes")].as_array();
+        auto arr = val[_XPLATSTR("ChildNodes")].as_array();
         std::transform(arr.begin(), arr.end(), std::back_inserter(m_ChildNodes), [&](web::json::value& item){
             if(item.is_null())
             {
@@ -110,9 +110,9 @@ void Section::fromJson(web::json::value& val)
 
         }
     }
-    if(val.has_field(utility::conversions::to_string_t("HeaderFooters")))
+    if(val.has_field(_XPLATSTR("HeaderFooters")))
     {
-        web::json::value& fieldValue = val[utility::conversions::to_string_t("HeaderFooters")];
+        web::json::value& fieldValue = val[_XPLATSTR("HeaderFooters")];
         if(!fieldValue.is_null())
         {
             std::shared_ptr<LinkElement> newItem(new LinkElement());
@@ -120,9 +120,9 @@ void Section::fromJson(web::json::value& val)
             setHeaderFooters( newItem );
         }
     }
-    if(val.has_field(utility::conversions::to_string_t("PageSetup")))
+    if(val.has_field(_XPLATSTR("PageSetup")))
     {
-        web::json::value& fieldValue = val[utility::conversions::to_string_t("PageSetup")];
+        web::json::value& fieldValue = val[_XPLATSTR("PageSetup")];
         if(!fieldValue.is_null())
         {
             std::shared_ptr<LinkElement> newItem(new LinkElement());
@@ -130,9 +130,9 @@ void Section::fromJson(web::json::value& val)
             setPageSetup( newItem );
         }
     }
-    if(val.has_field(utility::conversions::to_string_t("Paragraphs")))
+    if(val.has_field(_XPLATSTR("Paragraphs")))
     {
-        web::json::value& fieldValue = val[utility::conversions::to_string_t("Paragraphs")];
+        web::json::value& fieldValue = val[_XPLATSTR("Paragraphs")];
         if(!fieldValue.is_null())
         {
             std::shared_ptr<LinkElement> newItem(new LinkElement());
@@ -140,9 +140,9 @@ void Section::fromJson(web::json::value& val)
             setParagraphs( newItem );
         }
     }
-    if(val.has_field(utility::conversions::to_string_t("Tables")))
+    if(val.has_field(_XPLATSTR("Tables")))
     {
-        web::json::value& fieldValue = val[utility::conversions::to_string_t("Tables")];
+        web::json::value& fieldValue = val[_XPLATSTR("Tables")];
         if(!fieldValue.is_null())
         {
             std::shared_ptr<LinkElement> newItem(new LinkElement());
@@ -160,7 +160,7 @@ void Section::toMultipart(const std::shared_ptr<MultipartFormData>& multipart, c
     {
         if (m_Link.get())
         {
-            m_Link->toMultipart(multipart, utility::conversions::to_string_t("link."));
+            m_Link->toMultipart(multipart, _XPLATSTR("link."));
         }
         
     }
@@ -172,14 +172,14 @@ void Section::toMultipart(const std::shared_ptr<MultipartFormData>& multipart, c
         
         if(jsonArray.size() > 0)
         {
-            multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("ChildNodes"), web::json::value::array(jsonArray), utility::conversions::to_string_t("application/json")));
+            multipart->add(ModelBase::toHttpContent(namePrefix + _XPLATSTR("ChildNodes"), web::json::value::array(jsonArray), _XPLATSTR("application/json")));
         }
     }
     if(m_HeaderFootersIsSet)
     {
         if (m_HeaderFooters.get())
         {
-            m_HeaderFooters->toMultipart(multipart, utility::conversions::to_string_t("HeaderFooters."));
+            m_HeaderFooters->toMultipart(multipart, _XPLATSTR("HeaderFooters."));
         }
         
     }
@@ -187,7 +187,7 @@ void Section::toMultipart(const std::shared_ptr<MultipartFormData>& multipart, c
     {
         if (m_PageSetup.get())
         {
-            m_PageSetup->toMultipart(multipart, utility::conversions::to_string_t("PageSetup."));
+            m_PageSetup->toMultipart(multipart, _XPLATSTR("PageSetup."));
         }
         
     }
@@ -195,7 +195,7 @@ void Section::toMultipart(const std::shared_ptr<MultipartFormData>& multipart, c
     {
         if (m_Paragraphs.get())
         {
-            m_Paragraphs->toMultipart(multipart, utility::conversions::to_string_t("Paragraphs."));
+            m_Paragraphs->toMultipart(multipart, _XPLATSTR("Paragraphs."));
         }
         
     }
@@ -203,7 +203,7 @@ void Section::toMultipart(const std::shared_ptr<MultipartFormData>& multipart, c
     {
         if (m_Tables.get())
         {
-            m_Tables->toMultipart(multipart, utility::conversions::to_string_t("Tables."));
+            m_Tables->toMultipart(multipart, _XPLATSTR("Tables."));
         }
         
     }
@@ -213,21 +213,21 @@ void Section::fromMultiPart(const std::shared_ptr<MultipartFormData>& multipart,
 {
     auto namePrefix = ModelBase::fixNamePrefix(prefix);
 
-    if(multipart->hasContent(utility::conversions::to_string_t("link")))
+    if(multipart->hasContent(_XPLATSTR("link")))
     {
-        if(multipart->hasContent(utility::conversions::to_string_t("link")))
+        if(multipart->hasContent(_XPLATSTR("link")))
         {
             std::shared_ptr<WordsApiLink> newItem(new WordsApiLink());
-            newItem->fromMultiPart(multipart, utility::conversions::to_string_t("link."));
+            newItem->fromMultiPart(multipart, _XPLATSTR("link."));
             setLink( newItem );
         }
     }
     {
         m_ChildNodes.clear();
-        if(multipart->hasContent(utility::conversions::to_string_t("ChildNodes")))
+        if(multipart->hasContent(_XPLATSTR("ChildNodes")))
         {
 
-        web::json::array jsonArray = web::json::value::parse(ModelBase::stringFromHttpContent(multipart->getContent(utility::conversions::to_string_t("ChildNodes")))).as_array();
+        web::json::array jsonArray = web::json::value::parse(ModelBase::stringFromHttpContent(multipart->getContent(_XPLATSTR("ChildNodes")))).as_array();
         std::transform(jsonArray.begin(), jsonArray.end(), std::back_inserter(m_ChildNodes), [&](web::json::value item) {
             if(item.is_null())
             {
@@ -242,39 +242,39 @@ void Section::fromMultiPart(const std::shared_ptr<MultipartFormData>& multipart,
         });
         }
     }
-    if(multipart->hasContent(utility::conversions::to_string_t("HeaderFooters")))
+    if(multipart->hasContent(_XPLATSTR("HeaderFooters")))
     {
-        if(multipart->hasContent(utility::conversions::to_string_t("HeaderFooters")))
+        if(multipart->hasContent(_XPLATSTR("HeaderFooters")))
         {
             std::shared_ptr<LinkElement> newItem(new LinkElement());
-            newItem->fromMultiPart(multipart, utility::conversions::to_string_t("HeaderFooters."));
+            newItem->fromMultiPart(multipart, _XPLATSTR("HeaderFooters."));
             setHeaderFooters( newItem );
         }
     }
-    if(multipart->hasContent(utility::conversions::to_string_t("PageSetup")))
+    if(multipart->hasContent(_XPLATSTR("PageSetup")))
     {
-        if(multipart->hasContent(utility::conversions::to_string_t("PageSetup")))
+        if(multipart->hasContent(_XPLATSTR("PageSetup")))
         {
             std::shared_ptr<LinkElement> newItem(new LinkElement());
-            newItem->fromMultiPart(multipart, utility::conversions::to_string_t("PageSetup."));
+            newItem->fromMultiPart(multipart, _XPLATSTR("PageSetup."));
             setPageSetup( newItem );
         }
     }
-    if(multipart->hasContent(utility::conversions::to_string_t("Paragraphs")))
+    if(multipart->hasContent(_XPLATSTR("Paragraphs")))
     {
-        if(multipart->hasContent(utility::conversions::to_string_t("Paragraphs")))
+        if(multipart->hasContent(_XPLATSTR("Paragraphs")))
         {
             std::shared_ptr<LinkElement> newItem(new LinkElement());
-            newItem->fromMultiPart(multipart, utility::conversions::to_string_t("Paragraphs."));
+            newItem->fromMultiPart(multipart, _XPLATSTR("Paragraphs."));
             setParagraphs( newItem );
         }
     }
-    if(multipart->hasContent(utility::conversions::to_string_t("Tables")))
+    if(multipart->hasContent(_XPLATSTR("Tables")))
     {
-        if(multipart->hasContent(utility::conversions::to_string_t("Tables")))
+        if(multipart->hasContent(_XPLATSTR("Tables")))
         {
             std::shared_ptr<LinkElement> newItem(new LinkElement());
-            newItem->fromMultiPart(multipart, utility::conversions::to_string_t("Tables."));
+            newItem->fromMultiPart(multipart, _XPLATSTR("Tables."));
             setTables( newItem );
         }
     }

@@ -51,7 +51,7 @@ web::json::value SplitDocumentResponse::toJson() const
 
     if(m_SplitResultIsSet)
     {
-        val[utility::conversions::to_string_t("SplitResult")] = ModelBase::toJson(m_SplitResult);
+        val[_XPLATSTR("SplitResult")] = ModelBase::toJson(m_SplitResult);
     }
 
     return val;
@@ -61,9 +61,9 @@ void SplitDocumentResponse::fromJson(web::json::value& val)
 {
     this->AsposeResponse::fromJson(val);
 
-    if(val.has_field(utility::conversions::to_string_t("SplitResult")))
+    if(val.has_field(_XPLATSTR("SplitResult")))
     {
-        web::json::value& fieldValue = val[utility::conversions::to_string_t("SplitResult")];
+        web::json::value& fieldValue = val[_XPLATSTR("SplitResult")];
         if(!fieldValue.is_null())
         {
             std::shared_ptr<SplitDocumentResult> newItem(new SplitDocumentResult());
@@ -77,17 +77,17 @@ void SplitDocumentResponse::toMultipart(const std::shared_ptr<MultipartFormData>
 {
     auto namePrefix = ModelBase::fixNamePrefix(prefix);
 
-    multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("Code"), m_Code));
+    multipart->add(ModelBase::toHttpContent(namePrefix + _XPLATSTR("Code"), m_Code));
     if(m_StatusIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("Status"), m_Status));
+        multipart->add(ModelBase::toHttpContent(namePrefix + _XPLATSTR("Status"), m_Status));
         
     }
     if(m_SplitResultIsSet)
     {
         if (m_SplitResult.get())
         {
-            m_SplitResult->toMultipart(multipart, utility::conversions::to_string_t("SplitResult."));
+            m_SplitResult->toMultipart(multipart, _XPLATSTR("SplitResult."));
         }
         
     }
@@ -97,17 +97,17 @@ void SplitDocumentResponse::fromMultiPart(const std::shared_ptr<MultipartFormDat
 {
     auto namePrefix = ModelBase::fixNamePrefix(prefix);
 
-    setCode(ModelBase::int32_tFromHttpContent(multipart->getContent(utility::conversions::to_string_t("Code"))));
-    if(multipart->hasContent(utility::conversions::to_string_t("Status")))
+    setCode(ModelBase::int32_tFromHttpContent(multipart->getContent(_XPLATSTR("Code"))));
+    if(multipart->hasContent(_XPLATSTR("Status")))
     {
-        setStatus(ModelBase::stringFromHttpContent(multipart->getContent(utility::conversions::to_string_t("Status"))));
+        setStatus(ModelBase::stringFromHttpContent(multipart->getContent(_XPLATSTR("Status"))));
     }
-    if(multipart->hasContent(utility::conversions::to_string_t("SplitResult")))
+    if(multipart->hasContent(_XPLATSTR("SplitResult")))
     {
-        if(multipart->hasContent(utility::conversions::to_string_t("SplitResult")))
+        if(multipart->hasContent(_XPLATSTR("SplitResult")))
         {
             std::shared_ptr<SplitDocumentResult> newItem(new SplitDocumentResult());
-            newItem->fromMultiPart(multipart, utility::conversions::to_string_t("SplitResult."));
+            newItem->fromMultiPart(multipart, _XPLATSTR("SplitResult."));
             setSplitResult( newItem );
         }
     }

@@ -51,7 +51,7 @@ web::json::value RunResponse::toJson() const
 
     if(m_RunIsSet)
     {
-        val[utility::conversions::to_string_t("Run")] = ModelBase::toJson(m_Run);
+        val[_XPLATSTR("Run")] = ModelBase::toJson(m_Run);
     }
 
     return val;
@@ -61,9 +61,9 @@ void RunResponse::fromJson(web::json::value& val)
 {
     this->AsposeResponse::fromJson(val);
 
-    if(val.has_field(utility::conversions::to_string_t("Run")))
+    if(val.has_field(_XPLATSTR("Run")))
     {
-        web::json::value& fieldValue = val[utility::conversions::to_string_t("Run")];
+        web::json::value& fieldValue = val[_XPLATSTR("Run")];
         if(!fieldValue.is_null())
         {
             std::shared_ptr<Run> newItem(new Run());
@@ -77,17 +77,17 @@ void RunResponse::toMultipart(const std::shared_ptr<MultipartFormData>& multipar
 {
     auto namePrefix = ModelBase::fixNamePrefix(prefix);
 
-    multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("Code"), m_Code));
+    multipart->add(ModelBase::toHttpContent(namePrefix + _XPLATSTR("Code"), m_Code));
     if(m_StatusIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("Status"), m_Status));
+        multipart->add(ModelBase::toHttpContent(namePrefix + _XPLATSTR("Status"), m_Status));
         
     }
     if(m_RunIsSet)
     {
         if (m_Run.get())
         {
-            m_Run->toMultipart(multipart, utility::conversions::to_string_t("Run."));
+            m_Run->toMultipart(multipart, _XPLATSTR("Run."));
         }
         
     }
@@ -97,17 +97,17 @@ void RunResponse::fromMultiPart(const std::shared_ptr<MultipartFormData>& multip
 {
     auto namePrefix = ModelBase::fixNamePrefix(prefix);
 
-    setCode(ModelBase::int32_tFromHttpContent(multipart->getContent(utility::conversions::to_string_t("Code"))));
-    if(multipart->hasContent(utility::conversions::to_string_t("Status")))
+    setCode(ModelBase::int32_tFromHttpContent(multipart->getContent(_XPLATSTR("Code"))));
+    if(multipart->hasContent(_XPLATSTR("Status")))
     {
-        setStatus(ModelBase::stringFromHttpContent(multipart->getContent(utility::conversions::to_string_t("Status"))));
+        setStatus(ModelBase::stringFromHttpContent(multipart->getContent(_XPLATSTR("Status"))));
     }
-    if(multipart->hasContent(utility::conversions::to_string_t("Run")))
+    if(multipart->hasContent(_XPLATSTR("Run")))
     {
-        if(multipart->hasContent(utility::conversions::to_string_t("Run")))
+        if(multipart->hasContent(_XPLATSTR("Run")))
         {
             std::shared_ptr<Run> newItem(new Run());
-            newItem->fromMultiPart(multipart, utility::conversions::to_string_t("Run."));
+            newItem->fromMultiPart(multipart, _XPLATSTR("Run."));
             setRun( newItem );
         }
     }

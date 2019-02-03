@@ -58,7 +58,7 @@ web::json::value StoryChildNodes::toJson() const
         
         if(jsonArray.size() > 0)
         {
-            val[utility::conversions::to_string_t("ChildNodes")] = web::json::value::array(jsonArray);
+            val[_XPLATSTR("ChildNodes")] = web::json::value::array(jsonArray);
         }
     }
 
@@ -69,10 +69,10 @@ void StoryChildNodes::fromJson(web::json::value& val)
 {
     {
         m_ChildNodes.clear();
-        if(val.has_field(utility::conversions::to_string_t("ChildNodes")) 
-                            && !val[utility::conversions::to_string_t("ChildNodes")].is_null())
+        if(val.has_field(_XPLATSTR("ChildNodes")) 
+                            && !val[_XPLATSTR("ChildNodes")].is_null())
         {
-        auto arr = val[utility::conversions::to_string_t("ChildNodes")].as_array();
+        auto arr = val[_XPLATSTR("ChildNodes")].as_array();
         std::transform(arr.begin(), arr.end(), std::back_inserter(m_ChildNodes), [&](web::json::value& item){
             if(item.is_null())
             {
@@ -102,7 +102,7 @@ void StoryChildNodes::toMultipart(const std::shared_ptr<MultipartFormData>& mult
         
         if(jsonArray.size() > 0)
         {
-            multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("ChildNodes"), web::json::value::array(jsonArray), utility::conversions::to_string_t("application/json")));
+            multipart->add(ModelBase::toHttpContent(namePrefix + _XPLATSTR("ChildNodes"), web::json::value::array(jsonArray), _XPLATSTR("application/json")));
         }
     }
 }
@@ -113,10 +113,10 @@ void StoryChildNodes::fromMultiPart(const std::shared_ptr<MultipartFormData>& mu
 
     {
         m_ChildNodes.clear();
-        if(multipart->hasContent(utility::conversions::to_string_t("ChildNodes")))
+        if(multipart->hasContent(_XPLATSTR("ChildNodes")))
         {
 
-        web::json::array jsonArray = web::json::value::parse(ModelBase::stringFromHttpContent(multipart->getContent(utility::conversions::to_string_t("ChildNodes")))).as_array();
+        web::json::array jsonArray = web::json::value::parse(ModelBase::stringFromHttpContent(multipart->getContent(_XPLATSTR("ChildNodes")))).as_array();
         std::transform(jsonArray.begin(), jsonArray.end(), std::back_inserter(m_ChildNodes), [&](web::json::value item) {
             if(item.is_null())
             {

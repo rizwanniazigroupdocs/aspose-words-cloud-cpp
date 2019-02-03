@@ -64,22 +64,22 @@ void WordsApiLink::toMultipart(const std::shared_ptr<MultipartFormData>& multipa
 
     if(m_HrefIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("Href"), m_Href));
+        multipart->add(ModelBase::toHttpContent(namePrefix + _XPLATSTR("Href"), m_Href));
         
     }
     if(m_RelIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("Rel"), m_Rel));
+        multipart->add(ModelBase::toHttpContent(namePrefix + _XPLATSTR("Rel"), m_Rel));
         
     }
     if(m_TypeIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("Type"), m_Type));
+        multipart->add(ModelBase::toHttpContent(namePrefix + _XPLATSTR("Type"), m_Type));
         
     }
     if(m_TitleIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("Title"), m_Title));
+        multipart->add(ModelBase::toHttpContent(namePrefix + _XPLATSTR("Title"), m_Title));
         
     }
 }
@@ -88,21 +88,21 @@ void WordsApiLink::fromMultiPart(const std::shared_ptr<MultipartFormData>& multi
 {
     auto namePrefix = ModelBase::fixNamePrefix(prefix);
 
-    if(multipart->hasContent(utility::conversions::to_string_t("Href")))
+    if(multipart->hasContent(_XPLATSTR("Href")))
     {
-        setHref(ModelBase::stringFromHttpContent(multipart->getContent(utility::conversions::to_string_t("Href"))));
+        setHref(ModelBase::stringFromHttpContent(multipart->getContent(_XPLATSTR("Href"))));
     }
-    if(multipart->hasContent(utility::conversions::to_string_t("Rel")))
+    if(multipart->hasContent(_XPLATSTR("Rel")))
     {
-        setRel(ModelBase::stringFromHttpContent(multipart->getContent(utility::conversions::to_string_t("Rel"))));
+        setRel(ModelBase::stringFromHttpContent(multipart->getContent(_XPLATSTR("Rel"))));
     }
-    if(multipart->hasContent(utility::conversions::to_string_t("Type")))
+    if(multipart->hasContent(_XPLATSTR("Type")))
     {
-        setType(ModelBase::stringFromHttpContent(multipart->getContent(utility::conversions::to_string_t("Type"))));
+        setType(ModelBase::stringFromHttpContent(multipart->getContent(_XPLATSTR("Type"))));
     }
-    if(multipart->hasContent(utility::conversions::to_string_t("Title")))
+    if(multipart->hasContent(_XPLATSTR("Title")))
     {
-        setTitle(ModelBase::stringFromHttpContent(multipart->getContent(utility::conversions::to_string_t("Title"))));
+        setTitle(ModelBase::stringFromHttpContent(multipart->getContent(_XPLATSTR("Title"))));
     }
 }
 

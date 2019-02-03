@@ -51,7 +51,7 @@ web::json::value SectionResponse::toJson() const
 
     if(m_SectionIsSet)
     {
-        val[utility::conversions::to_string_t("Section")] = ModelBase::toJson(m_Section);
+        val[_XPLATSTR("Section")] = ModelBase::toJson(m_Section);
     }
 
     return val;
@@ -61,9 +61,9 @@ void SectionResponse::fromJson(web::json::value& val)
 {
     this->AsposeResponse::fromJson(val);
 
-    if(val.has_field(utility::conversions::to_string_t("Section")))
+    if(val.has_field(_XPLATSTR("Section")))
     {
-        web::json::value& fieldValue = val[utility::conversions::to_string_t("Section")];
+        web::json::value& fieldValue = val[_XPLATSTR("Section")];
         if(!fieldValue.is_null())
         {
             std::shared_ptr<Section> newItem(new Section());
@@ -77,17 +77,17 @@ void SectionResponse::toMultipart(const std::shared_ptr<MultipartFormData>& mult
 {
     auto namePrefix = ModelBase::fixNamePrefix(prefix);
 
-    multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("Code"), m_Code));
+    multipart->add(ModelBase::toHttpContent(namePrefix + _XPLATSTR("Code"), m_Code));
     if(m_StatusIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("Status"), m_Status));
+        multipart->add(ModelBase::toHttpContent(namePrefix + _XPLATSTR("Status"), m_Status));
         
     }
     if(m_SectionIsSet)
     {
         if (m_Section.get())
         {
-            m_Section->toMultipart(multipart, utility::conversions::to_string_t("Section."));
+            m_Section->toMultipart(multipart, _XPLATSTR("Section."));
         }
         
     }
@@ -97,17 +97,17 @@ void SectionResponse::fromMultiPart(const std::shared_ptr<MultipartFormData>& mu
 {
     auto namePrefix = ModelBase::fixNamePrefix(prefix);
 
-    setCode(ModelBase::int32_tFromHttpContent(multipart->getContent(utility::conversions::to_string_t("Code"))));
-    if(multipart->hasContent(utility::conversions::to_string_t("Status")))
+    setCode(ModelBase::int32_tFromHttpContent(multipart->getContent(_XPLATSTR("Code"))));
+    if(multipart->hasContent(_XPLATSTR("Status")))
     {
-        setStatus(ModelBase::stringFromHttpContent(multipart->getContent(utility::conversions::to_string_t("Status"))));
+        setStatus(ModelBase::stringFromHttpContent(multipart->getContent(_XPLATSTR("Status"))));
     }
-    if(multipart->hasContent(utility::conversions::to_string_t("Section")))
+    if(multipart->hasContent(_XPLATSTR("Section")))
     {
-        if(multipart->hasContent(utility::conversions::to_string_t("Section")))
+        if(multipart->hasContent(_XPLATSTR("Section")))
         {
             std::shared_ptr<Section> newItem(new Section());
-            newItem->fromMultiPart(multipart, utility::conversions::to_string_t("Section."));
+            newItem->fromMultiPart(multipart, _XPLATSTR("Section."));
             setSection( newItem );
         }
     }

@@ -52,7 +52,7 @@ web::json::value Table::toJson() const
 
     if(m_TablePropertiesIsSet)
     {
-        val[utility::conversions::to_string_t("TableProperties")] = ModelBase::toJson(m_TableProperties);
+        val[_XPLATSTR("TableProperties")] = ModelBase::toJson(m_TableProperties);
     }
     {
         std::vector<web::json::value> jsonArray;
@@ -63,7 +63,7 @@ web::json::value Table::toJson() const
         
         if(jsonArray.size() > 0)
         {
-            val[utility::conversions::to_string_t("TableRowList")] = web::json::value::array(jsonArray);
+            val[_XPLATSTR("TableRowList")] = web::json::value::array(jsonArray);
         }
     }
 
@@ -74,9 +74,9 @@ void Table::fromJson(web::json::value& val)
 {
     this->NodeLink::fromJson(val);
 
-    if(val.has_field(utility::conversions::to_string_t("TableProperties")))
+    if(val.has_field(_XPLATSTR("TableProperties")))
     {
-        web::json::value& fieldValue = val[utility::conversions::to_string_t("TableProperties")];
+        web::json::value& fieldValue = val[_XPLATSTR("TableProperties")];
         if(!fieldValue.is_null())
         {
             std::shared_ptr<TableProperties> newItem(new TableProperties());
@@ -86,10 +86,10 @@ void Table::fromJson(web::json::value& val)
     }
     {
         m_TableRowList.clear();
-        if(val.has_field(utility::conversions::to_string_t("TableRowList")) 
-                            && !val[utility::conversions::to_string_t("TableRowList")].is_null())
+        if(val.has_field(_XPLATSTR("TableRowList")) 
+                            && !val[_XPLATSTR("TableRowList")].is_null())
         {
-        auto arr = val[utility::conversions::to_string_t("TableRowList")].as_array();
+        auto arr = val[_XPLATSTR("TableRowList")].as_array();
         std::transform(arr.begin(), arr.end(), std::back_inserter(m_TableRowList), [&](web::json::value& item){
             if(item.is_null())
             {
@@ -115,20 +115,20 @@ void Table::toMultipart(const std::shared_ptr<MultipartFormData>& multipart, con
     {
         if (m_Link.get())
         {
-            m_Link->toMultipart(multipart, utility::conversions::to_string_t("link."));
+            m_Link->toMultipart(multipart, _XPLATSTR("link."));
         }
         
     }
     if(m_NodeIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("NodeId"), m_NodeId));
+        multipart->add(ModelBase::toHttpContent(namePrefix + _XPLATSTR("NodeId"), m_NodeId));
         
     }
     if(m_TablePropertiesIsSet)
     {
         if (m_TableProperties.get())
         {
-            m_TableProperties->toMultipart(multipart, utility::conversions::to_string_t("TableProperties."));
+            m_TableProperties->toMultipart(multipart, _XPLATSTR("TableProperties."));
         }
         
     }
@@ -140,7 +140,7 @@ void Table::toMultipart(const std::shared_ptr<MultipartFormData>& multipart, con
         
         if(jsonArray.size() > 0)
         {
-            multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("TableRowList"), web::json::value::array(jsonArray), utility::conversions::to_string_t("application/json")));
+            multipart->add(ModelBase::toHttpContent(namePrefix + _XPLATSTR("TableRowList"), web::json::value::array(jsonArray), _XPLATSTR("application/json")));
         }
     }
 }
@@ -149,34 +149,34 @@ void Table::fromMultiPart(const std::shared_ptr<MultipartFormData>& multipart, c
 {
     auto namePrefix = ModelBase::fixNamePrefix(prefix);
 
-    if(multipart->hasContent(utility::conversions::to_string_t("link")))
+    if(multipart->hasContent(_XPLATSTR("link")))
     {
-        if(multipart->hasContent(utility::conversions::to_string_t("link")))
+        if(multipart->hasContent(_XPLATSTR("link")))
         {
             std::shared_ptr<WordsApiLink> newItem(new WordsApiLink());
-            newItem->fromMultiPart(multipart, utility::conversions::to_string_t("link."));
+            newItem->fromMultiPart(multipart, _XPLATSTR("link."));
             setLink( newItem );
         }
     }
-    if(multipart->hasContent(utility::conversions::to_string_t("NodeId")))
+    if(multipart->hasContent(_XPLATSTR("NodeId")))
     {
-        setNodeId(ModelBase::stringFromHttpContent(multipart->getContent(utility::conversions::to_string_t("NodeId"))));
+        setNodeId(ModelBase::stringFromHttpContent(multipart->getContent(_XPLATSTR("NodeId"))));
     }
-    if(multipart->hasContent(utility::conversions::to_string_t("TableProperties")))
+    if(multipart->hasContent(_XPLATSTR("TableProperties")))
     {
-        if(multipart->hasContent(utility::conversions::to_string_t("TableProperties")))
+        if(multipart->hasContent(_XPLATSTR("TableProperties")))
         {
             std::shared_ptr<TableProperties> newItem(new TableProperties());
-            newItem->fromMultiPart(multipart, utility::conversions::to_string_t("TableProperties."));
+            newItem->fromMultiPart(multipart, _XPLATSTR("TableProperties."));
             setTableProperties( newItem );
         }
     }
     {
         m_TableRowList.clear();
-        if(multipart->hasContent(utility::conversions::to_string_t("TableRowList")))
+        if(multipart->hasContent(_XPLATSTR("TableRowList")))
         {
 
-        web::json::array jsonArray = web::json::value::parse(ModelBase::stringFromHttpContent(multipart->getContent(utility::conversions::to_string_t("TableRowList")))).as_array();
+        web::json::array jsonArray = web::json::value::parse(ModelBase::stringFromHttpContent(multipart->getContent(_XPLATSTR("TableRowList")))).as_array();
         std::transform(jsonArray.begin(), jsonArray.end(), std::back_inserter(m_TableRowList), [&](web::json::value item) {
             if(item.is_null())
             {

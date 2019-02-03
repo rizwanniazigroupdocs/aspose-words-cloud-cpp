@@ -662,123 +662,123 @@ void PdfSaveOptionsData::fromMultiPart(const std::shared_ptr<MultipartFormData>&
     }
     if(multipart->hasContent(_XPLATSTR("PageIndex")))
     {
-        setPageIndex(ModelBase::int32_tFromHttpContent(multipart->getContent(utility::conversions::to_string_t("PageIndex"))));
+        setPageIndex(ModelBase::int32_tFromHttpContent(multipart->getContent(_XPLATSTR("PageIndex"))));
     }
-    if(multipart->hasContent(utility::conversions::to_string_t("Compliance")))
+    if(multipart->hasContent(_XPLATSTR("Compliance")))
     {
-        setCompliance(ModelBase::stringFromHttpContent(multipart->getContent(utility::conversions::to_string_t("Compliance"))));
+        setCompliance(ModelBase::stringFromHttpContent(multipart->getContent(_XPLATSTR("Compliance"))));
     }
-    if(multipart->hasContent(utility::conversions::to_string_t("CreateNoteHyperlinks")))
+    if(multipart->hasContent(_XPLATSTR("CreateNoteHyperlinks")))
     {
-        setCreateNoteHyperlinks(ModelBase::boolFromHttpContent(multipart->getContent(utility::conversions::to_string_t("CreateNoteHyperlinks"))));
+        setCreateNoteHyperlinks(ModelBase::boolFromHttpContent(multipart->getContent(_XPLATSTR("CreateNoteHyperlinks"))));
     }
-    if(multipart->hasContent(utility::conversions::to_string_t("CustomPropertiesExport")))
+    if(multipart->hasContent(_XPLATSTR("CustomPropertiesExport")))
     {
-        setCustomPropertiesExport(ModelBase::stringFromHttpContent(multipart->getContent(utility::conversions::to_string_t("CustomPropertiesExport"))));
+        setCustomPropertiesExport(ModelBase::stringFromHttpContent(multipart->getContent(_XPLATSTR("CustomPropertiesExport"))));
     }
-    if(multipart->hasContent(utility::conversions::to_string_t("DigitalSignatureDetails")))
+    if(multipart->hasContent(_XPLATSTR("DigitalSignatureDetails")))
     {
-        if(multipart->hasContent(utility::conversions::to_string_t("DigitalSignatureDetails")))
+        if(multipart->hasContent(_XPLATSTR("DigitalSignatureDetails")))
         {
             std::shared_ptr<PdfDigitalSignatureDetailsData> newItem(new PdfDigitalSignatureDetailsData());
-            newItem->fromMultiPart(multipart, utility::conversions::to_string_t("DigitalSignatureDetails."));
+            newItem->fromMultiPart(multipart, _XPLATSTR("DigitalSignatureDetails."));
             setDigitalSignatureDetails( newItem );
         }
     }
-    if(multipart->hasContent(utility::conversions::to_string_t("DisplayDocTitle")))
+    if(multipart->hasContent(_XPLATSTR("DisplayDocTitle")))
     {
-        setDisplayDocTitle(ModelBase::boolFromHttpContent(multipart->getContent(utility::conversions::to_string_t("DisplayDocTitle"))));
+        setDisplayDocTitle(ModelBase::boolFromHttpContent(multipart->getContent(_XPLATSTR("DisplayDocTitle"))));
     }
-    if(multipart->hasContent(utility::conversions::to_string_t("DownsampleOptions")))
+    if(multipart->hasContent(_XPLATSTR("DownsampleOptions")))
     {
-        if(multipart->hasContent(utility::conversions::to_string_t("DownsampleOptions")))
+        if(multipart->hasContent(_XPLATSTR("DownsampleOptions")))
         {
             std::shared_ptr<DownsampleOptionsData> newItem(new DownsampleOptionsData());
-            newItem->fromMultiPart(multipart, utility::conversions::to_string_t("DownsampleOptions."));
+            newItem->fromMultiPart(multipart, _XPLATSTR("DownsampleOptions."));
             setDownsampleOptions( newItem );
         }
     }
-    if(multipart->hasContent(utility::conversions::to_string_t("EmbedFullFonts")))
+    if(multipart->hasContent(_XPLATSTR("EmbedFullFonts")))
     {
-        setEmbedFullFonts(ModelBase::boolFromHttpContent(multipart->getContent(utility::conversions::to_string_t("EmbedFullFonts"))));
+        setEmbedFullFonts(ModelBase::boolFromHttpContent(multipart->getContent(_XPLATSTR("EmbedFullFonts"))));
     }
-    if(multipart->hasContent(utility::conversions::to_string_t("EncryptionDetails")))
+    if(multipart->hasContent(_XPLATSTR("EncryptionDetails")))
     {
-        if(multipart->hasContent(utility::conversions::to_string_t("EncryptionDetails")))
+        if(multipart->hasContent(_XPLATSTR("EncryptionDetails")))
         {
             std::shared_ptr<PdfEncryptionDetailsData> newItem(new PdfEncryptionDetailsData());
-            newItem->fromMultiPart(multipart, utility::conversions::to_string_t("EncryptionDetails."));
+            newItem->fromMultiPart(multipart, _XPLATSTR("EncryptionDetails."));
             setEncryptionDetails( newItem );
         }
     }
-    if(multipart->hasContent(utility::conversions::to_string_t("EscapeUri")))
+    if(multipart->hasContent(_XPLATSTR("EscapeUri")))
     {
-        setEscapeUri(ModelBase::boolFromHttpContent(multipart->getContent(utility::conversions::to_string_t("EscapeUri"))));
+        setEscapeUri(ModelBase::boolFromHttpContent(multipart->getContent(_XPLATSTR("EscapeUri"))));
     }
-    if(multipart->hasContent(utility::conversions::to_string_t("ExportDocumentStructure")))
+    if(multipart->hasContent(_XPLATSTR("ExportDocumentStructure")))
     {
-        setExportDocumentStructure(ModelBase::boolFromHttpContent(multipart->getContent(utility::conversions::to_string_t("ExportDocumentStructure"))));
+        setExportDocumentStructure(ModelBase::boolFromHttpContent(multipart->getContent(_XPLATSTR("ExportDocumentStructure"))));
     }
-    if(multipart->hasContent(utility::conversions::to_string_t("FontEmbeddingMode")))
+    if(multipart->hasContent(_XPLATSTR("FontEmbeddingMode")))
     {
-        setFontEmbeddingMode(ModelBase::stringFromHttpContent(multipart->getContent(utility::conversions::to_string_t("FontEmbeddingMode"))));
+        setFontEmbeddingMode(ModelBase::stringFromHttpContent(multipart->getContent(_XPLATSTR("FontEmbeddingMode"))));
     }
-    if(multipart->hasContent(utility::conversions::to_string_t("HeaderFooterBookmarksExportMode")))
+    if(multipart->hasContent(_XPLATSTR("HeaderFooterBookmarksExportMode")))
     {
-        setHeaderFooterBookmarksExportMode(ModelBase::stringFromHttpContent(multipart->getContent(utility::conversions::to_string_t("HeaderFooterBookmarksExportMode"))));
+        setHeaderFooterBookmarksExportMode(ModelBase::stringFromHttpContent(multipart->getContent(_XPLATSTR("HeaderFooterBookmarksExportMode"))));
     }
-    if(multipart->hasContent(utility::conversions::to_string_t("ImageColorSpaceExportMode")))
+    if(multipart->hasContent(_XPLATSTR("ImageColorSpaceExportMode")))
     {
-        setImageColorSpaceExportMode(ModelBase::stringFromHttpContent(multipart->getContent(utility::conversions::to_string_t("ImageColorSpaceExportMode"))));
+        setImageColorSpaceExportMode(ModelBase::stringFromHttpContent(multipart->getContent(_XPLATSTR("ImageColorSpaceExportMode"))));
     }
-    if(multipart->hasContent(utility::conversions::to_string_t("ImageCompression")))
+    if(multipart->hasContent(_XPLATSTR("ImageCompression")))
     {
-        setImageCompression(ModelBase::stringFromHttpContent(multipart->getContent(utility::conversions::to_string_t("ImageCompression"))));
+        setImageCompression(ModelBase::stringFromHttpContent(multipart->getContent(_XPLATSTR("ImageCompression"))));
     }
-    if(multipart->hasContent(utility::conversions::to_string_t("OpenHyperlinksInNewWindow")))
+    if(multipart->hasContent(_XPLATSTR("OpenHyperlinksInNewWindow")))
     {
-        setOpenHyperlinksInNewWindow(ModelBase::boolFromHttpContent(multipart->getContent(utility::conversions::to_string_t("OpenHyperlinksInNewWindow"))));
+        setOpenHyperlinksInNewWindow(ModelBase::boolFromHttpContent(multipart->getContent(_XPLATSTR("OpenHyperlinksInNewWindow"))));
     }
-    if(multipart->hasContent(utility::conversions::to_string_t("OutlineOptions")))
+    if(multipart->hasContent(_XPLATSTR("OutlineOptions")))
     {
-        if(multipart->hasContent(utility::conversions::to_string_t("OutlineOptions")))
+        if(multipart->hasContent(_XPLATSTR("OutlineOptions")))
         {
             std::shared_ptr<OutlineOptionsData> newItem(new OutlineOptionsData());
-            newItem->fromMultiPart(multipart, utility::conversions::to_string_t("OutlineOptions."));
+            newItem->fromMultiPart(multipart, _XPLATSTR("OutlineOptions."));
             setOutlineOptions( newItem );
         }
     }
-    if(multipart->hasContent(utility::conversions::to_string_t("PageMode")))
+    if(multipart->hasContent(_XPLATSTR("PageMode")))
     {
-        setPageMode(ModelBase::stringFromHttpContent(multipart->getContent(utility::conversions::to_string_t("PageMode"))));
+        setPageMode(ModelBase::stringFromHttpContent(multipart->getContent(_XPLATSTR("PageMode"))));
     }
-    if(multipart->hasContent(utility::conversions::to_string_t("PreblendImages")))
+    if(multipart->hasContent(_XPLATSTR("PreblendImages")))
     {
-        setPreblendImages(ModelBase::boolFromHttpContent(multipart->getContent(utility::conversions::to_string_t("PreblendImages"))));
+        setPreblendImages(ModelBase::boolFromHttpContent(multipart->getContent(_XPLATSTR("PreblendImages"))));
     }
-    if(multipart->hasContent(utility::conversions::to_string_t("PreserveFormFields")))
+    if(multipart->hasContent(_XPLATSTR("PreserveFormFields")))
     {
-        setPreserveFormFields(ModelBase::boolFromHttpContent(multipart->getContent(utility::conversions::to_string_t("PreserveFormFields"))));
+        setPreserveFormFields(ModelBase::boolFromHttpContent(multipart->getContent(_XPLATSTR("PreserveFormFields"))));
     }
-    if(multipart->hasContent(utility::conversions::to_string_t("TextCompression")))
+    if(multipart->hasContent(_XPLATSTR("TextCompression")))
     {
-        setTextCompression(ModelBase::stringFromHttpContent(multipart->getContent(utility::conversions::to_string_t("TextCompression"))));
+        setTextCompression(ModelBase::stringFromHttpContent(multipart->getContent(_XPLATSTR("TextCompression"))));
     }
-    if(multipart->hasContent(utility::conversions::to_string_t("UseBookFoldPrintingSettings")))
+    if(multipart->hasContent(_XPLATSTR("UseBookFoldPrintingSettings")))
     {
-        setUseBookFoldPrintingSettings(ModelBase::boolFromHttpContent(multipart->getContent(utility::conversions::to_string_t("UseBookFoldPrintingSettings"))));
+        setUseBookFoldPrintingSettings(ModelBase::boolFromHttpContent(multipart->getContent(_XPLATSTR("UseBookFoldPrintingSettings"))));
     }
-    if(multipart->hasContent(utility::conversions::to_string_t("UseCoreFonts")))
+    if(multipart->hasContent(_XPLATSTR("UseCoreFonts")))
     {
-        setUseCoreFonts(ModelBase::boolFromHttpContent(multipart->getContent(utility::conversions::to_string_t("UseCoreFonts"))));
+        setUseCoreFonts(ModelBase::boolFromHttpContent(multipart->getContent(_XPLATSTR("UseCoreFonts"))));
     }
-    if(multipart->hasContent(utility::conversions::to_string_t("ZoomBehavior")))
+    if(multipart->hasContent(_XPLATSTR("ZoomBehavior")))
     {
-        setZoomBehavior(ModelBase::stringFromHttpContent(multipart->getContent(utility::conversions::to_string_t("ZoomBehavior"))));
+        setZoomBehavior(ModelBase::stringFromHttpContent(multipart->getContent(_XPLATSTR("ZoomBehavior"))));
     }
-    if(multipart->hasContent(utility::conversions::to_string_t("ZoomFactor")))
+    if(multipart->hasContent(_XPLATSTR("ZoomFactor")))
     {
-        setZoomFactor(ModelBase::int32_tFromHttpContent(multipart->getContent(utility::conversions::to_string_t("ZoomFactor"))));
+        setZoomFactor(ModelBase::int32_tFromHttpContent(multipart->getContent(_XPLATSTR("ZoomFactor"))));
     }
 }
 

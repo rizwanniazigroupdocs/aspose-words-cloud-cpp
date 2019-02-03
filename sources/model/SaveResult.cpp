@@ -53,11 +53,11 @@ web::json::value SaveResult::toJson() const
 
     if(m_SourceDocumentIsSet)
     {
-        val[utility::conversions::to_string_t("SourceDocument")] = ModelBase::toJson(m_SourceDocument);
+        val[_XPLATSTR("SourceDocument")] = ModelBase::toJson(m_SourceDocument);
     }
     if(m_DestDocumentIsSet)
     {
-        val[utility::conversions::to_string_t("DestDocument")] = ModelBase::toJson(m_DestDocument);
+        val[_XPLATSTR("DestDocument")] = ModelBase::toJson(m_DestDocument);
     }
     {
         std::vector<web::json::value> jsonArray;
@@ -68,7 +68,7 @@ web::json::value SaveResult::toJson() const
         
         if(jsonArray.size() > 0)
         {
-            val[utility::conversions::to_string_t("AdditionalItems")] = web::json::value::array(jsonArray);
+            val[_XPLATSTR("AdditionalItems")] = web::json::value::array(jsonArray);
         }
     }
 
@@ -77,9 +77,9 @@ web::json::value SaveResult::toJson() const
 
 void SaveResult::fromJson(web::json::value& val)
 {
-    if(val.has_field(utility::conversions::to_string_t("SourceDocument")))
+    if(val.has_field(_XPLATSTR("SourceDocument")))
     {
-        web::json::value& fieldValue = val[utility::conversions::to_string_t("SourceDocument")];
+        web::json::value& fieldValue = val[_XPLATSTR("SourceDocument")];
         if(!fieldValue.is_null())
         {
             std::shared_ptr<FileLink> newItem(new FileLink());
@@ -87,9 +87,9 @@ void SaveResult::fromJson(web::json::value& val)
             setSourceDocument( newItem );
         }
     }
-    if(val.has_field(utility::conversions::to_string_t("DestDocument")))
+    if(val.has_field(_XPLATSTR("DestDocument")))
     {
-        web::json::value& fieldValue = val[utility::conversions::to_string_t("DestDocument")];
+        web::json::value& fieldValue = val[_XPLATSTR("DestDocument")];
         if(!fieldValue.is_null())
         {
             std::shared_ptr<FileLink> newItem(new FileLink());
@@ -99,10 +99,10 @@ void SaveResult::fromJson(web::json::value& val)
     }
     {
         m_AdditionalItems.clear();
-        if(val.has_field(utility::conversions::to_string_t("AdditionalItems")) 
-                            && !val[utility::conversions::to_string_t("AdditionalItems")].is_null())
+        if(val.has_field(_XPLATSTR("AdditionalItems")) 
+                            && !val[_XPLATSTR("AdditionalItems")].is_null())
         {
-        auto arr = val[utility::conversions::to_string_t("AdditionalItems")].as_array();
+        auto arr = val[_XPLATSTR("AdditionalItems")].as_array();
         std::transform(arr.begin(), arr.end(), std::back_inserter(m_AdditionalItems), [&](web::json::value& item){
             if(item.is_null())
             {
@@ -128,7 +128,7 @@ void SaveResult::toMultipart(const std::shared_ptr<MultipartFormData>& multipart
     {
         if (m_SourceDocument.get())
         {
-            m_SourceDocument->toMultipart(multipart, utility::conversions::to_string_t("SourceDocument."));
+            m_SourceDocument->toMultipart(multipart, _XPLATSTR("SourceDocument."));
         }
         
     }
@@ -136,7 +136,7 @@ void SaveResult::toMultipart(const std::shared_ptr<MultipartFormData>& multipart
     {
         if (m_DestDocument.get())
         {
-            m_DestDocument->toMultipart(multipart, utility::conversions::to_string_t("DestDocument."));
+            m_DestDocument->toMultipart(multipart, _XPLATSTR("DestDocument."));
         }
         
     }
@@ -148,7 +148,7 @@ void SaveResult::toMultipart(const std::shared_ptr<MultipartFormData>& multipart
         
         if(jsonArray.size() > 0)
         {
-            multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("AdditionalItems"), web::json::value::array(jsonArray), utility::conversions::to_string_t("application/json")));
+            multipart->add(ModelBase::toHttpContent(namePrefix + _XPLATSTR("AdditionalItems"), web::json::value::array(jsonArray), _XPLATSTR("application/json")));
         }
     }
 }
@@ -157,30 +157,30 @@ void SaveResult::fromMultiPart(const std::shared_ptr<MultipartFormData>& multipa
 {
     auto namePrefix = ModelBase::fixNamePrefix(prefix);
 
-    if(multipart->hasContent(utility::conversions::to_string_t("SourceDocument")))
+    if(multipart->hasContent(_XPLATSTR("SourceDocument")))
     {
-        if(multipart->hasContent(utility::conversions::to_string_t("SourceDocument")))
+        if(multipart->hasContent(_XPLATSTR("SourceDocument")))
         {
             std::shared_ptr<FileLink> newItem(new FileLink());
-            newItem->fromMultiPart(multipart, utility::conversions::to_string_t("SourceDocument."));
+            newItem->fromMultiPart(multipart, _XPLATSTR("SourceDocument."));
             setSourceDocument( newItem );
         }
     }
-    if(multipart->hasContent(utility::conversions::to_string_t("DestDocument")))
+    if(multipart->hasContent(_XPLATSTR("DestDocument")))
     {
-        if(multipart->hasContent(utility::conversions::to_string_t("DestDocument")))
+        if(multipart->hasContent(_XPLATSTR("DestDocument")))
         {
             std::shared_ptr<FileLink> newItem(new FileLink());
-            newItem->fromMultiPart(multipart, utility::conversions::to_string_t("DestDocument."));
+            newItem->fromMultiPart(multipart, _XPLATSTR("DestDocument."));
             setDestDocument( newItem );
         }
     }
     {
         m_AdditionalItems.clear();
-        if(multipart->hasContent(utility::conversions::to_string_t("AdditionalItems")))
+        if(multipart->hasContent(_XPLATSTR("AdditionalItems")))
         {
 
-        web::json::array jsonArray = web::json::value::parse(ModelBase::stringFromHttpContent(multipart->getContent(utility::conversions::to_string_t("AdditionalItems")))).as_array();
+        web::json::array jsonArray = web::json::value::parse(ModelBase::stringFromHttpContent(multipart->getContent(_XPLATSTR("AdditionalItems")))).as_array();
         std::transform(jsonArray.begin(), jsonArray.end(), std::back_inserter(m_AdditionalItems), [&](web::json::value item) {
             if(item.is_null())
             {

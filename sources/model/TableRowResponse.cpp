@@ -51,7 +51,7 @@ web::json::value TableRowResponse::toJson() const
 
     if(m_RowIsSet)
     {
-        val[utility::conversions::to_string_t("Row")] = ModelBase::toJson(m_Row);
+        val[_XPLATSTR("Row")] = ModelBase::toJson(m_Row);
     }
 
     return val;
@@ -61,9 +61,9 @@ void TableRowResponse::fromJson(web::json::value& val)
 {
     this->AsposeResponse::fromJson(val);
 
-    if(val.has_field(utility::conversions::to_string_t("Row")))
+    if(val.has_field(_XPLATSTR("Row")))
     {
-        web::json::value& fieldValue = val[utility::conversions::to_string_t("Row")];
+        web::json::value& fieldValue = val[_XPLATSTR("Row")];
         if(!fieldValue.is_null())
         {
             std::shared_ptr<TableRow> newItem(new TableRow());
@@ -77,17 +77,17 @@ void TableRowResponse::toMultipart(const std::shared_ptr<MultipartFormData>& mul
 {
     auto namePrefix = ModelBase::fixNamePrefix(prefix);
 
-    multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("Code"), m_Code));
+    multipart->add(ModelBase::toHttpContent(namePrefix + _XPLATSTR("Code"), m_Code));
     if(m_StatusIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("Status"), m_Status));
+        multipart->add(ModelBase::toHttpContent(namePrefix + _XPLATSTR("Status"), m_Status));
         
     }
     if(m_RowIsSet)
     {
         if (m_Row.get())
         {
-            m_Row->toMultipart(multipart, utility::conversions::to_string_t("Row."));
+            m_Row->toMultipart(multipart, _XPLATSTR("Row."));
         }
         
     }
@@ -97,17 +97,17 @@ void TableRowResponse::fromMultiPart(const std::shared_ptr<MultipartFormData>& m
 {
     auto namePrefix = ModelBase::fixNamePrefix(prefix);
 
-    setCode(ModelBase::int32_tFromHttpContent(multipart->getContent(utility::conversions::to_string_t("Code"))));
-    if(multipart->hasContent(utility::conversions::to_string_t("Status")))
+    setCode(ModelBase::int32_tFromHttpContent(multipart->getContent(_XPLATSTR("Code"))));
+    if(multipart->hasContent(_XPLATSTR("Status")))
     {
-        setStatus(ModelBase::stringFromHttpContent(multipart->getContent(utility::conversions::to_string_t("Status"))));
+        setStatus(ModelBase::stringFromHttpContent(multipart->getContent(_XPLATSTR("Status"))));
     }
-    if(multipart->hasContent(utility::conversions::to_string_t("Row")))
+    if(multipart->hasContent(_XPLATSTR("Row")))
     {
-        if(multipart->hasContent(utility::conversions::to_string_t("Row")))
+        if(multipart->hasContent(_XPLATSTR("Row")))
         {
             std::shared_ptr<TableRow> newItem(new TableRow());
-            newItem->fromMultiPart(multipart, utility::conversions::to_string_t("Row."));
+            newItem->fromMultiPart(multipart, _XPLATSTR("Row."));
             setRow( newItem );
         }
     }
