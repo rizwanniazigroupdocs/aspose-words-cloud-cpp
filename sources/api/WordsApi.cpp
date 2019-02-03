@@ -390,8 +390,7 @@ pplx::task<std::shared_ptr<ClassificationResponse>> WordsApi::classifyDocument(
     std::shared_ptr<ClassifyDocumentRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
-"/words/{documentName}/classify"),
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR("/words/{documentName}/classify"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("documentName"),
         ApiClient::parameterToString(request->getDocumentName()));
@@ -540,7 +539,7 @@ pplx::task<std::shared_ptr<DocumentPropertyResponse>> WordsApi::createOrUpdateDo
 
 
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/documentProperties/{propertyName}"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -706,8 +705,7 @@ pplx::task<std::shared_ptr<DocumentPropertyResponse>> WordsApi::createOrUpdateDo
 pplx::task<std::shared_ptr<BorderResponse>> WordsApi::deleteBorder(std::shared_ptr<DeleteBorderRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
-"/words/{name}/{nodePath}/borders/{index}"),
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR("/words/{name}/{nodePath}/borders/{index}"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
     path = replacePathParameter(path, _XPLATSTR("nodePath"), ApiClient::parameterToString(request->getNodePath()));
@@ -853,8 +851,7 @@ pplx::task<std::shared_ptr<BorderResponse>> WordsApi::deleteBorder(std::shared_p
 pplx::task<std::shared_ptr<BordersResponse>> WordsApi::deleteBorders(std::shared_ptr<DeleteBordersRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
-"/words/{name}/{nodePath}/borders"),
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR("/words/{name}/{nodePath}/borders"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
     path = replacePathParameter(path, _XPLATSTR("nodePath"), ApiClient::parameterToString(request->getNodePath()));
@@ -999,8 +996,7 @@ pplx::task<std::shared_ptr<BordersResponse>> WordsApi::deleteBorders(std::shared
 pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteComment(std::shared_ptr<DeleteCommentRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
-"/words/{name}/comments/{commentIndex}"),
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR("/words/{name}/comments/{commentIndex}"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
     path = replacePathParameter(path, _XPLATSTR("commentIndex"),
@@ -1292,7 +1288,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteDocumentProperty(
     std::shared_ptr<DeleteDocumentPropertyRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/documentProperties/{propertyName}"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -1589,7 +1585,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteDrawingObject(
     std::shared_ptr<DeleteDrawingObjectRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{nodePath}/drawingObjects/{index}"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -1740,7 +1736,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteDrawingObject(
 pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteField(std::shared_ptr<DeleteFieldRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{nodePath}/fields/{index}"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -1891,7 +1887,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteField(std::shared_pt
 pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteFields(std::shared_ptr<DeleteFieldsRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{nodePath}/fields"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -2041,7 +2037,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteFields(std::shared_p
 pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteFootnote(std::shared_ptr<DeleteFootnoteRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{nodePath}/footnotes/{index}"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -2192,7 +2188,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteFootnote(std::shared
 pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteFormField(std::shared_ptr<DeleteFormFieldRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{nodePath}/formfields/{index}"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -2344,7 +2340,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteHeaderFooter(
     std::shared_ptr<DeleteHeaderFooterRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{sectionPath}/headersfooters/{index}"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -2496,7 +2492,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteHeadersFooters(
     std::shared_ptr<DeleteHeadersFootersRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{sectionPath}/headersfooters"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -2654,7 +2650,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteOfficeMathObject(
     std::shared_ptr<DeleteOfficeMathObjectRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{nodePath}/OfficeMathObjects/{index}"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -2807,7 +2803,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteOfficeMathObject(
 pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteParagraph(std::shared_ptr<DeleteParagraphRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{nodePath}/paragraphs/{index}"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -2958,7 +2954,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteParagraph(std::share
 pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteRun(std::shared_ptr<DeleteRunRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{paragraphPath}/runs/{index}"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -3106,7 +3102,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteRun(std::shared_ptr<
 pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteTable(std::shared_ptr<DeleteTableRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{nodePath}/tables/{index}"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -3257,7 +3253,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteTable(std::shared_pt
 pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteTableCell(std::shared_ptr<DeleteTableCellRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{tableRowPath}/cells/{index}"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -3405,7 +3401,7 @@ pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteTableCell(std::share
 pplx::task<std::shared_ptr<AsposeResponse>> WordsApi::deleteTableRow(std::shared_ptr<DeleteTableRowRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{tablePath}/rows/{index}"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -3827,7 +3823,7 @@ pplx::task<std::shared_ptr<AvailableFontsResponse>> WordsApi::getAvailableFonts(
 pplx::task<std::shared_ptr<BorderResponse>> WordsApi::getBorder(std::shared_ptr<GetBorderRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{nodePath}/borders/{index}"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -3959,7 +3955,7 @@ pplx::task<std::shared_ptr<BorderResponse>> WordsApi::getBorder(std::shared_ptr<
 pplx::task<std::shared_ptr<BordersResponse>> WordsApi::getBorders(std::shared_ptr<GetBordersRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{nodePath}/borders"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -4090,7 +4086,7 @@ pplx::task<std::shared_ptr<BordersResponse>> WordsApi::getBorders(std::shared_pt
 pplx::task<std::shared_ptr<CommentResponse>> WordsApi::getComment(std::shared_ptr<GetCommentRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/comments/{commentIndex}"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -4482,7 +4478,7 @@ pplx::task<std::shared_ptr<BookmarkResponse>> WordsApi::getDocumentBookmarkByNam
     std::shared_ptr<GetDocumentBookmarkByNameRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/bookmarks/{bookmarkName}"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -4747,7 +4743,7 @@ pplx::task<std::shared_ptr<DrawingObjectResponse>> WordsApi::getDocumentDrawingO
     std::shared_ptr<GetDocumentDrawingObjectByIndexRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{nodePath}/drawingObjects/{index}"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -4888,7 +4884,7 @@ pplx::task<HttpContent> WordsApi::getDocumentDrawingObjectImageData(
     std::shared_ptr<GetDocumentDrawingObjectImageDataRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{nodePath}/drawingObjects/{index}/imageData"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -5012,7 +5008,7 @@ pplx::task<HttpContent> WordsApi::getDocumentDrawingObjectOleData(
     std::shared_ptr<GetDocumentDrawingObjectOleDataRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{nodePath}/drawingObjects/{index}/oleData"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -5136,7 +5132,7 @@ pplx::task<std::shared_ptr<DrawingObjectsResponse>> WordsApi::getDocumentDrawing
     std::shared_ptr<GetDocumentDrawingObjectsRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{nodePath}/drawingObjects"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -5274,7 +5270,7 @@ pplx::task<std::shared_ptr<FieldNamesResponse>> WordsApi::getDocumentFieldNames(
     std::shared_ptr<GetDocumentFieldNamesRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/mailMergeFieldNames"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -5410,7 +5406,7 @@ pplx::task<std::shared_ptr<HyperlinkResponse>> WordsApi::getDocumentHyperlinkByI
     std::shared_ptr<GetDocumentHyperlinkByIndexRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/hyperlinks/{hyperlinkIndex}"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -5679,7 +5675,7 @@ pplx::task<std::shared_ptr<ParagraphResponse>> WordsApi::getDocumentParagraph(
     std::shared_ptr<GetDocumentParagraphRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{nodePath}/paragraphs/{index}"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -5816,7 +5812,7 @@ pplx::task<std::shared_ptr<ParagraphFormatResponse>> WordsApi::getDocumentParagr
     std::shared_ptr<GetDocumentParagraphFormatRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{nodePath}/paragraphs/{index}/format"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -5955,7 +5951,7 @@ pplx::task<std::shared_ptr<RunResponse>> WordsApi::getDocumentParagraphRun(
     std::shared_ptr<GetDocumentParagraphRunRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{paragraphPath}/runs/{index}"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -6091,7 +6087,7 @@ pplx::task<std::shared_ptr<FontResponse>> WordsApi::getDocumentParagraphRunFont(
     std::shared_ptr<GetDocumentParagraphRunFontRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{paragraphPath}/runs/{index}/font"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -6230,7 +6226,7 @@ pplx::task<std::shared_ptr<RunsResponse>> WordsApi::getDocumentParagraphRuns(
     std::shared_ptr<GetDocumentParagraphRunsRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{paragraphPath}/runs"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -6365,7 +6361,7 @@ pplx::task<std::shared_ptr<ParagraphLinkCollectionResponse>> WordsApi::getDocume
     std::shared_ptr<GetDocumentParagraphsRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{nodePath}/paragraphs"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -6502,7 +6498,7 @@ pplx::task<std::shared_ptr<DocumentPropertiesResponse>> WordsApi::getDocumentPro
     std::shared_ptr<GetDocumentPropertiesRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/documentProperties"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -6633,7 +6629,7 @@ pplx::task<std::shared_ptr<DocumentPropertyResponse>> WordsApi::getDocumentPrope
     std::shared_ptr<GetDocumentPropertyRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/documentProperties/{propertyName}"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -7302,7 +7298,7 @@ pplx::task<HttpContent> WordsApi::getDocumentWithFormat(std::shared_ptr<GetDocum
 pplx::task<std::shared_ptr<FieldResponse>> WordsApi::getField(std::shared_ptr<GetFieldRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{nodePath}/fields/{index}"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -7438,7 +7434,7 @@ pplx::task<std::shared_ptr<FieldResponse>> WordsApi::getField(std::shared_ptr<Ge
 pplx::task<std::shared_ptr<FieldsResponse>> WordsApi::getFields(std::shared_ptr<GetFieldsRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{nodePath}/fields"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -7573,7 +7569,7 @@ pplx::task<std::shared_ptr<FieldsResponse>> WordsApi::getFields(std::shared_ptr<
 pplx::task<std::shared_ptr<FootnoteResponse>> WordsApi::getFootnote(std::shared_ptr<GetFootnoteRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{nodePath}/footnotes/{index}"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -7709,7 +7705,7 @@ pplx::task<std::shared_ptr<FootnoteResponse>> WordsApi::getFootnote(std::shared_
 pplx::task<std::shared_ptr<FootnotesResponse>> WordsApi::getFootnotes(std::shared_ptr<GetFootnotesRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{nodePath}/footnotes"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -7844,7 +7840,7 @@ pplx::task<std::shared_ptr<FootnotesResponse>> WordsApi::getFootnotes(std::share
 pplx::task<std::shared_ptr<FormFieldResponse>> WordsApi::getFormField(std::shared_ptr<GetFormFieldRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{nodePath}/formfields/{index}"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -7980,7 +7976,7 @@ pplx::task<std::shared_ptr<FormFieldResponse>> WordsApi::getFormField(std::share
 pplx::task<std::shared_ptr<FormFieldsResponse>> WordsApi::getFormFields(std::shared_ptr<GetFormFieldsRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{nodePath}/formfields"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -8116,7 +8112,7 @@ pplx::task<std::shared_ptr<HeaderFooterResponse>> WordsApi::getHeaderFooter(
     std::shared_ptr<GetHeaderFooterRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/headersfooters/{headerFooterIndex}"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -8254,7 +8250,7 @@ pplx::task<std::shared_ptr<HeaderFooterResponse>> WordsApi::getHeaderFooterOfSec
     std::shared_ptr<GetHeaderFooterOfSectionRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/sections/{sectionIndex}/headersfooters/{headerFooterIndex}"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -8396,7 +8392,7 @@ pplx::task<std::shared_ptr<HeaderFootersResponse>> WordsApi::getHeaderFooters(
     std::shared_ptr<GetHeaderFootersRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{sectionPath}/headersfooters"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -8537,7 +8533,7 @@ pplx::task<std::shared_ptr<OfficeMathObjectResponse>> WordsApi::getOfficeMathObj
     std::shared_ptr<GetOfficeMathObjectRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{nodePath}/OfficeMathObjects/{index}"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -8674,7 +8670,7 @@ pplx::task<std::shared_ptr<OfficeMathObjectsResponse>> WordsApi::getOfficeMathOb
     std::shared_ptr<GetOfficeMathObjectsRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{nodePath}/OfficeMathObjects"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -8809,7 +8805,7 @@ pplx::task<std::shared_ptr<OfficeMathObjectsResponse>> WordsApi::getOfficeMathOb
 pplx::task<std::shared_ptr<SectionResponse>> WordsApi::getSection(std::shared_ptr<GetSectionRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/sections/{sectionIndex}"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -8942,7 +8938,7 @@ pplx::task<std::shared_ptr<SectionPageSetupResponse>> WordsApi::getSectionPageSe
     std::shared_ptr<GetSectionPageSetupRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/sections/{sectionIndex}/pageSetup"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -9204,7 +9200,7 @@ pplx::task<std::shared_ptr<SectionLinkCollectionResponse>> WordsApi::getSections
 pplx::task<std::shared_ptr<TableResponse>> WordsApi::getTable(std::shared_ptr<GetTableRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{nodePath}/tables/{index}"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -9340,7 +9336,7 @@ pplx::task<std::shared_ptr<TableResponse>> WordsApi::getTable(std::shared_ptr<Ge
 pplx::task<std::shared_ptr<TableCellResponse>> WordsApi::getTableCell(std::shared_ptr<GetTableCellRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{tableRowPath}/cells/{index}"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -9474,7 +9470,7 @@ pplx::task<std::shared_ptr<TableCellFormatResponse>> WordsApi::getTableCellForma
     std::shared_ptr<GetTableCellFormatRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{tableRowPath}/cells/{index}/cellformat"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -9608,7 +9604,7 @@ pplx::task<std::shared_ptr<TablePropertiesResponse>> WordsApi::getTablePropertie
     std::shared_ptr<GetTablePropertiesRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{nodePath}/tables/{index}/properties"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -9744,7 +9740,7 @@ pplx::task<std::shared_ptr<TablePropertiesResponse>> WordsApi::getTablePropertie
 pplx::task<std::shared_ptr<TableRowResponse>> WordsApi::getTableRow(std::shared_ptr<GetTableRowRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{tablePath}/rows/{index}"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -9877,7 +9873,7 @@ pplx::task<std::shared_ptr<TableRowFormatResponse>> WordsApi::getTableRowFormat(
     std::shared_ptr<GetTableRowFormatRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{tablePath}/rows/{index}/rowformat"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -10009,7 +10005,7 @@ pplx::task<std::shared_ptr<TableRowFormatResponse>> WordsApi::getTableRowFormat(
 pplx::task<std::shared_ptr<TableLinkCollectionResponse>> WordsApi::getTables(std::shared_ptr<GetTablesRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{nodePath}/tables"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -10144,7 +10140,7 @@ pplx::task<std::shared_ptr<TableLinkCollectionResponse>> WordsApi::getTables(std
 pplx::task<std::shared_ptr<TableResponse>> WordsApi::insertTable(std::shared_ptr<InsertTableRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{nodePath}/tables"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -10310,7 +10306,7 @@ pplx::task<std::shared_ptr<TableCellResponse>> WordsApi::insertTableCell(
     std::shared_ptr<InsertTableCellRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{tableRowPath}/cells"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -10472,7 +10468,7 @@ pplx::task<std::shared_ptr<TableCellResponse>> WordsApi::insertTableCell(
 pplx::task<std::shared_ptr<TableRowResponse>> WordsApi::insertTableRow(std::shared_ptr<InsertTableRowRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{tablePath}/rows"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -10642,7 +10638,7 @@ pplx::task<std::shared_ptr<DocumentResponse>> WordsApi::postAppendDocument(
 
 
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/appendDocument"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -10974,7 +10970,7 @@ pplx::task<std::shared_ptr<CommentResponse>> WordsApi::postComment(std::shared_p
 
 
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/comments/{commentIndex}"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -11145,7 +11141,7 @@ pplx::task<std::shared_ptr<DocumentResponse>> WordsApi::postCompareDocument(
 
 
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/compareDocument"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -11296,7 +11292,7 @@ pplx::task<std::shared_ptr<DocumentResponse>> WordsApi::postDocumentExecuteMailM
     std::shared_ptr<PostDocumentExecuteMailMergeRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/executeMailMerge"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -11472,7 +11468,7 @@ pplx::task<std::shared_ptr<ParagraphFormatResponse>> WordsApi::postDocumentParag
 
 
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{nodePath}/paragraphs/{index}/format"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -11648,7 +11644,7 @@ pplx::task<std::shared_ptr<FontResponse>> WordsApi::postDocumentParagraphRunFont
 
 
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{paragraphPath}/runs/{index}/font"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -11988,7 +11984,7 @@ pplx::task<std::shared_ptr<DrawingObjectResponse>> WordsApi::postDrawingObject(
 
 
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{nodePath}/drawingObjects/{index}"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -12148,7 +12144,7 @@ pplx::task<std::shared_ptr<DocumentResponse>> WordsApi::postExecuteTemplate(
     std::shared_ptr<PostExecuteTemplateRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/executeTemplate"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -12311,7 +12307,7 @@ pplx::task<std::shared_ptr<FieldResponse>> WordsApi::postField(std::shared_ptr<P
 
 
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{nodePath}/fields/{index}"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -12485,7 +12481,7 @@ pplx::task<std::shared_ptr<FootnoteResponse>> WordsApi::postFootnote(std::shared
 
 
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{nodePath}/footnotes/{index}"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -12659,7 +12655,7 @@ pplx::task<std::shared_ptr<FormFieldResponse>> WordsApi::postFormField(std::shar
 
 
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{nodePath}/formfields/{index}"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -12826,7 +12822,7 @@ pplx::task<std::shared_ptr<DocumentResponse>> WordsApi::postInsertDocumentWaterm
     std::shared_ptr<PostInsertDocumentWatermarkImageRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/watermark/insertImage"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -12998,7 +12994,7 @@ pplx::task<std::shared_ptr<DocumentResponse>> WordsApi::postInsertDocumentWaterm
 
 
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/watermark/insertText"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -13171,7 +13167,7 @@ pplx::task<std::shared_ptr<DocumentResponse>> WordsApi::postInsertPageNumbers(
 
 
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/insertPageNumbers"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -13645,7 +13641,7 @@ pplx::task<std::shared_ptr<RunResponse>> WordsApi::postRun(std::shared_ptr<PostR
 
 
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{paragraphPath}/runs/{index}"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -13977,7 +13973,7 @@ pplx::task<std::shared_ptr<BookmarkResponse>> WordsApi::postUpdateDocumentBookma
 
 
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/bookmarks/{bookmarkName}"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -14142,7 +14138,7 @@ pplx::task<std::shared_ptr<DocumentResponse>> WordsApi::postUpdateDocumentFields
     std::shared_ptr<PostUpdateDocumentFieldsRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/updateFields"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -14706,7 +14702,7 @@ pplx::task<std::shared_ptr<FieldNamesResponse>> WordsApi::putDocumentFieldNames(
 
 
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/mailMergeFieldNames"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("useNonMergeFields"), extractOptional(request->getUseNonMergeFields()));
@@ -15093,7 +15089,7 @@ pplx::task<std::shared_ptr<DrawingObjectResponse>> WordsApi::putDrawingObject(
 
 
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{nodePath}/drawingObjects"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -15528,7 +15524,7 @@ pplx::task<std::shared_ptr<FieldResponse>> WordsApi::putField(std::shared_ptr<Pu
 
 
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{nodePath}/fields"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -15706,7 +15702,7 @@ pplx::task<std::shared_ptr<FootnoteResponse>> WordsApi::putFootnote(std::shared_
 
 
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{nodePath}/footnotes"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -15879,7 +15875,7 @@ pplx::task<std::shared_ptr<FormFieldResponse>> WordsApi::putFormField(std::share
 
 
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{nodePath}/formfields"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -16050,7 +16046,7 @@ pplx::task<std::shared_ptr<HeaderFooterResponse>> WordsApi::putHeaderFooter(
     std::shared_ptr<PutHeaderFooterRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{sectionPath}/headersfooters"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -16220,7 +16216,7 @@ pplx::task<std::shared_ptr<ParagraphResponse>> WordsApi::putParagraph(std::share
 
 
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{nodePath}/paragraphs"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -16556,7 +16552,7 @@ pplx::task<std::shared_ptr<RunResponse>> WordsApi::putRun(std::shared_ptr<PutRun
 
 
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{paragraphPath}/runs"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -16724,7 +16720,7 @@ pplx::task<std::shared_ptr<RevisionsModificationResponse>> WordsApi::rejectAllRe
     std::shared_ptr<RejectAllRevisionsRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/revisions/rejectAll"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -16859,7 +16855,7 @@ pplx::task<std::shared_ptr<RevisionsModificationResponse>> WordsApi::rejectAllRe
 pplx::task<HttpContent> WordsApi::renderDrawingObject(std::shared_ptr<RenderDrawingObjectRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{nodePath}/drawingObjects/{index}/render"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -16989,7 +16985,7 @@ pplx::task<HttpContent> WordsApi::renderDrawingObject(std::shared_ptr<RenderDraw
 pplx::task<HttpContent> WordsApi::renderMathObject(std::shared_ptr<RenderMathObjectRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{nodePath}/OfficeMathObjects/{index}/render"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -17119,7 +17115,7 @@ pplx::task<HttpContent> WordsApi::renderMathObject(std::shared_ptr<RenderMathObj
 pplx::task<HttpContent> WordsApi::renderPage(std::shared_ptr<RenderPageRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/pages/{pageIndex}/render"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -17244,7 +17240,7 @@ pplx::task<HttpContent> WordsApi::renderPage(std::shared_ptr<RenderPageRequest> 
 pplx::task<HttpContent> WordsApi::renderParagraph(std::shared_ptr<RenderParagraphRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{nodePath}/paragraphs/{index}/render"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -17374,7 +17370,7 @@ pplx::task<HttpContent> WordsApi::renderParagraph(std::shared_ptr<RenderParagrap
 pplx::task<HttpContent> WordsApi::renderTable(std::shared_ptr<RenderTableRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{nodePath}/tables/{index}/render"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -17753,7 +17749,7 @@ pplx::task<std::shared_ptr<BorderResponse>> WordsApi::updateBorder(std::shared_p
 
 
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{nodePath}/borders/{index}"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -17924,7 +17920,7 @@ pplx::task<std::shared_ptr<SectionPageSetupResponse>> WordsApi::updateSectionPag
 
 
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/sections/{sectionIndex}/pageSetup"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -18089,7 +18085,7 @@ pplx::task<std::shared_ptr<TableCellFormatResponse>> WordsApi::updateTableCellFo
     std::shared_ptr<UpdateTableCellFormatRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{tableRowPath}/cells/{index}/cellformat"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -18253,7 +18249,7 @@ pplx::task<std::shared_ptr<TablePropertiesResponse>> WordsApi::updateTableProper
     std::shared_ptr<UpdateTablePropertiesRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{nodePath}/tables/{index}/properties"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
@@ -18420,7 +18416,7 @@ pplx::task<std::shared_ptr<TableRowFormatResponse>> WordsApi::updateTableRowForm
     std::shared_ptr<UpdateTableRowFormatRequest> request)
 {
     std::shared_ptr<ApiConfiguration> apiConfiguration(m_ApiClient->getConfiguration());
-    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() +                          _XPLATSTR(
+    utility::string_t bPath = _XPLATSTR("/") + apiConfiguration->getApiVersion() + _XPLATSTR(
 "/words/{name}/{tablePath}/rows/{index}/rowformat"),
                       path = bPath;
     path = replacePathParameter(path, _XPLATSTR("name"), ApiClient::parameterToString(request->getName()));
