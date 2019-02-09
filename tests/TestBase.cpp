@@ -7,7 +7,7 @@ namespace fs = boost::filesystem;
 
 std::shared_ptr<ApiConfiguration> get_config()
 {
-    fs::wifstream fileStream{ fs::path{TEST_ROOT} / "servercreds.json" };
+    fs::wifstream fileStream{ fs::path{TEST_ROOT}.parent_path() / "servercreds.json" };
 	auto newConfig = std::make_shared<ApiConfiguration>();
 
 	if (!fileStream.is_open())
@@ -35,7 +35,7 @@ std::shared_ptr<ApiConfiguration> get_config()
 
 fs::path InfrastructureTest::get_sdk_root()
 {
-    return fs::path{TEST_ROOT};
+    return fs::path{TEST_ROOT}.normalize();
 }
 
 utility::string_t InfrastructureTest::get_data_folder()
@@ -66,7 +66,7 @@ fs::path InfrastructureTest::get_data_dir(const fs::path& subfolder) const
 std::shared_ptr<HttpContent> InfrastructureTest::generate_http_content_from_file(const fs::path& filePath,
 	const utility::string_t& filename, const utility::string_t& contentType)
 {
-    if (fs::exists(filePath))
+    if (!fs::exists(filePath))
     {
         ucerr << _XPLATSTR("Cannot open file ") << filePath << _XPLATSTR(" to upload\n");
     }
