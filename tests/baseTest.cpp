@@ -1,8 +1,15 @@
 #include "TestBase.h"
-#include "../model/FormFieldTextInput.h"
+
+#include <gmock/gmock.h>
+
+using ::testing::AllOf;
+using ::testing::HasSubstr;
+
 #include <string>
 #include <iostream>
 #include <regex>
+
+namespace fs = boost::filesystem;
 
 class ConfigurationTest : public InfrastructureTest {
 protected:
@@ -11,87 +18,79 @@ protected:
 
 ///Checks that debug message is writing when debug mode is turned on
 TEST_F(ConfigurationTest, TestDebugMode) {
-	utility::string_t localName = STCONVERT("test_multi_pages.docx"),
-		remoteName = STCONVERT("TestDebugMode.docx"),
-		fullName = path_combine(dataFolder, remoteName),
-		filePath = path_combine(get_data_dir(commonFolder), localName);
+    fs::path filePath = get_data_dir(commonFolder) / "test_multi_pages.docx";
+    auto remoteName = STCONVERT("TestDebugMode.docx");
+    utility::string_t fullName = path_combine(dataFolder, remoteName);
 
 	auto client = get_client();
 	auto newConfig = get_config();
 	newConfig->setDebugMode(true);
-	shared_ptr<WordsApi> api= std::make_shared<WordsApi>(client);
-	shared_ptr<DeleteFieldsRequest> request= std::make_shared<DeleteFieldsRequest>(remoteName, dataFolder, boost::none, boost::none,
+    std::shared_ptr<WordsApi> api= std::make_shared<WordsApi>(client);
+    std::shared_ptr<DeleteFieldsRequest> request= std::make_shared<DeleteFieldsRequest>(remoteName, dataFolder, boost::none, boost::none,
 		boost::none, boost::none, boost::none, boost::none, boost::none);
 
 	UploadFileToStorage(fullName, filePath);
 
 	utility::stringstream_t ss;
-	streambuf_t *outbuf = ucout.rdbuf(ss.rdbuf());
+    auto outbuf = ucout.rdbuf(ss.rdbuf());
     client->setConfiguration(newConfig);
 
     api->deleteFields(request).get();
 
 	utility::string_t res = ss.str(),
-		fwSlash = STCONVERT("/"),
-		expectedUri = STCONVERT("DELETE: ") +
-						fwSlash + newConfig->getApiVersion() + fwSlash + STCONVERT("words") +
-						fwSlash + remoteName + fwSlash + STCONVERT("fields"),
-		expectedResponseHeader = STCONVERT("Response 200: OK"),
-		expectedResponseBody = STCONVERT("{\"Code\":200,\"Status\":\"OK\"}");
+		fwSlash = _XPLATSTR("/"),
+		expectedUri = _XPLATSTR("DELETE: ") +
+						fwSlash + newConfig->getApiVersion() + fwSlash + _XPLATSTR("words") +
+						fwSlash + remoteName + fwSlash + _XPLATSTR("fields"),
+		expectedResponseHeader = _XPLATSTR("Response 200: OK"),
+		expectedResponseBody = _XPLATSTR("{\"Code\":200,\"Status\":\"OK\"}");
 
     ucout.rdbuf(outbuf);
 
-	ASSERT_TRUE(res.find(expectedUri) != std::string::npos);
-
-	ASSERT_TRUE(res.find(expectedResponseHeader) != std::string::npos);
-
-	ASSERT_TRUE(res.find(expectedResponseBody) != std::string::npos);
+    EXPECT_THAT(res, AllOf(HasSubstr(expectedUri), HasSubstr(expectedResponseHeader), HasSubstr(expectedResponseBody)));
 
 }
 
 ///Checks that API version is properly applied to path building
 TEST_F(ConfigurationTest, TestVersionIsUsing) {
-	utility::string_t localName = STCONVERT("test_multi_pages.docx"),
-		remoteName = STCONVERT("TestVersionIsUsing.docx"),
-		fullName = path_combine(dataFolder, remoteName),
-		filePath = path_combine(get_data_dir(commonFolder), localName);
+    utility::string_t localName = _XPLATSTR("test_multi_pages.docx");
+    utility::string_t remoteName = _XPLATSTR("TestVersionIsUsing.docx");
+    utility::string_t fullName = path_combine(dataFolder, remoteName);
+    utility::string_t filePath = path_combine(get_data_dir(commonFolder), localName);
 
 
-
-	auto client = get_client();
+    auto client = get_client();
 	auto newConfig = get_config();
 	newConfig->setDebugMode(true);
-	newConfig->setApiVersion(STCONVERT("v2"));
+	newConfig->setApiVersion(_XPLATSTR("v2"));
 
-	shared_ptr<WordsApi> api= std::make_shared<WordsApi>(client);
+    std::shared_ptr<WordsApi> api= std::make_shared<WordsApi>(client);
 
-	shared_ptr<DeleteFieldsRequest> request= std::make_shared<DeleteFieldsRequest>(remoteName, dataFolder, boost::none, boost::none,
+    std::shared_ptr<DeleteFieldsRequest> request= std::make_shared<DeleteFieldsRequest>(remoteName, dataFolder, boost::none, boost::none,
 		boost::none, boost::none, boost::none, boost::none, boost::none);
 	ucout << "Uploading";
 	UploadFileToStorage(fullName, filePath);
 
 	utility::stringstream_t ss;
-	streambuf_t *outbuf = ucout.rdbuf(ss.rdbuf());
+	streambuf_t* outbuf = ucout.rdbuf(ss.rdbuf());
     client->setConfiguration(newConfig);
 
 	api->deleteFields(request).get();
 
 	utility::string_t res = ss.str(),
-		fwSlash = STCONVERT("/"),
-		expectedUri = STCONVERT("DELETE: ") +
-		fwSlash + newConfig->getApiVersion() + fwSlash + STCONVERT("words") +
-		fwSlash + remoteName + fwSlash + STCONVERT("fields"),
-		expectedResponseHeader = STCONVERT("Response 200: OK"),
-		expectedResponseBody = STCONVERT("{\"Code\":200,\"Status\":\"OK\"}");
+		fwSlash = _XPLATSTR("/"),
+		expectedUri = _XPLATSTR("DELETE: ") +
+		fwSlash + newConfig->getApiVersion() + fwSlash + _XPLATSTR("words") +
+		fwSlash + remoteName + fwSlash + _XPLATSTR("fields"),
+		expectedResponseHeader = _XPLATSTR("Response 200: OK"),
+		expectedResponseBody = _XPLATSTR("{\"Code\":200,\"Status\":\"OK\"}");
     ucout.rdbuf(outbuf);
 
-	ASSERT_TRUE(res.find(expectedUri) != std::string::npos);
-
-	ASSERT_TRUE(res.find(expectedResponseHeader) != std::string::npos);
-
-	ASSERT_TRUE(res.find(expectedResponseBody) != std::string::npos);
+    EXPECT_THAT(res, AllOf(HasSubstr(expectedUri), HasSubstr(expectedResponseHeader), HasSubstr(expectedResponseBody)));
 
 }
+
+#if 0
 
 class BaseApiTest : public InfrastructureTest {
 
@@ -100,13 +99,13 @@ class BaseApiTest : public InfrastructureTest {
 /// If file does not exist, 400 response should be returned with message "Error while loading file ".
 /// </summary>
 TEST_F(BaseApiTest, TestHandleErrors) {
-	utility::string_t name = STCONVERT("noFileWithThisName.docx");
+	utility::string_t name = _XPLATSTR("noFileWithThisName.docx");
 
 	try {
 		std::shared_ptr<GetSectionsRequest> request= std::make_shared<GetSectionsRequest>(name, boost::none, boost::none, boost::none, boost::none);
 		auto response = get_api()->getSections(request).wait();
 
-		ASSERT_FALSE(true) << STCONVERT("Expected exception has not been thrown");
+		ASSERT_FALSE(true) << "Expected exception has not been thrown";
 	}
 	catch (ApiException& exception) {
 		ASSERT_EQ(400, exception.error_code().value()) << "Exception code is not equals to 400";
@@ -142,16 +141,17 @@ TEST_F(BaseApiTest, TestApiCoverage) {
 	for (auto file : files)
 		testsCode += get_file_text(file);
 
-	vector<utility::string_t> uncoveredMethods;
+	std::vector<utility::string_t> uncoveredMethods;
 	for (auto method : apiMethods) {
 		size_t pos = testsCode.find(STCONVERT("->") + method + STCONVERT("("), 0);
-		if (pos == wstring::npos) {
+		if (pos == std::wstring::npos) {
 			uncoveredMethods.push_back(method);
 		}
 	}
 	ASSERT_EQ(0, uncoveredMethods.size()) << "Found uncovered methods: " << std::endl << join(uncoveredMethods, STCONVERT("\n"));
 
 }
+#endif
 
 TEST_F(InfrastructureTest, OAuthTest)
 {
@@ -164,9 +164,10 @@ TEST_F(InfrastructureTest, OAuthTest)
 class StorageApiTest : public InfrastructureTest {
 protected:
 	utility::string_t get_data_folder() override {
-		return path_combine_url(STCONVERT("Temp\\SdkTests\\TestData"), STCONVERT("DocumentElements\\Bookmarks"));
+        return _XPLATSTR("Temp\\SdkTests\\TestData\\DocumentElements\\Bookmarks");
 	}
 };
+
 TEST_F(StorageApiTest, UploadToStorageTestPNG) {
 	utility::string_t localName = STCONVERT("Aspose Logo.png"),
 		remoteName = STCONVERT("AsposeLogo.png"),
@@ -175,6 +176,7 @@ TEST_F(StorageApiTest, UploadToStorageTestPNG) {
 
 	UploadFileToStorage(fullName, filePath);
 }
+
 TEST_F(StorageApiTest, UploadToStorageTestDOCX) {
 	utility::string_t localName = STCONVERT("test_doc.docx"),
 		remoteName = STCONVERT("TestDoc.docx"),

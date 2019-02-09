@@ -5,9 +5,8 @@
 /// </summary>
 class DrawingObjectsTest : public InfrastructureTest {
 protected:
-	const utility::string_t dataFolder = path_combine_url(remoteBaseTestDataFolder, STCONVERT("DocumentElements\\DrawingObjects")),
-		drawingFolder = STCONVERT("DocumentElements") +
-				SYSTEM_DELIMITER +  STCONVERT("DrawingObjects");
+    const utility::string_t dataFolder = path_combine_url(remoteBaseTestDataFolder , STCONVERT("DocumentElements\\DrawingObjects"));
+    const utility::string_t drawingFolder = STCONVERT("DocumentElements/DrawingObjects");
 };
 
 /// <summary>
