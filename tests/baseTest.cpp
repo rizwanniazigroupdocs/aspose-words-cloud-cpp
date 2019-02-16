@@ -39,10 +39,10 @@ TEST_F(ConfigurationTest, TestDebugMode) {
 
 	utility::string_t res = ss.str(),
 		fwSlash = _XPLATSTR("/"),
-		expectedUri = _XPLATSTR("DELETE: ") +
+		expectedUri = _XPLATSTR("DELETE ") +
 						fwSlash + newConfig->getApiVersion() + fwSlash + _XPLATSTR("words") +
 						fwSlash + remoteName + fwSlash + _XPLATSTR("fields"),
-		expectedResponseHeader = _XPLATSTR("Response 200: OK"),
+		expectedResponseHeader = _XPLATSTR("Response HTTP/1.1 200 OK"),
 		expectedResponseBody = _XPLATSTR("{\"Code\":200,\"Status\":\"OK\"}");
 
     ucout.rdbuf(outbuf);
