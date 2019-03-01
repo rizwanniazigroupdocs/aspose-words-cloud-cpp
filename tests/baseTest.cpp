@@ -35,20 +35,20 @@ TEST_F(ConfigurationTest, TestDebugMode) {
     auto outbuf = ucout.rdbuf(ss.rdbuf());
     client->setConfiguration(newConfig);
 
-    api->deleteFields(request).get();
+	std::shared_ptr<AsposeResponse> response;
+	response = api->deleteFields(request).get();
 
 	utility::string_t res = ss.str(),
 		fwSlash = _XPLATSTR("/"),
 		expectedUri = _XPLATSTR("DELETE ") +
 						fwSlash + newConfig->getApiVersion() + fwSlash + _XPLATSTR("words") +
 						fwSlash + remoteName + fwSlash + _XPLATSTR("fields"),
-		expectedResponseHeader = _XPLATSTR("Response HTTP/1.1 200 OK"),
-		expectedResponseBody = _XPLATSTR("{\"Code\":200,\"Status\":\"OK\"}");
+		expectedResponseHeader = _XPLATSTR("Response HTTP/1.1 200 OK");
 
     ucout.rdbuf(outbuf);
 
-    EXPECT_THAT(res, AllOf(HasSubstr(expectedUri), HasSubstr(expectedResponseHeader), HasSubstr(expectedResponseBody)));
-
+	EXPECT_THAT(res, AllOf(HasSubstr(expectedUri), HasSubstr(expectedResponseHeader)));
+	EXPECT_EQ(200, response->getCode());
 }
 
 ///Checks that API version is properly applied to path building
@@ -74,20 +74,20 @@ TEST_F(ConfigurationTest, TestVersionIsUsing) {
 	utility::stringstream_t ss;
 	streambuf_t* outbuf = ucout.rdbuf(ss.rdbuf());
     client->setConfiguration(newConfig);
-
-	api->deleteFields(request).get();
+	
+	std::shared_ptr<AsposeResponse> response;
+	response = api->deleteFields(request).get();
 
 	utility::string_t res = ss.str(),
 		fwSlash = _XPLATSTR("/"),
 		expectedUri = _XPLATSTR("DELETE ") +
 		fwSlash + newConfig->getApiVersion() + fwSlash + _XPLATSTR("words") +
 		fwSlash + remoteName + fwSlash + _XPLATSTR("fields"),
-		expectedResponseHeader = _XPLATSTR("Response HTTP/1.1 200 OK"),
-		expectedResponseBody = _XPLATSTR("{\"Code\":200,\"Status\":\"OK\"}");
+		expectedResponseHeader = _XPLATSTR("Response HTTP/1.1 200 OK");
     ucout.rdbuf(outbuf);
 
-    EXPECT_THAT(res, AllOf(HasSubstr(expectedUri), HasSubstr(expectedResponseHeader), HasSubstr(expectedResponseBody)));
-
+    EXPECT_THAT(res, AllOf(HasSubstr(expectedUri), HasSubstr(expectedResponseHeader)));
+	EXPECT_EQ(200, response->getCode());
 }
 
 class BaseApiTest : public InfrastructureTest {
