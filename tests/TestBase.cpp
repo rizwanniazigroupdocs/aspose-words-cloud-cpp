@@ -5,29 +5,42 @@
 
 namespace fs = boost::filesystem;
 
-std::shared_ptr<ApiConfiguration> get_config()
+utility::string_t get_file_text_as_string(const fs::path& file)
 {
-    fs::wifstream fileStream{ fs::path{TEST_ROOT}.parent_path() / "servercreds.json" };
-	auto newConfig = std::make_shared<ApiConfiguration>();
+#ifdef _UTF16_STRINGS
+	using ifstream_t = fs::wifstream;
+#else
+	using ifstream_t = fs::ifstream;
+#endif
+
+	ifstream_t fileStream{ file };
 
 	if (!fileStream.is_open())
 	{
 		return nullptr;
 	}
 
-    std::wstringstream buffer;
-    buffer << fileStream.rdbuf();
-    
-	web::json::value fileJson = web::json::value::parse(buffer.str());
+	utility::stringstream_t buffer;
+	buffer << fileStream.rdbuf();
+	return buffer.str();
+}
 
+
+std::shared_ptr<ApiConfiguration> get_config()
+{
+	utility::string_t credentials;
+	credentials = get_file_text_as_string({ fs::path{ TEST_ROOT }.parent_path() / "servercreds.json" });
+	web::json::value fileJson = web::json::value::parse(credentials);
+
+	web::http::client::http_client_config conf;
+	conf.set_timeout(std::chrono::seconds(60));
+
+	auto newConfig = std::make_shared<ApiConfiguration>();
 	newConfig->setAppKey(fileJson[_XPLATSTR("AppKey")].as_string());
 	newConfig->setBaseUrl(fileJson[_XPLATSTR("BaseUrl")].as_string());
 	newConfig->setAppSid(fileJson[_XPLATSTR("AppSid")].as_string());
 	newConfig->setUserAgent(_XPLATSTR("CppAsposeClient"));
 	newConfig->setApiVersion(_XPLATSTR("v1"));
-	web::http::client::http_client_config conf;
-
-	conf.set_timeout(std::chrono::seconds(60));
 	newConfig->setHttpConfig(conf);
 
 	return newConfig;
@@ -86,10 +99,7 @@ std::shared_ptr<HttpContent> InfrastructureTest::generate_http_content_from_file
 
 utility::string_t InfrastructureTest::get_file_text(const fs::path& file)
 {
-    fs::wifstream fileStream{file};
-    std::wstringstream ss;
-    ss << fileStream.rdbuf();
-    return ss.str();
+	return get_file_text_as_string(file);
 }
 
 std::vector<fs::path> InfrastructureTest::get_directory_files(const boost::filesystem::path& dir)
