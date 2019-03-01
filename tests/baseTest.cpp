@@ -136,7 +136,6 @@ TEST_F(BaseApiTest, TestApiCoverage) {
 	for (auto file : files)
 		testsCode += get_file_text(file);
 
-	std::vector<std::string> uncoveredMethods;
 	for (const auto& method : apiMethods) {
 		EXPECT_THAT(testsCode, HasSubstr(STCONVERT("->") + STCONVERT(method) + _XPLATSTR('('))) << " Uncovered method";
 	}
