@@ -146,7 +146,7 @@ TEST_F(BaseApiTest, TestApiCoverage) {
 TEST_F(InfrastructureTest, OAuthTest)
 {
 	std::shared_ptr<ApiClient> client = get_client();
-	EXPECT_EQ(Concurrency::task_status::completed, client->requestToken().wait());
+	client->requestToken().wait();	 	// ApiException will be thrown if something goes wrong
 }
 
 #pragma region Upload To Storage Tests
