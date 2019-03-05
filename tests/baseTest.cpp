@@ -134,7 +134,12 @@ TEST_F(BaseApiTest, TestApiCoverage) {
 	auto files = get_directory_files(testsPath);
 	utility::string_t testsCode;
 	for (auto file : files)
-		testsCode += get_file_text(file);
+	{
+		if (file.extension() == ".cpp")
+		{
+			testsCode += get_file_text(file);
+		}
+	}
 
 	for (const auto& method : apiMethods) {
 		EXPECT_THAT(testsCode, HasSubstr(STCONVERT("->") + STCONVERT(method) + _XPLATSTR('('))) << " Uncovered method";
