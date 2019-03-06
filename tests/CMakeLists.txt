@@ -1,6 +1,6 @@
 #[[
 <copyright company="Aspose" file="CMakeLists.h">
-  Copyright (c) 2018 Aspose.Words for Cloud
+  Copyright (c) 2019 Aspose.Words for Cloud
 </copyright>
 <summary>
   Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,7 +20,7 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
   SOFTWARE.
- </summary> ]]
+</summary> ]]
 
 cmake_minimum_required(VERSION 3.13 FATAL_ERROR)
 
