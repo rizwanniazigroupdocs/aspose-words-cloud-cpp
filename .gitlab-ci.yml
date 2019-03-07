@@ -1,12 +1,17 @@
+before_script:
+  - rmdir out /s /q
+  - mkdir out
+
 windows-test:
-  before_script:
-    - rmdir out /s /q
-    - mkdir out
   script:
-    - 'docker build -f Dockerfile.windows -t aspose-words-cloud-cpp:windows .'
-    - runInDocker.windows.bat $WordsAppKey $WordsAppSid $WordsBaseUrl
+    - 'cmd /c docker build -f Dockerfile.windows -t aspose-words-cloud-cpp:windows .'
+    - cmd /c runInDocker.windows.bat $WordsAppKey $WordsAppSid $WordsBaseUrl
+  tags:
+    - awcloud
     
 linux-test:
   script:
-    - 'docker build -f Dockerfile.linux -t aspose-words-cloud-cpp:linux .'
-    - runInDocker.linux.bat $WordsAppSid $WordsBaseUrl
+    - 'cmd /c docker build -f Dockerfile.linux -t aspose-words-cloud-cpp:linux .'
+    - cmd /c runInDocker.linux.bat $WordsAppSid $WordsBaseUrl
+  tags:
+    - awcloud
