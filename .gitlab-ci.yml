@@ -4,3 +4,6 @@ windows-test:
     - cmd /c 'runInDocker.windows.bat $WordsAppKey $WordsAppSid $WordsBaseUrl'
   tags:
     - awcloud
+  artifacts:
+    reports:
+      junit: out/test_result.xml
