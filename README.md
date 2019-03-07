@@ -34,31 +34,3 @@ cmake --build aspose-words-cloud-cpp\build --config Debug --target words-cloud-t
 ```cmd
 cmake -E chdir aspose-words-cloud-cpp\build ctest -V -C Debug
 ```
-
-## How to run tests in Windows Docker container
-
-1. Create a base container
-```cmd
-docker build -f Dockerfile.windows -t aspose-words-cloud-cpp:windows .
-```
-
-2. Run tests with Words Cloud API credentials as parameters
-```cmd
-runinDocker.windows application_key application_SID base_URL
-```
-
-Reports are saved in out directory.
-
-## How to run tests in Linux Docker container
-
-1. Create a base container
-```cmd
-docker build -f Dockerfile.linux -t aspose-words-cloud-cpp:linux .
-```
-
-2. Run tests with Words Cloud API credentials as parameters
-```cmd
-runinDocker.linux application_key application_SID base_URL
-```
-
-Reports are saved in out directory.

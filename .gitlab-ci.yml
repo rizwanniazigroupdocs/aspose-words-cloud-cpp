@@ -1,17 +1,27 @@
-before_script:
-  - rmdir out /s /q
-  - mkdir out
+stages:
+  - linux
+  - windows
 
-windows-test:
-  script:
-    - 'cmd /c docker build -f Dockerfile.windows -t aspose-words-cloud-cpp:windows .'
-    - cmd /c runInDocker.windows.bat $WordsAppKey $WordsAppSid $WordsBaseUrl
-  tags:
-    - awcloud
+before_script:
+  - Remove-Item -LiteralPath out -Force -Recurse
+  - New-Item -ItemType directory -Path out
     
 linux-test:
+  stage:
+    - linux
   script:
     - 'cmd /c docker build -f Dockerfile.linux -t aspose-words-cloud-cpp:linux .'
-    - cmd /c runInDocker.linux.bat $WordsAppSid $WordsBaseUrl
+    - 'cmd /c runInDocker.linux.bat $WordsAppKey $WordsAppSid $WordsBaseUrl'
   tags:
     - awcloud
+
+windows-test:
+  stage:
+    - windows
+  script:
+    - 'cmd /c docker build -f Dockerfile.windows -t aspose-words-cloud-cpp:windows .'
+    - 'cmd /c runInDocker.windows.bat $WordsAppKey $WordsAppSid $WordsBaseUrl'
+  tags:
+    - awcloud
+  when:
+    - on_success
