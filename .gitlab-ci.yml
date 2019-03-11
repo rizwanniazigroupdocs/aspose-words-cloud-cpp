@@ -1,5 +1,6 @@
 linux-test:
   script:
+    - cmd /c 'docker build -f Dockerfile.linux -t aspose-words-cloud-cpp:linux .'
     - cmd /c 'runInDocker.linux.bat %WordsAppKey% %WordsAppSid% %WordsBaseUrl%'
   tags:
     - awcloud
