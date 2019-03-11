@@ -1,7 +1,6 @@
-windows-test:
+linux-test:
   script:
-    - cmd /c 'docker build -f Dockerfile.windows -t aspose-words-cloud-cpp:windows .'
-    - cmd /c 'runInDocker.windows.bat %WordsAppKey% %WordsAppSid% %WordsBaseUrl%'
+    - cmd /c 'runInDocker.linux.bat %WordsAppKey% %WordsAppSid% %WordsBaseUrl%'
   tags:
     - awcloud
   artifacts:
