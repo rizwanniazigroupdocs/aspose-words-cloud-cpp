@@ -10,7 +10,7 @@ windows-test:
       junit: out/*.xml
 
 linux-test:
-  before_scripts:
+  before_script:
     - rm -r -f build
   script:
     - docker build -f Dockerfile.linux -t aspose-words-cloud-cpp:linux .
