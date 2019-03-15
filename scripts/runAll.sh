@@ -1,7 +1,7 @@
 git clone https://github.com/Microsoft/cpprestsdk.git
 
 mkdir -p aspose-words-cloud-cpp/out
-rm aspose-words-cloud-cpp/build -R -f
+
 # Generate credentials
 echo "{
         \"AppKey\" : \"$1\",
