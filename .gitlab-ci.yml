@@ -1,6 +1,5 @@
 linux-test:
   script:
-    - echo $USER
     - docker build -f Dockerfile.linux -t aspose-words-cloud-cpp:linux .
     - docker run --rm -v "$PWD:/aspose-words-cloud-cpp/" aspose-words-cloud-cpp:linux bash aspose-words-cloud-cpp/scripts/runAll.sh $WordsAppKey $WordsAppSid $WordsBaseUrl
   tags:
