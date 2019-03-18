@@ -24,6 +24,7 @@ cmake --build build --config Debug --target install
 cmake --build build --config Release --target install
 
 # Compile aw
+rm -r -f aspose-words-cloud-cpp/build
 mkdir aspose-words-cloud-cpp/build
 cmake -Dcpprestsdk_ROOT=install/cpprestsdk -DCMAKE_BUILD_TYPE=Debug -S aspose-words-cloud-cpp -B aspose-words-cloud-cpp/build 
 cmake --build aspose-words-cloud-cpp/build --config Debug --target all_unity -- VERBOSE=1
@@ -40,4 +41,3 @@ cppcheck aspose-words-cloud-cpp  --quiet --xml -iboost/ -iinstall/ -ithirdparty/
 cp aspose-words-cloud-cpp/build/tests/test_result.xml aspose-words-cloud-cpp/out/test_result.xml
 cp checkResult.xml aspose-words-cloud-cpp/out/checkResult.xml
 
-rm -r -f aspose-words-cloud-cpp/build
