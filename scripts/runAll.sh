@@ -9,23 +9,10 @@ echo "{
         \"BaseUrl\" : \"$3\"
       }" > aspose-words-cloud-cpp/servercreds.json
 
-# Compile cppcheck
-cd /usr/bin/cppcheck-sources
-make SRCBUILD=build CFGDIR=/usr/bin/cppcheck-sources
-make install CFGDIR=/usr/bin/cppcheck-sources
-cp cppcheck /usr/bin/cppcheck./
-
-# Compile cpprestsdk
-cd /
-mkdir build
-mkdir install
-cmake -DCPPREST_EXCLUDE_WEBSOCKETS=ON -DCPPREST_EXCLUDE_COMPRESSION=ON -DCPPREST_EXCLUDE_BROTLI=ON -DBUILD_TESTS=OFF -DBUILD_SAMPLES=OFF -DCMAKE_INSTALL_PREFIX=install/cpprestsdk -S cpprestsdk -B build
-cmake --build build --config Debug --target install
-cmake --build build --config Release --target install
-
 # Compile aw
 rm -r -f aspose-words-cloud-cpp/build
 mkdir aspose-words-cloud-cpp/build
+
 cmake -Dcpprestsdk_ROOT=install/cpprestsdk -DCMAKE_BUILD_TYPE=Debug -S aspose-words-cloud-cpp -B aspose-words-cloud-cpp/build 
 cmake --build aspose-words-cloud-cpp/build --config Debug --target all_unity -- VERBOSE=1
 
