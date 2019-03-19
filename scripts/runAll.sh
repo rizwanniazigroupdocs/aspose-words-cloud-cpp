@@ -36,8 +36,6 @@ cppcheck aspose-words-cloud-cpp  --quiet --xml -iboost/ -iinstall/ -ithirdparty/
 -Iaspose-words-cloud-cpp/sources/ -Iaspose-words-cloud-cpp/sources/model -Iaspose-words-cloud-cpp/sources/model/requests --suppress=missingIncludeSystem --suppress=missingInclude \
 --suppress=unmatchedSuppression --output-file=checkResult.xml
 
-rm -r -f aspose-words-cloud-cpp/build
-
 cp aspose-words-cloud-cpp/build/tests/test_result.xml /out
 cp checkResult.xml /out
 

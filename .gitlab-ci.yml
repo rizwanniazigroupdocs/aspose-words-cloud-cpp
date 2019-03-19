@@ -13,8 +13,6 @@ windows-test:
       junit: out/*.xml
 
 linux-test:
-  before_script:
-    - rm -r -f $PWD/out
   script:
     - docker build -f Dockerfile.linux -t aspose-words-cloud-cpp:linux .
     - docker build -f Dockerfile.tests.linux -t aspose-words-cloud-cpp-tests:linux .
