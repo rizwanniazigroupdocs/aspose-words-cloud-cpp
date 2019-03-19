@@ -38,8 +38,6 @@ cppcheck aspose-words-cloud-cpp  --quiet --xml -iboost/ -iinstall/ -ithirdparty/
 
 rm -r -f aspose-words-cloud-cpp/build
 
-mkdir -p aspose-words-cloud-cpp/out
-
-cp aspose-words-cloud-cpp/build/tests/test_result.xml aspose-words-cloud-cpp/out/test_result.xml
-cp checkResult.xml aspose-words-cloud-cpp/out/checkResult.xml
+cp aspose-words-cloud-cpp/build/tests/test_result.xml /out
+cp checkResult.xml /out
 
