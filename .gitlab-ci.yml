@@ -12,8 +12,8 @@ windows-test:
 linux-test:
   script:
     - docker build -f Dockerfile.linux -t aspose-words-cloud-cpp:linux .
-    - chmod -R 0777 ./*
-    - docker run --rm -v "$PWD:/aspose-words-cloud-cpp/" aspose-words-cloud-cpp:linux bash aspose-words-cloud-cpp/scripts/runAll.sh $WordsAppKey $WordsAppSid $WordsBaseUrl
+    - docker build -f Dockerfile.tests.linux -t aspose-words-cloud-cpp-tests:linux .
+    - docker run --rm aspose-words-cloud-cpp-tests:linux bash aspose-words-cloud-cpp/scripts/runAll.sh $WordsAppKey $WordsAppSid $WordsBaseUrl
   tags:
     - awcloud-linux
   artifacts:
