@@ -16,10 +16,10 @@ linux-test:
   script:
     - docker build -f Dockerfile.linux -t aspose-words-cloud-cpp:linux .
     - docker build -f Dockerfile.tests.linux -t aspose-words-cloud-cpp-tests:linux .
-    - docker run --rm -v "$PWD/out:/out/" aspose-words-cloud-cpp-tests:linux bash aspose-words-cloud-cpp/scripts/runAll.sh $WordsAppKey $WordsAppSid $WordsBaseUrl
+    - docker run --rm -v "$/home/gitlab-ruuner/words-cloud-cpp-reports:/out/" aspose-words-cloud-cpp-tests:linux bash aspose-words-cloud-cpp/scripts/runAll.sh $WordsAppKey $WordsAppSid $WordsBaseUrl
   tags:
     - awcloud-linux
   artifacts:
     expire_in: 1 hour
     reports:
-      junit: out/*.xml
+      junit: /home/gitlab-ruuner/words-cloud-cpp-reports/*.xml
