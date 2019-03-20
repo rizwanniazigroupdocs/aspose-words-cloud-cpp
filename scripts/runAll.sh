@@ -39,5 +39,5 @@ cppcheck aspose-words-cloud-cpp  --quiet --xml -iboost/ -iinstall/ -ithirdparty/
 cp aspose-words-cloud-cpp/build/tests/test_result.xml /out
 cp checkResult.xml /out
 
-chmod 777 -R /out
+chmod 777 -R spose-words-cloud-cpp/out
 
