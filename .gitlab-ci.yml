@@ -4,4 +4,3 @@ ci-test:
     - Write-Host %GIT_CI_PASS%
   tags:
     - awcloud
-
