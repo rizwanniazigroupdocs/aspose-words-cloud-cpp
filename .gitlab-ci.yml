@@ -1,6 +1,7 @@
-windows-test:
+ci-test:
   script:
     - Write-Host %GIT_CI_USER%
     - Write-Host %GIT_CI_PASS%
   tags:
     - awcloud
+
