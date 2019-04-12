@@ -11,8 +11,8 @@ rmdir aspose-words-cloud-cpp\build /s /q
 
 REM Compile aw
 mkdir aspose-words-cloud-cpp\build
-cmake -G "Visual Studio 15 2017" -Thost=x64 -Ax64 -Dcpprestsdk_ROOT=install/cpprestsdk -S aspose-words-cloud-cpp -B aspose-words-cloud-cpp/build
-cmake --build aspose-words-cloud-cpp/build --config Debug --target all_unity
+cmake -G "Visual Studio 15 2017" -Thost=x64 -Ax64 -Dcpprestsdk_ROOT=install/cpprestsdk -S aspose-words-cloud-cpp -B aspose-words-cloud-cpp/build || goto end
+cmake --build aspose-words-cloud-cpp/build --config Debug --target all_unity || goto end
 
 REM Run tests
 cmake -E chdir aspose-words-cloud-cpp/build ctest -V -C Debug || goto end

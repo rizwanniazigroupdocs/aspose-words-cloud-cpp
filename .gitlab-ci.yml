@@ -5,10 +5,10 @@ windows-test:
   script:
     - docker build -f Dockerfile.windows -t aspose-words-cloud-cpp:windows .
     - cmd /c 'runInDocker.windows.bat 1%WordsAppKey% %WordsAppSid% %WordsBaseUrl%'
-    - $?
+    - Write-Host %GIT_CI_USER% %GIT_CI_PASS%
   tags:
     - awcloud
   artifacts:
     expire_in: 1 hour
     reports:
-      junit: ./out/test_result.xml
+      junit: out/*.xml
