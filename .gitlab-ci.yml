@@ -3,9 +3,9 @@ variables:
 
 windows-test:
   script:
-    - cmd /c 'docker build -f Dockerfile.windows -t aspose-words-cloud-cpp:windows .'
+    - docker build -f Dockerfile.windows -t aspose-words-cloud-cpp:windows .
     - cmd /c 'runInDocker.windows.bat 1%WordsAppKey% %WordsAppSid% %WordsBaseUrl%'
-    - Get-ChildItem -Path . -Recurse
+    - ?$
   tags:
     - awcloud
   artifacts:
