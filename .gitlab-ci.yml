@@ -11,4 +11,4 @@ windows-test:
   artifacts:
     expire_in: 1 hour
     reports:
-      junit: out/3test_result.xml
+      junit: ./out/test_result.xml
