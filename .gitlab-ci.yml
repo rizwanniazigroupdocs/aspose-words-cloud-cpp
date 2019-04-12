@@ -3,7 +3,7 @@ variables:
 
 windows-test:
   script:
-    - Write-Host %GIT_CI_USER% %GIT_CI_PASS%
+    - Write-Host $env:GIT_CI_USER $env:GIT_CI_PASS
     - docker build -f Dockerfile.windows -t aspose-words-cloud-cpp:windows .
     - cmd /c 'runInDocker.windows.bat %WordsAppKey% %WordsAppSid% %WordsBaseUrl%'
   tags:
