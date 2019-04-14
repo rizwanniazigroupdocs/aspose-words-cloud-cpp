@@ -1,11 +1,37 @@
-variables:
-  GIT_STRATEGY: clone
-
-before_script:
-  - $Env:SDK_VERSION += ((Get-Date).AddMonths(1)).tostring("yy.M")  
+stages:
+  - stage1
+  - stage2
+  - stage3
   
-windows-test:
+stage1:
+  stage:
+    - stage1
   script:
-    - Write-Host $env:SDK_VERSION
+    - Write-Host stage1
+  tags:
+    - awcloud
+
+stage2:
+  stage:
+    - stage2
+  script:
+    - Write-Host stage2
+  tags:
+    - awcloud
+  when: manual
+  
+stage3.1:
+  stage:
+    - stage3
+  script:
+    - Write-Host stage3.1
+  tags:
+    - awcloud
+
+stage3.2:
+  stage:
+    - stage3
+  script:
+    - Write-Host stage3.2
   tags:
     - awcloud
