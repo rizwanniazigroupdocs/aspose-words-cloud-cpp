@@ -4,16 +4,14 @@ stages:
   - stage3
   
 stage1:
-  stage:
-    - stage1
+  stage: stage1
   script:
     - Write-Host stage1
   tags:
     - awcloud
 
 stage2:
-  stage:
-    - stage2
+  stage: stage2
   script:
     - Write-Host stage2
   tags:
@@ -21,16 +19,14 @@ stage2:
   when: manual
   
 stage3.1:
-  stage:
-    - stage3
+  stage: stage3
   script:
     - Write-Host stage3.1
   tags:
     - awcloud
 
 stage3.2:
-  stage:
-    - stage3
+  stage: stage3
   script:
     - Write-Host stage3.2
   tags:
