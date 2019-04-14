@@ -1,33 +1,11 @@
-stages:
-  - stage1
-  - stage2
-  - stage3
-  
-stage1:
-  stage: stage1
+win:
   script:
-    - Write-Host stage1
+    - git branch
   tags:
     - awcloud
 
-stage2:
-  stage: stage2
+linux:
   script:
-    - Write-Host stage2
+    - git branch
   tags:
-    - awcloud
-  when: manual
-  
-stage3.1:
-  stage: stage3
-  script:
-    - Write-Host stage3.1
-  tags:
-    - awcloud
-
-stage3.2:
-  stage: stage3
-  script:
-    - Write-Host stage3.2
-  tags:
-    - awcloud
+    - awcloud-linux
