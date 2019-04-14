@@ -1,7 +1,7 @@
 variables:
   GIT_STRATEGY: clone
 
-before-script:
+before_script:
   - $Env:SDK_VERSION += ((Get-Date).AddMonths(1)).tostring("yy.M")  
   
 windows-test:
