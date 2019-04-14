@@ -1,11 +1,11 @@
 win:
   script:
-    - git branch
+    - git remote -v
   tags:
     - awcloud
 
 linux:
   script:
-    - git branch
+    - git remote -v
   tags:
     - awcloud-linux
