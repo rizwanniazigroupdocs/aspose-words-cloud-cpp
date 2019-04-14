@@ -1,10 +1,11 @@
 variables:
   GIT_STRATEGY: clone
-  SDK_VERSION: ((Get-Date).AddMonths(1)).tostring("yy.M")
 
+before-script:
+  - $Env:SDK_VERSION += ((Get-Date).AddMonths(1)).tostring("yy.M")  
+  
 windows-test:
   script:
-    - Write-Host direct $SDK_VERSION
-    - Write-Host env $env:SDK_VERSION
+    - Write-Host $env:SDK_VERSION
   tags:
     - awcloud
