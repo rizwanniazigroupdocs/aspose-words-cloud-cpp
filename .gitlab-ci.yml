@@ -6,3 +6,5 @@ windows-test:
   script:
     - Write-Host direct $SDK_VERSION
     - Write-Host env $env:SDK_VERSION
+  tags:
+    - awcloud
