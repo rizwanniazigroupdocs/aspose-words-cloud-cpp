@@ -1,11 +1,18 @@
-win:
+start:
   script:
-    - git remote -v
+    - Write-Host start
+    - git branch -v
+    - git push origin HEAD:test-junit1 
   tags:
     - awcloud
+  only:
+    - test-junit
 
-linux:
+finish:
   script:
-    - git remote -v
+    - Write-Host finish
+    - git branch -v
   tags:
-    - awcloud-linux
+    - awcloud
+  only:
+    - test-junit1
