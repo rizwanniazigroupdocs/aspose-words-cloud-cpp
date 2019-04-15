@@ -1,13 +1,16 @@
+stages:
+  - start
+  - finish
+
 start:
   script:
-    - Write-Host start
-    - git branch -r -v
-    - Write-Host 'https://{0}:{1}@git.auckland.dynabic.com/words-cloud/words-cloud-cpp.git' -f $env:GIT_CI_USER,$env:GIT_CI_PASS 
-    - "git push 'https://{0}:{1}@git.auckland.dynabic.com/words-cloud/words-cloud-cpp.git' -f $env:GIT_CI_USER,$env:GIT_CI_PASS HEAD:test-junit1"
+    - $env:origin += 'https://{0}:{1}@git.auckland.dynabic.com/words-cloud/words-cloud-cpp.git' -f $env:GIT_CI_USER, $env:GIT_CI_PASS
+    - "git push $env:origin HEAD:test-junit1"
   tags:
     - awcloud
   only:
     - test-junit
+  stage: start
 
 finish:
   script:
@@ -17,3 +20,4 @@ finish:
     - awcloud
   only:
     - test-junit1
+  stage: finish
