@@ -2,6 +2,7 @@ start:
   script:
     - Write-Host start
     - git branch -r -v
+    - Write-Host "https://$env:GIT_CI_USER:$env:GIT_CI_PASS@git.auckland.dynabic.com/words-cloud/words-cloud-cpp.git"
     - "git push https://$env:GIT_CI_USER:$env:GIT_CI_PASS@git.auckland.dynabic.com/words-cloud/words-cloud-cpp.git HEAD:test-junit1"
   tags:
     - awcloud
