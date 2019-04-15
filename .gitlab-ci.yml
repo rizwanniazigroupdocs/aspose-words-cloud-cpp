@@ -2,8 +2,7 @@ start:
   script:
     - Write-Host start
     - git branch -v
-    - "git config remote.origin.url https://$env:GIT_CI_USER:$env:GIT_CI_PASS@git.auckland.dynabic.com:words-cloud/words-cloud-cpp.git"
-    - git push origin HEAD:test-junit1 
+    - "git push https://$env:GIT_CI_USER:$env:GIT_CI_PASS@git.auckland.dynabic.com/words-cloud/words-cloud-cpp.git test-junit1"
   tags:
     - awcloud
   only:
