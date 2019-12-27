@@ -28,74 +28,111 @@
 
 
 #include "../ApiClient.h"
-
+#include "../model/WordsApiErrorResponse.h"
 
 #include "FormFieldTextInput.h"
 #include "FormFieldCheckbox.h"
 #include "FormFieldDropDown.h"
 
 #include "requests/AcceptAllRevisionsRequest.h"
+#include "requests/AppendDocumentRequest.h"
 #include "requests/ClassifyRequest.h"
 #include "requests/ClassifyDocumentRequest.h"
+#include "requests/CompareDocumentRequest.h"
+#include "requests/ConvertDocumentRequest.h"
+#include "requests/CopyFileRequest.h"
+#include "requests/CopyFolderRequest.h"
+#include "requests/CreateDocumentRequest.h"
+#include "requests/CreateFolderRequest.h"
 #include "requests/CreateOrUpdateDocumentPropertyRequest.h"
 #include "requests/DeleteBorderRequest.h"
 #include "requests/DeleteBordersRequest.h"
 #include "requests/DeleteCommentRequest.h"
-#include "requests/DeleteDocumentMacrosRequest.h"
 #include "requests/DeleteDocumentPropertyRequest.h"
-#include "requests/DeleteDocumentWatermarkRequest.h"
 #include "requests/DeleteDrawingObjectRequest.h"
+#include "requests/DeleteDrawingObjectWithoutNodePathRequest.h"
 #include "requests/DeleteFieldRequest.h"
+#include "requests/DeleteFieldWithoutNodePathRequest.h"
 #include "requests/DeleteFieldsRequest.h"
+#include "requests/DeleteFieldsWithoutNodePathRequest.h"
+#include "requests/DeleteFileRequest.h"
+#include "requests/DeleteFolderRequest.h"
 #include "requests/DeleteFootnoteRequest.h"
+#include "requests/DeleteFootnoteWithoutNodePathRequest.h"
 #include "requests/DeleteFormFieldRequest.h"
+#include "requests/DeleteFormFieldWithoutNodePathRequest.h"
 #include "requests/DeleteHeaderFooterRequest.h"
 #include "requests/DeleteHeadersFootersRequest.h"
+#include "requests/DeleteMacrosRequest.h"
 #include "requests/DeleteOfficeMathObjectRequest.h"
+#include "requests/DeleteOfficeMathObjectWithoutNodePathRequest.h"
 #include "requests/DeleteParagraphRequest.h"
+#include "requests/DeleteParagraphWithoutNodePathRequest.h"
 #include "requests/DeleteRunRequest.h"
+#include "requests/DeleteSectionRequest.h"
 #include "requests/DeleteTableRequest.h"
 #include "requests/DeleteTableCellRequest.h"
 #include "requests/DeleteTableRowRequest.h"
-#include "requests/DeleteUnprotectDocumentRequest.h"
+#include "requests/DeleteTableWithoutNodePathRequest.h"
+#include "requests/DeleteWatermarkRequest.h"
+#include "requests/DownloadFileRequest.h"
+#include "requests/ExecuteMailMergeRequest.h"
+#include "requests/ExecuteMailMergeOnlineRequest.h"
 #include "requests/GetAvailableFontsRequest.h"
+#include "requests/GetBookmarkByNameRequest.h"
+#include "requests/GetBookmarksRequest.h"
 #include "requests/GetBorderRequest.h"
 #include "requests/GetBordersRequest.h"
 #include "requests/GetCommentRequest.h"
 #include "requests/GetCommentsRequest.h"
 #include "requests/GetDocumentRequest.h"
-#include "requests/GetDocumentBookmarkByNameRequest.h"
-#include "requests/GetDocumentBookmarksRequest.h"
 #include "requests/GetDocumentDrawingObjectByIndexRequest.h"
+#include "requests/GetDocumentDrawingObjectByIndexWithoutNodePathRequest.h"
 #include "requests/GetDocumentDrawingObjectImageDataRequest.h"
+#include "requests/GetDocumentDrawingObjectImageDataWithoutNodePathRequest.h"
 #include "requests/GetDocumentDrawingObjectOleDataRequest.h"
+#include "requests/GetDocumentDrawingObjectOleDataWithoutNodePathRequest.h"
 #include "requests/GetDocumentDrawingObjectsRequest.h"
+#include "requests/GetDocumentDrawingObjectsWithoutNodePathRequest.h"
 #include "requests/GetDocumentFieldNamesRequest.h"
+#include "requests/GetDocumentFieldNamesOnlineRequest.h"
 #include "requests/GetDocumentHyperlinkByIndexRequest.h"
 #include "requests/GetDocumentHyperlinksRequest.h"
-#include "requests/GetDocumentParagraphRequest.h"
-#include "requests/GetDocumentParagraphFormatRequest.h"
-#include "requests/GetDocumentParagraphRunRequest.h"
-#include "requests/GetDocumentParagraphRunFontRequest.h"
-#include "requests/GetDocumentParagraphRunsRequest.h"
-#include "requests/GetDocumentParagraphsRequest.h"
 #include "requests/GetDocumentPropertiesRequest.h"
 #include "requests/GetDocumentPropertyRequest.h"
 #include "requests/GetDocumentProtectionRequest.h"
 #include "requests/GetDocumentStatisticsRequest.h"
-#include "requests/GetDocumentTextItemsRequest.h"
 #include "requests/GetDocumentWithFormatRequest.h"
 #include "requests/GetFieldRequest.h"
+#include "requests/GetFieldWithoutNodePathRequest.h"
 #include "requests/GetFieldsRequest.h"
+#include "requests/GetFieldsWithoutNodePathRequest.h"
+#include "requests/GetFilesListRequest.h"
 #include "requests/GetFootnoteRequest.h"
+#include "requests/GetFootnoteWithoutNodePathRequest.h"
 #include "requests/GetFootnotesRequest.h"
+#include "requests/GetFootnotesWithoutNodePathRequest.h"
 #include "requests/GetFormFieldRequest.h"
+#include "requests/GetFormFieldWithoutNodePathRequest.h"
 #include "requests/GetFormFieldsRequest.h"
+#include "requests/GetFormFieldsWithoutNodePathRequest.h"
 #include "requests/GetHeaderFooterRequest.h"
 #include "requests/GetHeaderFooterOfSectionRequest.h"
 #include "requests/GetHeaderFootersRequest.h"
 #include "requests/GetOfficeMathObjectRequest.h"
+#include "requests/GetOfficeMathObjectWithoutNodePathRequest.h"
 #include "requests/GetOfficeMathObjectsRequest.h"
+#include "requests/GetOfficeMathObjectsWithoutNodePathRequest.h"
+#include "requests/GetParagraphRequest.h"
+#include "requests/GetParagraphFormatRequest.h"
+#include "requests/GetParagraphFormatWithoutNodePathRequest.h"
+#include "requests/GetParagraphWithoutNodePathRequest.h"
+#include "requests/GetParagraphsRequest.h"
+#include "requests/GetParagraphsWithoutNodePathRequest.h"
+#include "requests/GetRangeTextRequest.h"
+#include "requests/GetRunRequest.h"
+#include "requests/GetRunFontRequest.h"
+#include "requests/GetRunsRequest.h"
 #include "requests/GetSectionRequest.h"
 #include "requests/GetSectionPageSetupRequest.h"
 #include "requests/GetSectionsRequest.h"
@@ -103,64 +140,76 @@
 #include "requests/GetTableCellRequest.h"
 #include "requests/GetTableCellFormatRequest.h"
 #include "requests/GetTablePropertiesRequest.h"
+#include "requests/GetTablePropertiesWithoutNodePathRequest.h"
 #include "requests/GetTableRowRequest.h"
 #include "requests/GetTableRowFormatRequest.h"
+#include "requests/GetTableWithoutNodePathRequest.h"
 #include "requests/GetTablesRequest.h"
+#include "requests/GetTablesWithoutNodePathRequest.h"
+#include "requests/InsertCommentRequest.h"
+#include "requests/InsertDrawingObjectRequest.h"
+#include "requests/InsertDrawingObjectWithoutNodePathRequest.h"
+#include "requests/InsertFieldRequest.h"
+#include "requests/InsertFieldWithoutNodePathRequest.h"
+#include "requests/InsertFootnoteRequest.h"
+#include "requests/InsertFootnoteWithoutNodePathRequest.h"
+#include "requests/InsertFormFieldRequest.h"
+#include "requests/InsertFormFieldWithoutNodePathRequest.h"
+#include "requests/InsertHeaderFooterRequest.h"
+#include "requests/InsertPageNumbersRequest.h"
+#include "requests/InsertParagraphRequest.h"
+#include "requests/InsertRunRequest.h"
 #include "requests/InsertTableRequest.h"
 #include "requests/InsertTableCellRequest.h"
 #include "requests/InsertTableRowRequest.h"
-#include "requests/PostAppendDocumentRequest.h"
-#include "requests/PostChangeDocumentProtectionRequest.h"
-#include "requests/PostCommentRequest.h"
-#include "requests/PostCompareDocumentRequest.h"
-#include "requests/PostDocumentExecuteMailMergeRequest.h"
-#include "requests/PostDocumentParagraphFormatRequest.h"
-#include "requests/PostDocumentParagraphRunFontRequest.h"
-#include "requests/PostDocumentSaveAsRequest.h"
-#include "requests/PostDrawingObjectRequest.h"
-#include "requests/PostExecuteTemplateRequest.h"
-#include "requests/PostFieldRequest.h"
-#include "requests/PostFootnoteRequest.h"
-#include "requests/PostFormFieldRequest.h"
-#include "requests/PostInsertDocumentWatermarkImageRequest.h"
-#include "requests/PostInsertDocumentWatermarkTextRequest.h"
-#include "requests/PostInsertPageNumbersRequest.h"
-#include "requests/PostLoadWebDocumentRequest.h"
-#include "requests/PostReplaceTextRequest.h"
-#include "requests/PostRunRequest.h"
-#include "requests/PostSplitDocumentRequest.h"
-#include "requests/PostUpdateDocumentBookmarkRequest.h"
-#include "requests/PostUpdateDocumentFieldsRequest.h"
-#include "requests/PutCommentRequest.h"
-#include "requests/PutConvertDocumentRequest.h"
-#include "requests/PutCreateDocumentRequest.h"
-#include "requests/PutDocumentFieldNamesRequest.h"
-#include "requests/PutDocumentSaveAsTiffRequest.h"
-#include "requests/PutDrawingObjectRequest.h"
-#include "requests/PutExecuteMailMergeOnlineRequest.h"
-#include "requests/PutExecuteTemplateOnlineRequest.h"
-#include "requests/PutFieldRequest.h"
-#include "requests/PutFootnoteRequest.h"
-#include "requests/PutFormFieldRequest.h"
-#include "requests/PutHeaderFooterRequest.h"
-#include "requests/PutParagraphRequest.h"
-#include "requests/PutProtectDocumentRequest.h"
-#include "requests/PutRunRequest.h"
+#include "requests/InsertTableWithoutNodePathRequest.h"
+#include "requests/InsertWatermarkImageRequest.h"
+#include "requests/InsertWatermarkTextRequest.h"
+#include "requests/LoadWebDocumentRequest.h"
+#include "requests/MoveFileRequest.h"
+#include "requests/MoveFolderRequest.h"
+#include "requests/ProtectDocumentRequest.h"
 #include "requests/RejectAllRevisionsRequest.h"
+#include "requests/RemoveRangeRequest.h"
 #include "requests/RenderDrawingObjectRequest.h"
+#include "requests/RenderDrawingObjectWithoutNodePathRequest.h"
 #include "requests/RenderMathObjectRequest.h"
+#include "requests/RenderMathObjectWithoutNodePathRequest.h"
 #include "requests/RenderPageRequest.h"
 #include "requests/RenderParagraphRequest.h"
+#include "requests/RenderParagraphWithoutNodePathRequest.h"
 #include "requests/RenderTableRequest.h"
+#include "requests/RenderTableWithoutNodePathRequest.h"
+#include "requests/ReplaceTextRequest.h"
+#include "requests/ReplaceWithTextRequest.h"
 #include "requests/ResetCacheRequest.h"
+#include "requests/SaveAsRequest.h"
+#include "requests/SaveAsRangeRequest.h"
+#include "requests/SaveAsTiffRequest.h"
 #include "requests/SearchRequest.h"
+#include "requests/SplitDocumentRequest.h"
+#include "requests/UnprotectDocumentRequest.h"
+#include "requests/UpdateBookmarkRequest.h"
 #include "requests/UpdateBorderRequest.h"
+#include "requests/UpdateCommentRequest.h"
+#include "requests/UpdateDrawingObjectRequest.h"
+#include "requests/UpdateDrawingObjectWithoutNodePathRequest.h"
+#include "requests/UpdateFieldRequest.h"
+#include "requests/UpdateFieldsRequest.h"
+#include "requests/UpdateFootnoteRequest.h"
+#include "requests/UpdateFootnoteWithoutNodePathRequest.h"
+#include "requests/UpdateFormFieldRequest.h"
+#include "requests/UpdateFormFieldWithoutNodePathRequest.h"
+#include "requests/UpdateParagraphFormatRequest.h"
+#include "requests/UpdateRunRequest.h"
+#include "requests/UpdateRunFontRequest.h"
 #include "requests/UpdateSectionPageSetupRequest.h"
 #include "requests/UpdateTableCellFormatRequest.h"
 #include "requests/UpdateTablePropertiesRequest.h"
+#include "requests/UpdateTablePropertiesWithoutNodePathRequest.h"
 #include "requests/UpdateTableRowFormatRequest.h"
+#include "requests/UploadFileRequest.h"
 
-#include "AsposeResponse.h"
 #include "AvailableFontsResponse.h"
 #include "BookmarkData.h"
 #include "BookmarkResponse.h"
@@ -184,6 +233,8 @@
 #include "FieldNamesResponse.h"
 #include "FieldResponse.h"
 #include "FieldsResponse.h"
+#include "FilesList.h"
+#include "FilesUploadResult.h"
 #include "Font.h"
 #include "FontResponse.h"
 #include "Footnote.h"
@@ -209,7 +260,10 @@
 #include "ParagraphResponse.h"
 #include "ProtectionDataResponse.h"
 #include "ProtectionRequest.h"
-#include "ReplaceTextRequest.h"
+#include "RangeDocument.h"
+#include "RangeTextResponse.h"
+#include "ReplaceRange.h"
+#include "ReplaceTextParameters.h"
 #include "ReplaceTextResponse.h"
 #include "RevisionsModificationResponse.h"
 #include "Run.h"
@@ -236,7 +290,6 @@
 #include "TableRowFormatResponse.h"
 #include "TableRowInsert.h"
 #include "TableRowResponse.h"
-#include "TextItemsResponse.h"
 #include "TiffSaveOptionsData.h"
 #include "WatermarkText.h"
 #include <cpprest/details/basic_types.h>
@@ -248,252 +301,419 @@ namespace api {
 
 using namespace aspose::words::cloud::api::models;
 
+template<class T>
+struct AsposeResponse
+{
+	std::shared_ptr<web::http::http_response> httpResponse;
+    std::shared_ptr<T> body;
+};
+
 class  WordsApi
 {
 public:
     ///<summary>
-    ///Accept all revisions in document
+    ///Accepts all revisions in document.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    pplx::task<std::shared_ptr<RevisionsModificationResponse>> acceptAllRevisions(
-        std::shared_ptr<AcceptAllRevisionsRequest> request
-        );
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+    	pplx::task<AsposeResponse<RevisionsModificationResponse>> WordsApi::acceptAllRevisions(
+		std::shared_ptr<AcceptAllRevisionsRequest> request
+	);
     ///<summary>
-    ///Classify raw text.
+    ///Appends documents to original document.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">Original document name.</param>
+        /// <param name="documentList">with a list of documents to append.            </param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<AsposeResponse<DocumentResponse>> WordsApi::appendDocument(
+		std::shared_ptr<AppendDocumentRequest> request
+	);
+    ///<summary>
+    ///Classifies raw text.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="text">Text to classify.</param>
-    /// <param name="bestClassesCount">Count of the best classes to return. (optional, default to 1)</param>
-    pplx::task<std::shared_ptr<ClassificationResponse>> classify(
-        std::shared_ptr<ClassifyRequest> request
-        );
+        /// <param name="bestClassesCount">Number of the best classes to return. (optional, default to 1)</param>
+    	pplx::task<AsposeResponse<ClassificationResponse>> WordsApi::classify(
+		std::shared_ptr<ClassifyRequest> request
+	);
     ///<summary>
-    ///Classify document.
+    ///Classifies document.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="documentName">The document name.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="bestClassesCount">Count of the best classes to return. (optional, default to 1)</param>
-    /// <param name="taxonomy">Taxonomy to use for classification return. (optional, default to default)</param>
-    pplx::task<std::shared_ptr<ClassificationResponse>> classifyDocument(
-        std::shared_ptr<ClassifyDocumentRequest> request
-        );
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="bestClassesCount">Count of the best classes to return. (optional, default to 1)</param>
+        /// <param name="taxonomy">Taxonomy to use for classification return. (optional, default to default)</param>
+    	pplx::task<AsposeResponse<ClassificationResponse>> WordsApi::classifyDocument(
+		std::shared_ptr<ClassifyDocumentRequest> request
+	);
     ///<summary>
-    ///Add new or update existing document property.
+    ///Compares document with original document.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">Original document name.</param>
+        /// <param name="compareData">with a document to compare.            </param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+    	pplx::task<AsposeResponse<DocumentResponse>> WordsApi::compareDocument(
+		std::shared_ptr<CompareDocumentRequest> request
+	);
+    ///<summary>
+    ///Converts document from the request&#39;s content to the specified format .
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="document">Converting document</param>
+        /// <param name="format">Format to convert.</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="outPath">Path for saving operation result to the local storage. (optional)</param>
+        /// <param name="fileNameFieldValue">This file name will be used when resulting document has dynamic field for document file name {filename}. If it is not set, \&quot;sourceFilename\&quot; will be used instead.  (optional, default to sourceFilename)</param>
+        /// <param name="fontsLocation">Folder in filestorage with custom fonts. (optional)</param>
+    	pplx::task<HttpContent> WordsApi::convertDocument(
+		std::shared_ptr<ConvertDocumentRequest> request
+	);
+    ///<summary>
+    ///Copy file
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="destPath">Destination file path</param>
+        /// <param name="srcPath">Source file&#39;s path e.g. &#39;/Folder 1/file.ext&#39; or &#39;/Bucket/Folder 1/file.ext&#39;</param>
+        /// <param name="srcStorageName">Source storage name (optional)</param>
+        /// <param name="destStorageName">Destination storage name (optional)</param>
+        /// <param name="versionId">File version ID to copy (optional)</param>
+    	pplx::task<std::shared_ptr<web::http::http_response>> WordsApi::copyFile(
+		std::shared_ptr<CopyFileRequest> request
+	);
+    ///<summary>
+    ///Copy folder
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="destPath">Destination folder path e.g. &#39;/dst&#39;</param>
+        /// <param name="srcPath">Source folder path e.g. /Folder1</param>
+        /// <param name="srcStorageName">Source storage name (optional)</param>
+        /// <param name="destStorageName">Destination storage name (optional)</param>
+    	pplx::task<std::shared_ptr<web::http::http_response>> WordsApi::copyFolder(
+		std::shared_ptr<CopyFolderRequest> request
+	);
+    ///<summary>
+    ///Creates new document. Document is created with format which is recognized from file extensions. Supported extensions: \&quot;.doc\&quot;, \&quot;.docx\&quot;, \&quot;.docm\&quot;, \&quot;.dot\&quot;, \&quot;.dotm\&quot;, \&quot;.dotx\&quot;, \&quot;.flatopc\&quot;, \&quot;.fopc\&quot;, \&quot;.flatopc_macro\&quot;, \&quot;.fopc_macro\&quot;, \&quot;.flatopc_template\&quot;, \&quot;.fopc_template\&quot;, \&quot;.flatopc_template_macro\&quot;, \&quot;.fopc_template_macro\&quot;, \&quot;.wordml\&quot;, \&quot;.wml\&quot;, \&quot;.rtf\&quot;.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="fileName">The document name. (optional)</param>
+        /// <param name="folder">The document folder. (optional)</param>
+    	pplx::task<AsposeResponse<DocumentResponse>> WordsApi::createDocument(
+		std::shared_ptr<CreateDocumentRequest> request
+	);
+    ///<summary>
+    ///Create the folder
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="path">Target folder&#39;s path e.g. Folder1/Folder2/. The folders will be created recursively</param>
+        /// <param name="storageName">Storage name (optional)</param>
+    	pplx::task<std::shared_ptr<web::http::http_response>> WordsApi::createFolder(
+		std::shared_ptr<CreateFolderRequest> request
+	);
+    ///<summary>
+    ///Adds new or update existing document property.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="propertyName">The property name.</param>
-    /// <param name="property">The property with new value.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    pplx::task<std::shared_ptr<DocumentPropertyResponse>> createOrUpdateDocumentProperty(
-        std::shared_ptr<CreateOrUpdateDocumentPropertyRequest> request
-        );
+        /// <param name="propertyName">The property name.</param>
+        /// <param name="property">The property with new value.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<AsposeResponse<DocumentPropertyResponse>> WordsApi::createOrUpdateDocumentProperty(
+		std::shared_ptr<CreateOrUpdateDocumentPropertyRequest> request
+	);
     ///<summary>
     ///Resets border properties to default values.             
     ///</summary>
     ///<remarks>
-    ///&#39;nodePath&#39; should refer to node with cell or row
+    ///&#39;nodePath&#39; should refer to paragraph, cell or row.
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="nodePath">Path to node with border(node should be cell or row).</param>
-    /// <param name="index">Object&#39;s index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    pplx::task<std::shared_ptr<BorderResponse>> deleteBorder(
-        std::shared_ptr<DeleteBorderRequest> request
-        );
+        /// <param name="nodePath">Path to the node with border(node should be paragraph, cell or row).</param>
+        /// <param name="borderType">Border type.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<AsposeResponse<BorderResponse>> WordsApi::deleteBorder(
+		std::shared_ptr<DeleteBorderRequest> request
+	);
     ///<summary>
     ///Resets borders properties to default values.             
     ///</summary>
     ///<remarks>
-    ///&#39;nodePath&#39; should refer to node with cell or row
+    ///&#39;nodePath&#39; should refer to paragraph, cell or row.
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="nodePath">Path to node with borders(node should be cell or row).</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    pplx::task<std::shared_ptr<BordersResponse>> deleteBorders(
-        std::shared_ptr<DeleteBordersRequest> request
-        );
+        /// <param name="nodePath">Path to the node with borders(node should be paragraph, cell or row).</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<AsposeResponse<BordersResponse>> WordsApi::deleteBorders(
+		std::shared_ptr<DeleteBordersRequest> request
+	);
     ///<summary>
-    ///Remove comment from document.
-    ///</summary>
-    ///<remarks>
-    ///
-    ///</remarks>
-    /// <param name="name">The file name.</param>
-    /// <param name="commentIndex">Comment index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    pplx::task<std::shared_ptr<AsposeResponse>> deleteComment(
-        std::shared_ptr<DeleteCommentRequest> request
-        );
-    ///<summary>
-    ///Remove macros from document.
-    ///</summary>
-    ///<remarks>
-    ///
-    ///</remarks>
-    /// <param name="name">The file name.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    pplx::task<std::shared_ptr<AsposeResponse>> deleteDocumentMacros(
-        std::shared_ptr<DeleteDocumentMacrosRequest> request
-        );
-    ///<summary>
-    ///Delete document property.
+    ///Removes comment from document.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="propertyName">The property name.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    pplx::task<std::shared_ptr<AsposeResponse>> deleteDocumentProperty(
-        std::shared_ptr<DeleteDocumentPropertyRequest> request
-        );
+        /// <param name="commentIndex">The comment index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<std::shared_ptr<web::http::http_response>> WordsApi::deleteComment(
+		std::shared_ptr<DeleteCommentRequest> request
+	);
     ///<summary>
-    ///Delete watermark (for deleting last watermark from the document).
+    ///Deletes document property.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    pplx::task<std::shared_ptr<DocumentResponse>> deleteDocumentWatermark(
-        std::shared_ptr<DeleteDocumentWatermarkRequest> request
-        );
+        /// <param name="propertyName">The property name.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<std::shared_ptr<web::http::http_response>> WordsApi::deleteDocumentProperty(
+		std::shared_ptr<DeleteDocumentPropertyRequest> request
+	);
     ///<summary>
     ///Removes drawing object from document.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
-    /// <param name="name">The file name.</param>
-    /// <param name="index">Object&#39;s index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    /// <param name="nodePath">Path to node, which contains collection of drawing objects. (optional)</param>
-    pplx::task<std::shared_ptr<AsposeResponse>> deleteDrawingObject(
-        std::shared_ptr<DeleteDrawingObjectRequest> request
-        );
+    /// <param name="name">The document name.</param>
+        /// <param name="nodePath">Path to the node, which contains collection of drawing objects.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<std::shared_ptr<web::http::http_response>> WordsApi::deleteDrawingObject(
+		std::shared_ptr<DeleteDrawingObjectRequest> request
+	);
     ///<summary>
-    ///Delete field from document.
+    ///Removes drawing object from document.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
-    /// <param name="name">The file name.</param>
-    /// <param name="index">Object&#39;s index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    /// <param name="nodePath">Path to node, which contains collection of fields. (optional)</param>
-    pplx::task<std::shared_ptr<AsposeResponse>> deleteField(
-        std::shared_ptr<DeleteFieldRequest> request
-        );
+    /// <param name="name">The document name.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<std::shared_ptr<web::http::http_response>> WordsApi::deleteDrawingObjectWithoutNodePath(
+		std::shared_ptr<DeleteDrawingObjectWithoutNodePathRequest> request
+	);
     ///<summary>
-    ///Remove fields from section paragraph.
+    ///Deletes field from document.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
-    /// <param name="name">The file name.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    /// <param name="nodePath">Path to node, which contains collection of fields. (optional)</param>
-    pplx::task<std::shared_ptr<AsposeResponse>> deleteFields(
-        std::shared_ptr<DeleteFieldsRequest> request
-        );
+    /// <param name="name">The document name.</param>
+        /// <param name="nodePath">Path to the node, which contains collection of fields.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<std::shared_ptr<web::http::http_response>> WordsApi::deleteField(
+		std::shared_ptr<DeleteFieldRequest> request
+	);
+    ///<summary>
+    ///Deletes field from document.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<std::shared_ptr<web::http::http_response>> WordsApi::deleteFieldWithoutNodePath(
+		std::shared_ptr<DeleteFieldWithoutNodePathRequest> request
+	);
+    ///<summary>
+    ///Removes fields from section paragraph.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="nodePath">Path to the node, which contains collection of fields.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<std::shared_ptr<web::http::http_response>> WordsApi::deleteFields(
+		std::shared_ptr<DeleteFieldsRequest> request
+	);
+    ///<summary>
+    ///Removes fields from section paragraph.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<std::shared_ptr<web::http::http_response>> WordsApi::deleteFieldsWithoutNodePath(
+		std::shared_ptr<DeleteFieldsWithoutNodePathRequest> request
+	);
+    ///<summary>
+    ///Delete file
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="path">Path of the file including file name and extension e.g. /Folder1/file.ext</param>
+        /// <param name="storageName">Storage name (optional)</param>
+        /// <param name="versionId">File version ID to delete (optional)</param>
+    	pplx::task<std::shared_ptr<web::http::http_response>> WordsApi::deleteFile(
+		std::shared_ptr<DeleteFileRequest> request
+	);
+    ///<summary>
+    ///Delete folder
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="path">Folder path e.g. /Folder1s</param>
+        /// <param name="storageName">Storage name (optional)</param>
+        /// <param name="recursive">Enable to delete folders, subfolders and files (optional, default to false)</param>
+    	pplx::task<std::shared_ptr<web::http::http_response>> WordsApi::deleteFolder(
+		std::shared_ptr<DeleteFolderRequest> request
+	);
     ///<summary>
     ///Removes footnote from document.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
-    /// <param name="name">The file name.</param>
-    /// <param name="index">Object&#39;s index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    /// <param name="nodePath">Path to node, which contains collection of footnotes. (optional)</param>
-    pplx::task<std::shared_ptr<AsposeResponse>> deleteFootnote(
-        std::shared_ptr<DeleteFootnoteRequest> request
-        );
+    /// <param name="name">The document name.</param>
+        /// <param name="nodePath">Path to the node, which contains collection of footnotes.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<std::shared_ptr<web::http::http_response>> WordsApi::deleteFootnote(
+		std::shared_ptr<DeleteFootnoteRequest> request
+	);
+    ///<summary>
+    ///Removes footnote from document.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<std::shared_ptr<web::http::http_response>> WordsApi::deleteFootnoteWithoutNodePath(
+		std::shared_ptr<DeleteFootnoteWithoutNodePathRequest> request
+	);
     ///<summary>
     ///Removes form field from document.
     ///</summary>
@@ -501,653 +721,838 @@ public:
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="index">Object&#39;s index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    /// <param name="nodePath">Path to node that contains collection of formfields. (optional)</param>
-    pplx::task<std::shared_ptr<AsposeResponse>> deleteFormField(
-        std::shared_ptr<DeleteFormFieldRequest> request
-        );
+        /// <param name="nodePath">Path to the node that contains collection of formfields.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<std::shared_ptr<web::http::http_response>> WordsApi::deleteFormField(
+		std::shared_ptr<DeleteFormFieldRequest> request
+	);
     ///<summary>
-    ///Delete header/footer from document.
+    ///Removes form field from document.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="index">Object&#39;s index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    /// <param name="sectionPath">Path to parent section. (optional)</param>
-    pplx::task<std::shared_ptr<AsposeResponse>> deleteHeaderFooter(
-        std::shared_ptr<DeleteHeaderFooterRequest> request
-        );
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<std::shared_ptr<web::http::http_response>> WordsApi::deleteFormFieldWithoutNodePath(
+		std::shared_ptr<DeleteFormFieldWithoutNodePathRequest> request
+	);
     ///<summary>
-    ///Delete document headers and footers.
+    ///Deletes header/footer from document.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    /// <param name="sectionPath">Path to parent section. (optional)</param>
-    /// <param name="headersFootersTypes">List of types of headers and footers. (optional)</param>
-    pplx::task<std::shared_ptr<AsposeResponse>> deleteHeadersFooters(
-        std::shared_ptr<DeleteHeadersFootersRequest> request
-        );
+        /// <param name="sectionPath">Path to parent section.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<std::shared_ptr<web::http::http_response>> WordsApi::deleteHeaderFooter(
+		std::shared_ptr<DeleteHeaderFooterRequest> request
+	);
+    ///<summary>
+    ///Deletes document headers and footers.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="sectionPath">Path to parent section.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+        /// <param name="headersFootersTypes">List of types of headers and footers. (optional)</param>
+    	pplx::task<std::shared_ptr<web::http::http_response>> WordsApi::deleteHeadersFooters(
+		std::shared_ptr<DeleteHeadersFootersRequest> request
+	);
+    ///<summary>
+    ///Removes macros from document.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<std::shared_ptr<web::http::http_response>> WordsApi::deleteMacros(
+		std::shared_ptr<DeleteMacrosRequest> request
+	);
     ///<summary>
     ///Removes OfficeMath object from document.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
-    /// <param name="name">The file name.</param>
-    /// <param name="index">Object&#39;s index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    /// <param name="nodePath">Path to node, which contains collection of OfficeMath objects. (optional)</param>
-    pplx::task<std::shared_ptr<AsposeResponse>> deleteOfficeMathObject(
-        std::shared_ptr<DeleteOfficeMathObjectRequest> request
-        );
+    /// <param name="name">The document name.</param>
+        /// <param name="nodePath">Path to the node, which contains collection of OfficeMath objects.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<std::shared_ptr<web::http::http_response>> WordsApi::deleteOfficeMathObject(
+		std::shared_ptr<DeleteOfficeMathObjectRequest> request
+	);
     ///<summary>
-    ///Remove paragraph from section.
+    ///Removes OfficeMath object from document.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<std::shared_ptr<web::http::http_response>> WordsApi::deleteOfficeMathObjectWithoutNodePath(
+		std::shared_ptr<DeleteOfficeMathObjectWithoutNodePathRequest> request
+	);
+    ///<summary>
+    ///Removes paragraph from section.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The file name.</param>
-    /// <param name="index">Object&#39;s index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    /// <param name="nodePath">Path to node which contains paragraphs. (optional)</param>
-    pplx::task<std::shared_ptr<AsposeResponse>> deleteParagraph(
-        std::shared_ptr<DeleteParagraphRequest> request
-        );
+        /// <param name="nodePath">Path to the node which contains paragraphs.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<std::shared_ptr<web::http::http_response>> WordsApi::deleteParagraph(
+		std::shared_ptr<DeleteParagraphRequest> request
+	);
+    ///<summary>
+    ///Removes paragraph from section.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The file name.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<std::shared_ptr<web::http::http_response>> WordsApi::deleteParagraphWithoutNodePath(
+		std::shared_ptr<DeleteParagraphWithoutNodePathRequest> request
+	);
     ///<summary>
     ///Removes run from document.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
-    /// <param name="name">The file name.</param>
-    /// <param name="paragraphPath">Path to parent paragraph.</param>
-    /// <param name="index">Object&#39;s index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    pplx::task<std::shared_ptr<AsposeResponse>> deleteRun(
-        std::shared_ptr<DeleteRunRequest> request
-        );
+    /// <param name="name">The document name.</param>
+        /// <param name="paragraphPath">Path to parent paragraph.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<std::shared_ptr<web::http::http_response>> WordsApi::deleteRun(
+		std::shared_ptr<DeleteRunRequest> request
+	);
     ///<summary>
-    ///Delete a table.
+    ///Removes section from document.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="index">Object&#39;s index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    /// <param name="nodePath">Path to node, which contains tables. (optional)</param>
-    pplx::task<std::shared_ptr<AsposeResponse>> deleteTable(
-        std::shared_ptr<DeleteTableRequest> request
-        );
+        /// <param name="sectionIndex">Section index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<std::shared_ptr<web::http::http_response>> WordsApi::deleteSection(
+		std::shared_ptr<DeleteSectionRequest> request
+	);
     ///<summary>
-    ///Delete a table cell.
+    ///Deletes a table.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="tableRowPath">Path to table row.</param>
-    /// <param name="index">Object&#39;s index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    pplx::task<std::shared_ptr<AsposeResponse>> deleteTableCell(
-        std::shared_ptr<DeleteTableCellRequest> request
-        );
+        /// <param name="nodePath">Path to the node, which contains tables.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<std::shared_ptr<web::http::http_response>> WordsApi::deleteTable(
+		std::shared_ptr<DeleteTableRequest> request
+	);
     ///<summary>
-    ///Delete a table row.
+    ///Deletes a table cell.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="tablePath">Path to table.</param>
-    /// <param name="index">Object&#39;s index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    pplx::task<std::shared_ptr<AsposeResponse>> deleteTableRow(
-        std::shared_ptr<DeleteTableRowRequest> request
-        );
+        /// <param name="tableRowPath">Path to table row.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<std::shared_ptr<web::http::http_response>> WordsApi::deleteTableCell(
+		std::shared_ptr<DeleteTableCellRequest> request
+	);
     ///<summary>
-    ///Unprotect document.
+    ///Deletes a table row.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="protectionRequest">with protection settings.            </param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    pplx::task<std::shared_ptr<ProtectionDataResponse>> deleteUnprotectDocument(
-        std::shared_ptr<DeleteUnprotectDocumentRequest> request
-        );
+        /// <param name="tablePath">Path to table.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<std::shared_ptr<web::http::http_response>> WordsApi::deleteTableRow(
+		std::shared_ptr<DeleteTableRowRequest> request
+	);
     ///<summary>
-    ///Gets the list of fonts, available for document processing
+    ///Deletes a table.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<std::shared_ptr<web::http::http_response>> WordsApi::deleteTableWithoutNodePath(
+		std::shared_ptr<DeleteTableWithoutNodePathRequest> request
+	);
+    ///<summary>
+    ///Deletes watermark (for deleting last watermark from the document).
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<AsposeResponse<DocumentResponse>> WordsApi::deleteWatermark(
+		std::shared_ptr<DeleteWatermarkRequest> request
+	);
+    ///<summary>
+    ///Download file
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="path">Path of the file including the file name and extension e.g. /folder1/file.ext</param>
+        /// <param name="storageName">Storage name (optional)</param>
+        /// <param name="versionId">File version ID to download (optional)</param>
+    	pplx::task<HttpContent> WordsApi::downloadFile(
+		std::shared_ptr<DownloadFileRequest> request
+	);
+    ///<summary>
+    ///Executes document mail merge operation.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="data">Mail merge data (optional)</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="withRegions">With regions flag. (optional, default to false)</param>
+        /// <param name="mailMergeDataFile">Mail merge data. (optional)</param>
+        /// <param name="cleanup">Clean up options. (optional)</param>
+        /// <param name="useWholeParagraphAsRegion">Gets or sets a value indicating whether paragraph with TableStart or             TableEnd field should be fully included into mail merge region or particular range between TableStart and TableEnd fields.             The default value is true. (optional, default to true)</param>
+        /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved with autogenerated name. (optional)</param>
+    	pplx::task<AsposeResponse<DocumentResponse>> WordsApi::executeMailMerge(
+		std::shared_ptr<ExecuteMailMergeRequest> request
+	);
+    ///<summary>
+    ///Executes document mail merge online.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="_template">File with template</param>
+        /// <param name="data">File with mailmerge data</param>
+        /// <param name="withRegions">With regions flag. (optional, default to false)</param>
+        /// <param name="cleanup">Clean up options. (optional)</param>
+        /// <param name="documentFileName">This file name will be used when resulting document has dynamic field for document file name {filename}. If it is not setted, \&quot;template\&quot; will be used instead.  (optional, default to template)</param>
+    	pplx::task<HttpContent> WordsApi::executeMailMergeOnline(
+		std::shared_ptr<ExecuteMailMergeOnlineRequest> request
+	);
+    ///<summary>
+    ///Gets the list of fonts, available for document processing.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="fontsLocation">Folder in filestorage with custom fonts. (optional)</param>
-    pplx::task<std::shared_ptr<AvailableFontsResponse>> getAvailableFonts(
-        std::shared_ptr<GetAvailableFontsRequest> request
-        );
+    	pplx::task<AsposeResponse<AvailableFontsResponse>> WordsApi::getAvailableFonts(
+		std::shared_ptr<GetAvailableFontsRequest> request
+	);
     ///<summary>
-    ///Return a border.
-    ///</summary>
-    ///<remarks>
-    ///&#39;nodePath&#39; should refer to node with cell or row
-    ///</remarks>
-    /// <param name="name">The document name.</param>
-    /// <param name="nodePath">Path to node with border(node should be cell or row).</param>
-    /// <param name="index">Object&#39;s index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    pplx::task<std::shared_ptr<BorderResponse>> getBorder(
-        std::shared_ptr<GetBorderRequest> request
-        );
-    ///<summary>
-    ///Return a collection of borders.
-    ///</summary>
-    ///<remarks>
-    ///&#39;nodePath&#39; should refer to node with cell or row
-    ///</remarks>
-    /// <param name="name">The document name.</param>
-    /// <param name="nodePath">Path to node with borders(node should be cell or row).</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    pplx::task<std::shared_ptr<BordersResponse>> getBorders(
-        std::shared_ptr<GetBordersRequest> request
-        );
-    ///<summary>
-    ///Get comment from document.
-    ///</summary>
-    ///<remarks>
-    ///
-    ///</remarks>
-    /// <param name="name">The file name.</param>
-    /// <param name="commentIndex">Comment index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    pplx::task<std::shared_ptr<CommentResponse>> getComment(
-        std::shared_ptr<GetCommentRequest> request
-        );
-    ///<summary>
-    ///Get comments from document.
-    ///</summary>
-    ///<remarks>
-    ///
-    ///</remarks>
-    /// <param name="name">The file name.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    pplx::task<std::shared_ptr<CommentsResponse>> getComments(
-        std::shared_ptr<GetCommentsRequest> request
-        );
-    ///<summary>
-    ///Read document common info.
-    ///</summary>
-    ///<remarks>
-    ///
-    ///</remarks>
-    /// <param name="documentName">The file name.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    pplx::task<std::shared_ptr<DocumentResponse>> getDocument(
-        std::shared_ptr<GetDocumentRequest> request
-        );
-    ///<summary>
-    ///Read document bookmark data by its name.
+    ///Reads document bookmark data by its name.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="bookmarkName">The bookmark name.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    pplx::task<std::shared_ptr<BookmarkResponse>> getDocumentBookmarkByName(
-        std::shared_ptr<GetDocumentBookmarkByNameRequest> request
-        );
+        /// <param name="bookmarkName">The bookmark name.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<BookmarkResponse>> WordsApi::getBookmarkByName(
+		std::shared_ptr<GetBookmarkByNameRequest> request
+	);
     ///<summary>
-    ///Read document bookmarks common info.
+    ///Reads document bookmarks common info.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    pplx::task<std::shared_ptr<BookmarksResponse>> getDocumentBookmarks(
-        std::shared_ptr<GetDocumentBookmarksRequest> request
-        );
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<BookmarksResponse>> WordsApi::getBookmarks(
+		std::shared_ptr<GetBookmarksRequest> request
+	);
     ///<summary>
-    ///Read document drawing object common info by its index or convert to format specified.
+    ///Returns a border.
+    ///</summary>
+    ///<remarks>
+    ///&#39;nodePath&#39; should refer to paragraph, cell or row.
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="nodePath">Path to the node with border(node should be paragraph, cell or row).</param>
+        /// <param name="borderType">Border type.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<BorderResponse>> WordsApi::getBorder(
+		std::shared_ptr<GetBorderRequest> request
+	);
+    ///<summary>
+    ///Returns a collection of borders.
+    ///</summary>
+    ///<remarks>
+    ///&#39;nodePath&#39; should refer to paragraph, cell or row.
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="nodePath">Path to the node with borders (node should be paragraph, cell or row).</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<BordersResponse>> WordsApi::getBorders(
+		std::shared_ptr<GetBordersRequest> request
+	);
+    ///<summary>
+    ///Gets comment from document.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="index">Object&#39;s index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="nodePath">Path to node, which contains collection of drawing objects. (optional)</param>
-    pplx::task<std::shared_ptr<DrawingObjectResponse>> getDocumentDrawingObjectByIndex(
-        std::shared_ptr<GetDocumentDrawingObjectByIndexRequest> request
-        );
+        /// <param name="commentIndex">The comment index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<CommentResponse>> WordsApi::getComment(
+		std::shared_ptr<GetCommentRequest> request
+	);
     ///<summary>
-    ///Read drawing object image data.
+    ///Gets comments from document.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="index">Object&#39;s index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="nodePath">Path to node, which contains collection of drawing objects. (optional)</param>
-    pplx::task<HttpContent> getDocumentDrawingObjectImageData(
-        std::shared_ptr<GetDocumentDrawingObjectImageDataRequest> request
-        );
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<CommentsResponse>> WordsApi::getComments(
+		std::shared_ptr<GetCommentsRequest> request
+	);
     ///<summary>
-    ///Get drawing object OLE data.
+    ///Reads document common info.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="documentName">The document name.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<DocumentResponse>> WordsApi::getDocument(
+		std::shared_ptr<GetDocumentRequest> request
+	);
+    ///<summary>
+    ///Reads document drawing object common info by its index or convert to format specified.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="index">Object&#39;s index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="nodePath">Path to node, which contains collection of drawing objects. (optional)</param>
-    pplx::task<HttpContent> getDocumentDrawingObjectOleData(
-        std::shared_ptr<GetDocumentDrawingObjectOleDataRequest> request
-        );
+        /// <param name="nodePath">Path to the node, which contains collection of drawing objects.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<DrawingObjectResponse>> WordsApi::getDocumentDrawingObjectByIndex(
+		std::shared_ptr<GetDocumentDrawingObjectByIndexRequest> request
+	);
     ///<summary>
-    ///Read document drawing objects common info.
+    ///Reads document drawing object common info by its index or convert to format specified.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="nodePath">Path to node, which contains collection of drawing objects. (optional)</param>
-    pplx::task<std::shared_ptr<DrawingObjectsResponse>> getDocumentDrawingObjects(
-        std::shared_ptr<GetDocumentDrawingObjectsRequest> request
-        );
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<DrawingObjectResponse>> WordsApi::getDocumentDrawingObjectByIndexWithoutNodePath(
+		std::shared_ptr<GetDocumentDrawingObjectByIndexWithoutNodePathRequest> request
+	);
     ///<summary>
-    ///Read document field names.
+    ///Reads drawing object image data.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="useNonMergeFields">If true, result includes \&quot;mustache\&quot; field names. (optional, default to false)</param>
-    pplx::task<std::shared_ptr<FieldNamesResponse>> getDocumentFieldNames(
-        std::shared_ptr<GetDocumentFieldNamesRequest> request
-        );
+        /// <param name="nodePath">Path to the node, which contains collection of drawing objects.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<HttpContent> WordsApi::getDocumentDrawingObjectImageData(
+		std::shared_ptr<GetDocumentDrawingObjectImageDataRequest> request
+	);
     ///<summary>
-    ///Read document hyperlink by its index.
+    ///Reads drawing object image data.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="hyperlinkIndex">The hyperlink index.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    pplx::task<std::shared_ptr<HyperlinkResponse>> getDocumentHyperlinkByIndex(
-        std::shared_ptr<GetDocumentHyperlinkByIndexRequest> request
-        );
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<HttpContent> WordsApi::getDocumentDrawingObjectImageDataWithoutNodePath(
+		std::shared_ptr<GetDocumentDrawingObjectImageDataWithoutNodePathRequest> request
+	);
     ///<summary>
-    ///Read document hyperlinks common info.
+    ///Gets drawing object OLE data.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    pplx::task<std::shared_ptr<HyperlinksResponse>> getDocumentHyperlinks(
-        std::shared_ptr<GetDocumentHyperlinksRequest> request
-        );
+        /// <param name="nodePath">Path to the node, which contains collection of drawing objects.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<HttpContent> WordsApi::getDocumentDrawingObjectOleData(
+		std::shared_ptr<GetDocumentDrawingObjectOleDataRequest> request
+	);
     ///<summary>
-    ///This resource represents one of the paragraphs contained in the document.
+    ///Gets drawing object OLE data.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="index">Object&#39;s index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="nodePath">Path to node which contains paragraphs. (optional)</param>
-    pplx::task<std::shared_ptr<ParagraphResponse>> getDocumentParagraph(
-        std::shared_ptr<GetDocumentParagraphRequest> request
-        );
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<HttpContent> WordsApi::getDocumentDrawingObjectOleDataWithoutNodePath(
+		std::shared_ptr<GetDocumentDrawingObjectOleDataWithoutNodePathRequest> request
+	);
     ///<summary>
-    ///Represents all the formatting for a paragraph.
+    ///Reads document drawing objects common info.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="index">Object&#39;s index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="nodePath">Path to node which contains paragraphs. (optional)</param>
-    pplx::task<std::shared_ptr<ParagraphFormatResponse>> getDocumentParagraphFormat(
-        std::shared_ptr<GetDocumentParagraphFormatRequest> request
-        );
+        /// <param name="nodePath">Path to the node, which contains collection of drawing objects.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<DrawingObjectsResponse>> WordsApi::getDocumentDrawingObjects(
+		std::shared_ptr<GetDocumentDrawingObjectsRequest> request
+	);
     ///<summary>
-    ///This resource represents run of text contained in the document.
+    ///Reads document drawing objects common info.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="paragraphPath">Path to parent paragraph.</param>
-    /// <param name="index">Object&#39;s index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    pplx::task<std::shared_ptr<RunResponse>> getDocumentParagraphRun(
-        std::shared_ptr<GetDocumentParagraphRunRequest> request
-        );
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<DrawingObjectsResponse>> WordsApi::getDocumentDrawingObjectsWithoutNodePath(
+		std::shared_ptr<GetDocumentDrawingObjectsWithoutNodePathRequest> request
+	);
     ///<summary>
-    ///This resource represents font of run.
+    ///Reads document field names.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="paragraphPath">Path to parent paragraph.</param>
-    /// <param name="index">Object&#39;s index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    pplx::task<std::shared_ptr<FontResponse>> getDocumentParagraphRunFont(
-        std::shared_ptr<GetDocumentParagraphRunFontRequest> request
-        );
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="useNonMergeFields">If true, result includes \&quot;mustache\&quot; field names. (optional, default to false)</param>
+    	pplx::task<AsposeResponse<FieldNamesResponse>> WordsApi::getDocumentFieldNames(
+		std::shared_ptr<GetDocumentFieldNamesRequest> request
+	);
     ///<summary>
-    ///This resource represents collection of runs in the paragraph.
+    ///Reads document field names.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="_template">File with template</param>
+        /// <param name="useNonMergeFields">Use non merge fields or not. (optional, default to false)</param>
+    	pplx::task<AsposeResponse<FieldNamesResponse>> WordsApi::getDocumentFieldNamesOnline(
+		std::shared_ptr<GetDocumentFieldNamesOnlineRequest> request
+	);
+    ///<summary>
+    ///Reads document hyperlink by its index.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="paragraphPath">Path to parent paragraph.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    pplx::task<std::shared_ptr<RunsResponse>> getDocumentParagraphRuns(
-        std::shared_ptr<GetDocumentParagraphRunsRequest> request
-        );
+        /// <param name="hyperlinkIndex">The hyperlink index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<HyperlinkResponse>> WordsApi::getDocumentHyperlinkByIndex(
+		std::shared_ptr<GetDocumentHyperlinkByIndexRequest> request
+	);
     ///<summary>
-    ///Return a list of paragraphs that are contained in the document.
+    ///Reads document hyperlinks common info.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="nodePath">Path to node which contains paragraphs. (optional)</param>
-    pplx::task<std::shared_ptr<ParagraphLinkCollectionResponse>> getDocumentParagraphs(
-        std::shared_ptr<GetDocumentParagraphsRequest> request
-        );
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<HyperlinksResponse>> WordsApi::getDocumentHyperlinks(
+		std::shared_ptr<GetDocumentHyperlinksRequest> request
+	);
     ///<summary>
-    ///Read document properties info.
+    ///Reads document properties info.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document&#39;s name.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    pplx::task<std::shared_ptr<DocumentPropertiesResponse>> getDocumentProperties(
-        std::shared_ptr<GetDocumentPropertiesRequest> request
-        );
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<DocumentPropertiesResponse>> WordsApi::getDocumentProperties(
+		std::shared_ptr<GetDocumentPropertiesRequest> request
+	);
     ///<summary>
-    ///Read document property info by the property name.
+    ///Reads document property info by the property name.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="propertyName">The property name.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    pplx::task<std::shared_ptr<DocumentPropertyResponse>> getDocumentProperty(
-        std::shared_ptr<GetDocumentPropertyRequest> request
-        );
+        /// <param name="propertyName">The property name.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<DocumentPropertyResponse>> WordsApi::getDocumentProperty(
+		std::shared_ptr<GetDocumentPropertyRequest> request
+	);
     ///<summary>
-    ///Read document protection common info.
+    ///Reads document protection common info.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    pplx::task<std::shared_ptr<ProtectionDataResponse>> getDocumentProtection(
-        std::shared_ptr<GetDocumentProtectionRequest> request
-        );
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<ProtectionDataResponse>> WordsApi::getDocumentProtection(
+		std::shared_ptr<GetDocumentProtectionRequest> request
+	);
     ///<summary>
-    ///Read document statistics.
+    ///Reads document statistics.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="includeComments">Support including/excluding comments from the WordCount. Default value is \&quot;true\&quot;. (optional, default to false)</param>
-    /// <param name="includeFootnotes">Support including/excluding footnotes from the WordCount. Default value is \&quot;false\&quot;. (optional, default to false)</param>
-    /// <param name="includeTextInShapes">Support including/excluding shape&#39;s text from the WordCount. Default value is \&quot;false\&quot; (optional, default to false)</param>
-    pplx::task<std::shared_ptr<StatDataResponse>> getDocumentStatistics(
-        std::shared_ptr<GetDocumentStatisticsRequest> request
-        );
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="includeComments">Support including/excluding comments from the WordCount. Default value is \&quot;false\&quot;. (optional, default to false)</param>
+        /// <param name="includeFootnotes">Support including/excluding footnotes from the WordCount. Default value is \&quot;false\&quot;. (optional, default to false)</param>
+        /// <param name="includeTextInShapes">Support including/excluding shape&#39;s text from the WordCount. Default value is \&quot;false\&quot;. (optional, default to false)</param>
+    	pplx::task<AsposeResponse<StatDataResponse>> WordsApi::getDocumentStatistics(
+		std::shared_ptr<GetDocumentStatisticsRequest> request
+	);
     ///<summary>
-    ///Read document text items.
+    ///Exports the document into the specified format.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    pplx::task<std::shared_ptr<TextItemsResponse>> getDocumentTextItems(
-        std::shared_ptr<GetDocumentTextItemsRequest> request
-        );
+        /// <param name="format">The destination format.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="outPath">Path to save the result. (optional)</param>
+        /// <param name="fontsLocation">Folder in filestorage with custom fonts. (optional)</param>
+    	pplx::task<HttpContent> WordsApi::getDocumentWithFormat(
+		std::shared_ptr<GetDocumentWithFormatRequest> request
+	);
     ///<summary>
-    ///Export the document into the specified format.
+    ///Gets field from document.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
-    /// <param name="name">The file name.</param>
-    /// <param name="format">The destination format.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="outPath">Path to save result (optional)</param>
-    /// <param name="fontsLocation">Folder in filestorage with custom fonts. (optional)</param>
-    pplx::task<HttpContent> getDocumentWithFormat(
-        std::shared_ptr<GetDocumentWithFormatRequest> request
-        );
+    /// <param name="name">The document name.</param>
+        /// <param name="nodePath">Path to the node, which contains collection of fields.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<FieldResponse>> WordsApi::getField(
+		std::shared_ptr<GetFieldRequest> request
+	);
     ///<summary>
-    ///Get field from document.
+    ///Gets field from document.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
-    /// <param name="name">The file name.</param>
-    /// <param name="index">Object&#39;s index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="nodePath">Path to node, which contains collection of fields. (optional)</param>
-    pplx::task<std::shared_ptr<FieldResponse>> getField(
-        std::shared_ptr<GetFieldRequest> request
-        );
+    /// <param name="name">The document name.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<FieldResponse>> WordsApi::getFieldWithoutNodePath(
+		std::shared_ptr<GetFieldWithoutNodePathRequest> request
+	);
     ///<summary>
     ///Get fields from document.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
-    /// <param name="name">The file name.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="nodePath">Path to node, which contains collection of fields. (optional)</param>
-    pplx::task<std::shared_ptr<FieldsResponse>> getFields(
-        std::shared_ptr<GetFieldsRequest> request
-        );
+    /// <param name="name">The document name.</param>
+        /// <param name="nodePath">Path to the node, which contains collection of fields.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<FieldsResponse>> WordsApi::getFields(
+		std::shared_ptr<GetFieldsRequest> request
+	);
     ///<summary>
-    ///Read footnote by index.
+    ///Get fields from document.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="index">Object&#39;s index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="nodePath">Path to node, which contains collection of footnotes. (optional)</param>
-    pplx::task<std::shared_ptr<FootnoteResponse>> getFootnote(
-        std::shared_ptr<GetFootnoteRequest> request
-        );
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<FieldsResponse>> WordsApi::getFieldsWithoutNodePath(
+		std::shared_ptr<GetFieldsWithoutNodePathRequest> request
+	);
     ///<summary>
-    ///Get footnotes from document.
+    ///Get all files and folders within a folder
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
-    /// <param name="name">The file name.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="nodePath">Path to node, which contains collection of footnotes. (optional)</param>
-    pplx::task<std::shared_ptr<FootnotesResponse>> getFootnotes(
-        std::shared_ptr<GetFootnotesRequest> request
-        );
+    /// <param name="path">Folder path e.g. /Folder1</param>
+        /// <param name="storageName">Storage name (optional)</param>
+    	pplx::task<AsposeResponse<FilesList>> WordsApi::getFilesList(
+		std::shared_ptr<GetFilesListRequest> request
+	);
+    ///<summary>
+    ///Reads footnote by index.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="nodePath">Path to the node, which contains collection of footnotes.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<FootnoteResponse>> WordsApi::getFootnote(
+		std::shared_ptr<GetFootnoteRequest> request
+	);
+    ///<summary>
+    ///Reads footnote by index.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<FootnoteResponse>> WordsApi::getFootnoteWithoutNodePath(
+		std::shared_ptr<GetFootnoteWithoutNodePathRequest> request
+	);
+    ///<summary>
+    ///Gets footnotes from document.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="nodePath">Path to the node, which contains collection of footnotes.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<FootnotesResponse>> WordsApi::getFootnotes(
+		std::shared_ptr<GetFootnotesRequest> request
+	);
+    ///<summary>
+    ///Gets footnotes from document.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<FootnotesResponse>> WordsApi::getFootnotesWithoutNodePath(
+		std::shared_ptr<GetFootnotesWithoutNodePathRequest> request
+	);
     ///<summary>
     ///Returns representation of an one of the form field.
     ///</summary>
@@ -1155,867 +1560,578 @@ public:
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="index">Object&#39;s index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="nodePath">Path to node that contains collection of formfields. (optional)</param>
-    pplx::task<std::shared_ptr<FormFieldResponse>> getFormField(
-        std::shared_ptr<GetFormFieldRequest> request
-        );
+        /// <param name="nodePath">Path to the node that contains collection of formfields.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<FormFieldResponse>> WordsApi::getFormField(
+		std::shared_ptr<GetFormFieldRequest> request
+	);
     ///<summary>
-    ///Get form fields from document.
-    ///</summary>
-    ///<remarks>
-    ///
-    ///</remarks>
-    /// <param name="name">The file name.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="nodePath">Path to node containing collection of form fields. (optional)</param>
-    pplx::task<std::shared_ptr<FormFieldsResponse>> getFormFields(
-        std::shared_ptr<GetFormFieldsRequest> request
-        );
-    ///<summary>
-    ///Return a header/footer that is contained in the document.
+    ///Returns representation of an one of the form field.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="headerFooterIndex">Header/footer index.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="filterByType">List of types of headers and footers. (optional)</param>
-    pplx::task<std::shared_ptr<HeaderFooterResponse>> getHeaderFooter(
-        std::shared_ptr<GetHeaderFooterRequest> request
-        );
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<FormFieldResponse>> WordsApi::getFormFieldWithoutNodePath(
+		std::shared_ptr<GetFormFieldWithoutNodePathRequest> request
+	);
     ///<summary>
-    ///Return a header/footer that is contained in the document.
+    ///Gets form fields from document.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="headerFooterIndex">Header/footer index.</param>
-    /// <param name="sectionIndex">Section index.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="filterByType">List of types of headers and footers. (optional)</param>
-    pplx::task<std::shared_ptr<HeaderFooterResponse>> getHeaderFooterOfSection(
-        std::shared_ptr<GetHeaderFooterOfSectionRequest> request
-        );
+        /// <param name="nodePath">Path to the node containing collection of form fields.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<FormFieldsResponse>> WordsApi::getFormFields(
+		std::shared_ptr<GetFormFieldsRequest> request
+	);
     ///<summary>
-    ///Return a list of header/footers that are contained in the document.
+    ///Gets form fields from document.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="sectionPath">Path to parent section. (optional)</param>
-    /// <param name="filterByType">List of types of headers and footers. (optional)</param>
-    pplx::task<std::shared_ptr<HeaderFootersResponse>> getHeaderFooters(
-        std::shared_ptr<GetHeaderFootersRequest> request
-        );
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<FormFieldsResponse>> WordsApi::getFormFieldsWithoutNodePath(
+		std::shared_ptr<GetFormFieldsWithoutNodePathRequest> request
+	);
     ///<summary>
-    ///Read OfficeMath object by index.
+    ///Returns a header/footer from the document by index.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="index">Object&#39;s index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="nodePath">Path to node, which contains collection of OfficeMath objects. (optional)</param>
-    pplx::task<std::shared_ptr<OfficeMathObjectResponse>> getOfficeMathObject(
-        std::shared_ptr<GetOfficeMathObjectRequest> request
-        );
+        /// <param name="headerFooterIndex">Header/footer index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="filterByType">List of types of headers and footers. (optional)</param>
+    	pplx::task<AsposeResponse<HeaderFooterResponse>> WordsApi::getHeaderFooter(
+		std::shared_ptr<GetHeaderFooterRequest> request
+	);
     ///<summary>
-    ///Get OfficeMath objects from document.
-    ///</summary>
-    ///<remarks>
-    ///
-    ///</remarks>
-    /// <param name="name">The file name.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="nodePath">Path to node, which contains collection of OfficeMath objects. (optional)</param>
-    pplx::task<std::shared_ptr<OfficeMathObjectsResponse>> getOfficeMathObjects(
-        std::shared_ptr<GetOfficeMathObjectsRequest> request
-        );
-    ///<summary>
-    ///Get document section by index.
+    ///Returns a header/footer from the document section.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="sectionIndex">Section index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    pplx::task<std::shared_ptr<SectionResponse>> getSection(
-        std::shared_ptr<GetSectionRequest> request
-        );
+        /// <param name="headerFooterIndex">Header/footer index.</param>
+        /// <param name="sectionIndex">Section index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="filterByType">List of types of headers and footers. (optional)</param>
+    	pplx::task<AsposeResponse<HeaderFooterResponse>> WordsApi::getHeaderFooterOfSection(
+		std::shared_ptr<GetHeaderFooterOfSectionRequest> request
+	);
     ///<summary>
-    ///Get page setup of section.
+    ///Returns a list of header/footers from the document.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="sectionIndex">Section index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    pplx::task<std::shared_ptr<SectionPageSetupResponse>> getSectionPageSetup(
-        std::shared_ptr<GetSectionPageSetupRequest> request
-        );
+        /// <param name="sectionPath">Path to parent section.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="filterByType">List of types of headers and footers. (optional)</param>
+    	pplx::task<AsposeResponse<HeaderFootersResponse>> WordsApi::getHeaderFooters(
+		std::shared_ptr<GetHeaderFootersRequest> request
+	);
     ///<summary>
-    ///Return a list of sections that are contained in the document.
+    ///Reads OfficeMath object by index.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    pplx::task<std::shared_ptr<SectionLinkCollectionResponse>> getSections(
-        std::shared_ptr<GetSectionsRequest> request
-        );
+        /// <param name="nodePath">Path to the node, which contains collection of OfficeMath objects.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<OfficeMathObjectResponse>> WordsApi::getOfficeMathObject(
+		std::shared_ptr<GetOfficeMathObjectRequest> request
+	);
     ///<summary>
-    ///Return a table.
+    ///Reads OfficeMath object by index.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="index">Object&#39;s index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="nodePath">Path to node, which contains tables. (optional)</param>
-    pplx::task<std::shared_ptr<TableResponse>> getTable(
-        std::shared_ptr<GetTableRequest> request
-        );
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<OfficeMathObjectResponse>> WordsApi::getOfficeMathObjectWithoutNodePath(
+		std::shared_ptr<GetOfficeMathObjectWithoutNodePathRequest> request
+	);
     ///<summary>
-    ///Return a table cell.
+    ///Gets OfficeMath objects from document.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="tableRowPath">Path to table row.</param>
-    /// <param name="index">Object&#39;s index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    pplx::task<std::shared_ptr<TableCellResponse>> getTableCell(
-        std::shared_ptr<GetTableCellRequest> request
-        );
+        /// <param name="nodePath">Path to the node, which contains collection of OfficeMath objects.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<OfficeMathObjectsResponse>> WordsApi::getOfficeMathObjects(
+		std::shared_ptr<GetOfficeMathObjectsRequest> request
+	);
     ///<summary>
-    ///Return a table cell format.
+    ///Gets OfficeMath objects from document.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="tableRowPath">Path to table row.</param>
-    /// <param name="index">Object&#39;s index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    pplx::task<std::shared_ptr<TableCellFormatResponse>> getTableCellFormat(
-        std::shared_ptr<GetTableCellFormatRequest> request
-        );
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<OfficeMathObjectsResponse>> WordsApi::getOfficeMathObjectsWithoutNodePath(
+		std::shared_ptr<GetOfficeMathObjectsWithoutNodePathRequest> request
+	);
     ///<summary>
-    ///Return a table properties.
+    ///This resource represents one of the paragraphs contained in the document.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="index">Object&#39;s index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="nodePath">Path to node, which contains tables. (optional)</param>
-    pplx::task<std::shared_ptr<TablePropertiesResponse>> getTableProperties(
-        std::shared_ptr<GetTablePropertiesRequest> request
-        );
+        /// <param name="nodePath">Path to the node which contains paragraphs.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<ParagraphResponse>> WordsApi::getParagraph(
+		std::shared_ptr<GetParagraphRequest> request
+	);
     ///<summary>
-    ///Return a table row.
+    ///Represents all the formatting for a paragraph.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="tablePath">Path to table.</param>
-    /// <param name="index">Object&#39;s index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    pplx::task<std::shared_ptr<TableRowResponse>> getTableRow(
-        std::shared_ptr<GetTableRowRequest> request
-        );
+        /// <param name="nodePath">Path to the node which contains paragraphs.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<ParagraphFormatResponse>> WordsApi::getParagraphFormat(
+		std::shared_ptr<GetParagraphFormatRequest> request
+	);
     ///<summary>
-    ///Return a table row format.
+    ///Represents all the formatting for a paragraph.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="tablePath">Path to table.</param>
-    /// <param name="index">Object&#39;s index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    pplx::task<std::shared_ptr<TableRowFormatResponse>> getTableRowFormat(
-        std::shared_ptr<GetTableRowFormatRequest> request
-        );
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<ParagraphFormatResponse>> WordsApi::getParagraphFormatWithoutNodePath(
+		std::shared_ptr<GetParagraphFormatWithoutNodePathRequest> request
+	);
     ///<summary>
-    ///Return a list of tables that are contained in the document.
+    ///This resource represents one of the paragraphs contained in the document.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="nodePath">Path to node, which contains tables. (optional)</param>
-    pplx::task<std::shared_ptr<TableLinkCollectionResponse>> getTables(
-        std::shared_ptr<GetTablesRequest> request
-        );
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<ParagraphResponse>> WordsApi::getParagraphWithoutNodePath(
+		std::shared_ptr<GetParagraphWithoutNodePathRequest> request
+	);
     ///<summary>
-    ///Adds table to document, returns added table&#39;s data.             
+    ///Returns a list of paragraphs that are contained in the document.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    /// <param name="table">Table parameters/ (optional)</param>
-    /// <param name="nodePath">Path to node, which contains tables. (optional)</param>
-    pplx::task<std::shared_ptr<TableResponse>> insertTable(
-        std::shared_ptr<InsertTableRequest> request
-        );
+        /// <param name="nodePath">Path to the node which contains paragraphs.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<ParagraphLinkCollectionResponse>> WordsApi::getParagraphs(
+		std::shared_ptr<GetParagraphsRequest> request
+	);
     ///<summary>
-    ///Adds table cell to table, returns added cell&#39;s data.             
+    ///Returns a list of paragraphs that are contained in the document.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="tableRowPath">Path to table row.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    /// <param name="cell">Table cell parameters/ (optional)</param>
-    pplx::task<std::shared_ptr<TableCellResponse>> insertTableCell(
-        std::shared_ptr<InsertTableCellRequest> request
-        );
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<ParagraphLinkCollectionResponse>> WordsApi::getParagraphsWithoutNodePath(
+		std::shared_ptr<GetParagraphsWithoutNodePathRequest> request
+	);
     ///<summary>
-    ///Adds table row to table, returns added row&#39;s data.             
+    ///Gets the text from the range.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document.</param>
+        /// <param name="rangeStartIdentifier">The range start identifier. Identifier is the value of the \&quot;nodeId\&quot; field, which every document node has, extended with the prefix \&quot;id\&quot;. It looks like \&quot;id0.0.7\&quot;. Also values like \&quot;image5\&quot; and \&quot;table3\&quot; can be used as an identifier for images and tables, where the number is an index of the image/table.</param>
+        /// <param name="rangeEndIdentifier">The range end identifier.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<RangeTextResponse>> WordsApi::getRangeText(
+		std::shared_ptr<GetRangeTextRequest> request
+	);
+    ///<summary>
+    ///This resource represents run of text contained in the document.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="tablePath">Path to table.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    /// <param name="row">Table row parameters/ (optional)</param>
-    pplx::task<std::shared_ptr<TableRowResponse>> insertTableRow(
-        std::shared_ptr<InsertTableRowRequest> request
-        );
+        /// <param name="paragraphPath">Path to parent paragraph.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<RunResponse>> WordsApi::getRun(
+		std::shared_ptr<GetRunRequest> request
+	);
     ///<summary>
-    ///Append documents to original document.
-    ///</summary>
-    ///<remarks>
-    ///
-    ///</remarks>
-    /// <param name="name">Original document name.</param>
-    /// <param name="documentList">with a list of documents to append.            </param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    pplx::task<std::shared_ptr<DocumentResponse>> postAppendDocument(
-        std::shared_ptr<PostAppendDocumentRequest> request
-        );
-    ///<summary>
-    ///Change document protection.
+    ///This resource represents font of run.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="protectionRequest">with protection settings.            </param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    pplx::task<std::shared_ptr<ProtectionDataResponse>> postChangeDocumentProtection(
-        std::shared_ptr<PostChangeDocumentProtectionRequest> request
-        );
+        /// <param name="paragraphPath">Path to parent paragraph.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<FontResponse>> WordsApi::getRunFont(
+		std::shared_ptr<GetRunFontRequest> request
+	);
     ///<summary>
-    ///Updates the comment, returns updated comment&#39;s data.
+    ///This resource represents collection of runs in the paragraph.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="commentIndex">Comment index</param>
-    /// <param name="comment">Comment data.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    pplx::task<std::shared_ptr<CommentResponse>> postComment(
-        std::shared_ptr<PostCommentRequest> request
-        );
+        /// <param name="paragraphPath">Path to parent paragraph.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<RunsResponse>> WordsApi::getRuns(
+		std::shared_ptr<GetRunsRequest> request
+	);
     ///<summary>
-    ///Compare document with original document.
-    ///</summary>
-    ///<remarks>
-    ///
-    ///</remarks>
-    /// <param name="name">Original document name.</param>
-    /// <param name="compareData">with a document to compare.            </param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    pplx::task<std::shared_ptr<DocumentResponse>> postCompareDocument(
-        std::shared_ptr<PostCompareDocumentRequest> request
-        );
-    ///<summary>
-    ///Execute document mail merge operation.
+    ///Gets document section by index.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="data">Mail merge data (optional)</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="withRegions">With regions flag. (optional, default to false)</param>
-    /// <param name="mailMergeDataFile">Mail merge data. (optional)</param>
-    /// <param name="cleanup">Clean up options. (optional)</param>
-    /// <param name="useWholeParagraphAsRegion">Gets or sets a value indicating whether paragraph with TableStart or              TableEnd field should be fully included into mail merge region or particular range between TableStart and TableEnd fields.              The default value is true. (optional, default to true)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved with autogenerated name. (optional)</param>
-    pplx::task<std::shared_ptr<DocumentResponse>> postDocumentExecuteMailMerge(
-        std::shared_ptr<PostDocumentExecuteMailMergeRequest> request
-        );
+        /// <param name="sectionIndex">Section index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<SectionResponse>> WordsApi::getSection(
+		std::shared_ptr<GetSectionRequest> request
+	);
     ///<summary>
-    ///Updates paragrpaph format properties, returns updated format properties.
+    ///Gets page setup of section.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="dto">Paragraph format object</param>
-    /// <param name="nodePath">Path to node which contains paragraphs.</param>
-    /// <param name="index">Object&#39;s index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    pplx::task<std::shared_ptr<ParagraphFormatResponse>> postDocumentParagraphFormat(
-        std::shared_ptr<PostDocumentParagraphFormatRequest> request
-        );
+        /// <param name="sectionIndex">Section index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<SectionPageSetupResponse>> WordsApi::getSectionPageSetup(
+		std::shared_ptr<GetSectionPageSetupRequest> request
+	);
     ///<summary>
-    ///Updates font properties, returns updated font data.
+    ///Returns a list of sections that are contained in the document.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="fontDto">Font dto object</param>
-    /// <param name="paragraphPath">Path to parent paragraph.</param>
-    /// <param name="index">Object&#39;s index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    pplx::task<std::shared_ptr<FontResponse>> postDocumentParagraphRunFont(
-        std::shared_ptr<PostDocumentParagraphRunFontRequest> request
-        );
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<SectionLinkCollectionResponse>> WordsApi::getSections(
+		std::shared_ptr<GetSectionsRequest> request
+	);
     ///<summary>
-    ///Convert document to destination format with detailed settings and save result to storage.
+    ///Returns a table.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="saveOptionsData">Save options.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="fontsLocation">Folder in filestorage with custom fonts. (optional)</param>
-    pplx::task<std::shared_ptr<SaveResponse>> postDocumentSaveAs(
-        std::shared_ptr<PostDocumentSaveAsRequest> request
-        );
+        /// <param name="nodePath">Path to the node, which contains tables.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<TableResponse>> WordsApi::getTable(
+		std::shared_ptr<GetTableRequest> request
+	);
     ///<summary>
-    ///Updates drawing object, returns updated  drawing object&#39;s data.
+    ///Returns a table cell.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="drawingObject">Drawing object parameters</param>
-    /// <param name="imageFile">File with image</param>
-    /// <param name="index">Object&#39;s index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    /// <param name="nodePath">Path to node, which contains collection of drawing objects. (optional)</param>
-    pplx::task<std::shared_ptr<DrawingObjectResponse>> postDrawingObject(
-        std::shared_ptr<PostDrawingObjectRequest> request
-        );
+        /// <param name="tableRowPath">Path to table row.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<TableCellResponse>> WordsApi::getTableCell(
+		std::shared_ptr<GetTableCellRequest> request
+	);
     ///<summary>
-    ///Populate document template with data.
-    ///</summary>
-    ///<remarks>
-    ///
-    ///</remarks>
-    /// <param name="name">The template document name.</param>
-    /// <param name="data">Mail merge data</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="cleanup">Clean up options. (optional)</param>
-    /// <param name="useWholeParagraphAsRegion">Gets or sets a value indicating whether paragraph with TableStart or  TableEnd field should be fully included into mail merge region or particular range between TableStart and TableEnd fields.   The default value is true. (optional, default to true)</param>
-    /// <param name="withRegions">Merge with regions or not. True by default (optional, default to true)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved with autogenerated name. (optional)</param>
-    pplx::task<std::shared_ptr<DocumentResponse>> postExecuteTemplate(
-        std::shared_ptr<PostExecuteTemplateRequest> request
-        );
-    ///<summary>
-    ///Updates field&#39;s properties, returns updated field&#39;s data.
+    ///Returns a table cell format.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="field">Field data.</param>
-    /// <param name="index">Object&#39;s index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    /// <param name="nodePath">Path to node, which contains collection of fields. (optional)</param>
-    pplx::task<std::shared_ptr<FieldResponse>> postField(
-        std::shared_ptr<PostFieldRequest> request
-        );
+        /// <param name="tableRowPath">Path to table row.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<TableCellFormatResponse>> WordsApi::getTableCellFormat(
+		std::shared_ptr<GetTableCellFormatRequest> request
+	);
     ///<summary>
-    ///Updates footnote&#39;s properties, returns updated run&#39;s data.
+    ///Returns a table properties.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="footnoteDto">Footnote data.</param>
-    /// <param name="index">Object&#39;s index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    /// <param name="nodePath">Path to node, which contains collection of footnotes. (optional)</param>
-    pplx::task<std::shared_ptr<FootnoteResponse>> postFootnote(
-        std::shared_ptr<PostFootnoteRequest> request
-        );
+        /// <param name="nodePath">Path to the node, which contains tables.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<TablePropertiesResponse>> WordsApi::getTableProperties(
+		std::shared_ptr<GetTablePropertiesRequest> request
+	);
     ///<summary>
-    ///Updates properties of form field, returns updated form field.
+    ///Returns a table properties.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="formField">From field data.</param>
-    /// <param name="index">Object&#39;s index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    /// <param name="nodePath">Path to node that contains collection of formfields. (optional)</param>
-    pplx::task<std::shared_ptr<FormFieldResponse>> postFormField(
-        std::shared_ptr<PostFormFieldRequest> request
-        );
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<TablePropertiesResponse>> WordsApi::getTablePropertiesWithoutNodePath(
+		std::shared_ptr<GetTablePropertiesWithoutNodePathRequest> request
+	);
     ///<summary>
-    ///Insert document watermark image.
+    ///Returns a table row.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="imageFile">File with image (optional)</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    /// <param name="rotationAngle">The watermark rotation angle. (optional, default to 0.0)</param>
-    /// <param name="image">The image file server full name. If the name is empty the image is expected in request content. (optional)</param>
-    pplx::task<std::shared_ptr<DocumentResponse>> postInsertDocumentWatermarkImage(
-        std::shared_ptr<PostInsertDocumentWatermarkImageRequest> request
-        );
+        /// <param name="tablePath">Path to table.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<TableRowResponse>> WordsApi::getTableRow(
+		std::shared_ptr<GetTableRowRequest> request
+	);
     ///<summary>
-    ///Insert document watermark text.
+    ///Returns a table row format.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="watermarkText">with the watermark data.            </param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    pplx::task<std::shared_ptr<DocumentResponse>> postInsertDocumentWatermarkText(
-        std::shared_ptr<PostInsertDocumentWatermarkTextRequest> request
-        );
+        /// <param name="tablePath">Path to table.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<TableRowFormatResponse>> WordsApi::getTableRowFormat(
+		std::shared_ptr<GetTableRowFormatRequest> request
+	);
     ///<summary>
-    ///Insert document page numbers.
-    ///</summary>
-    ///<remarks>
-    ///
-    ///</remarks>
-    /// <param name="name">A document name.</param>
-    /// <param name="pageNumber">with the page numbers settings.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    pplx::task<std::shared_ptr<DocumentResponse>> postInsertPageNumbers(
-        std::shared_ptr<PostInsertPageNumbersRequest> request
-        );
-    ///<summary>
-    ///Loads new document from web into the file with any supported format of data.
-    ///</summary>
-    ///<remarks>
-    ///
-    ///</remarks>
-    /// <param name="data">Parameters of loading.</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    pplx::task<std::shared_ptr<SaveResponse>> postLoadWebDocument(
-        std::shared_ptr<PostLoadWebDocumentRequest> request
-        );
-    ///<summary>
-    ///Replace document text.
+    ///Returns a table.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="replaceText">with the replace operation settings.            </param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    pplx::task<std::shared_ptr<ReplaceTextResponse>> postReplaceText(
-        std::shared_ptr<PostReplaceTextRequest> request
-        );
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<TableResponse>> WordsApi::getTableWithoutNodePath(
+		std::shared_ptr<GetTableWithoutNodePathRequest> request
+	);
     ///<summary>
-    ///Updates run&#39;s properties, returns updated run&#39;s data.
+    ///Returns a list of tables that are contained in the document.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="run">Run data.</param>
-    /// <param name="paragraphPath">Path to parent paragraph.</param>
-    /// <param name="index">Object&#39;s index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    pplx::task<std::shared_ptr<RunResponse>> postRun(
-        std::shared_ptr<PostRunRequest> request
-        );
+        /// <param name="nodePath">Path to the node, which contains tables.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<TableLinkCollectionResponse>> WordsApi::getTables(
+		std::shared_ptr<GetTablesRequest> request
+	);
     ///<summary>
-    ///Split document.
-    ///</summary>
-    ///<remarks>
-    ///
-    ///</remarks>
-    /// <param name="name">Original document name.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="format">Format to split. (optional)</param>
-    /// <param name="from">Start page. (optional)</param>
-    /// <param name="to">End page. (optional)</param>
-    /// <param name="zipOutput">ZipOutput or not. (optional, default to false)</param>
-    /// <param name="fontsLocation">Folder in filestorage with custom fonts. (optional)</param>
-    pplx::task<std::shared_ptr<SplitDocumentResponse>> postSplitDocument(
-        std::shared_ptr<PostSplitDocumentRequest> request
-        );
-    ///<summary>
-    ///Update document bookmark.
+    ///Returns a list of tables that are contained in the document.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="bookmarkData">with new bookmark data.            </param>
-    /// <param name="bookmarkName">The bookmark name.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    pplx::task<std::shared_ptr<BookmarkResponse>> postUpdateDocumentBookmark(
-        std::shared_ptr<PostUpdateDocumentBookmarkRequest> request
-        );
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<TableLinkCollectionResponse>> WordsApi::getTablesWithoutNodePath(
+		std::shared_ptr<GetTablesWithoutNodePathRequest> request
+	);
     ///<summary>
-    ///Update (reevaluate) fields in document.
+    ///Adds comment to document, returns inserted comment data.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    pplx::task<std::shared_ptr<DocumentResponse>> postUpdateDocumentFields(
-        std::shared_ptr<PostUpdateDocumentFieldsRequest> request
-        );
+        /// <param name="comment">The comment data.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<AsposeResponse<CommentResponse>> WordsApi::insertComment(
+		std::shared_ptr<InsertCommentRequest> request
+	);
     ///<summary>
-    ///Adds comment to document, returns inserted comment&#39;s data.
+    ///Adds drawing object to document, returns added  drawing object&#39;s data.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="comment">Comment data.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    pplx::task<std::shared_ptr<CommentResponse>> putComment(
-        std::shared_ptr<PutCommentRequest> request
-        );
+        /// <param name="drawingObject">Drawing object parameters</param>
+        /// <param name="imageFile">File with image</param>
+        /// <param name="nodePath">Path to the node, which contains collection of drawing objects.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<AsposeResponse<DrawingObjectResponse>> WordsApi::insertDrawingObject(
+		std::shared_ptr<InsertDrawingObjectRequest> request
+	);
     ///<summary>
-    ///Convert document from request content to format specified.
-    ///</summary>
-    ///<remarks>
-    ///
-    ///</remarks>
-    /// <param name="document">Converting document</param>
-    /// <param name="format">Format to convert.</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="outPath">Path for saving operation result to the local storage. (optional)</param>
-    /// <param name="documentFileName">This file name will be used when resulting document has dynamic field for document file name {filename}. If it is not setted, \&quot;sourceFilename\&quot; will be used instead.  (optional, default to sourceFilename)</param>
-    /// <param name="fontsLocation">Folder in filestorage with custom fonts. (optional)</param>
-    pplx::task<HttpContent> putConvertDocument(
-        std::shared_ptr<PutConvertDocumentRequest> request
-        );
-    ///<summary>
-    ///Creates new document. Document is created with format which is recognized from file extensions.  Supported extentions: \&quot;.doc\&quot;, \&quot;.docx\&quot;, \&quot;.docm\&quot;, \&quot;.dot\&quot;, \&quot;.dotm\&quot;, \&quot;.dotx\&quot;, \&quot;.flatopc\&quot;, \&quot;.fopc\&quot;, \&quot;.flatopc_macro\&quot;, \&quot;.fopc_macro\&quot;, \&quot;.flatopc_template\&quot;, \&quot;.fopc_template\&quot;, \&quot;.flatopc_template_macro\&quot;, \&quot;.fopc_template_macro\&quot;, \&quot;.wordml\&quot;, \&quot;.wml\&quot;, \&quot;.rtf\&quot;
-    ///</summary>
-    ///<remarks>
-    ///
-    ///</remarks>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="fileName">The file name. (optional)</param>
-    /// <param name="folder">The document folder. (optional)</param>
-    pplx::task<std::shared_ptr<DocumentResponse>> putCreateDocument(
-        std::shared_ptr<PutCreateDocumentRequest> request
-        );
-    ///<summary>
-    ///Read document field names.
-    ///</summary>
-    ///<remarks>
-    ///
-    ///</remarks>
-    /// <param name="_template">File with template</param>
-    /// <param name="useNonMergeFields">Use non merge fields or not. (optional, default to false)</param>
-    pplx::task<std::shared_ptr<FieldNamesResponse>> putDocumentFieldNames(
-        std::shared_ptr<PutDocumentFieldNamesRequest> request
-        );
-    ///<summary>
-    ///Convert document to tiff with detailed settings and save result to storage.
+    ///Adds drawing object to document, returns added  drawing object&#39;s data.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="saveOptions">Tiff save options.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="resultFile">The resulting file name. (optional)</param>
-    /// <param name="useAntiAliasing">Use antialiasing flag. (optional)</param>
-    /// <param name="useHighQualityRendering">Use high quality flag. (optional)</param>
-    /// <param name="imageBrightness">Brightness for the generated images. (optional)</param>
-    /// <param name="imageColorMode">Color mode for the generated images. (optional)</param>
-    /// <param name="imageContrast">The contrast for the generated images. (optional)</param>
-    /// <param name="numeralFormat">The images numeral format. (optional)</param>
-    /// <param name="pageCount">Number of pages to render. (optional)</param>
-    /// <param name="pageIndex">Page index to start rendering. (optional)</param>
-    /// <param name="paperColor">Background image color. (optional)</param>
-    /// <param name="pixelFormat">The pixel format of generated images. (optional)</param>
-    /// <param name="resolution">The resolution of generated images. (optional)</param>
-    /// <param name="scale">Zoom factor for generated images. (optional)</param>
-    /// <param name="tiffCompression">The compression tipe. (optional)</param>
-    /// <param name="dmlRenderingMode">Optional, default is Fallback. (optional)</param>
-    /// <param name="dmlEffectsRenderingMode">Optional, default is Simplified. (optional)</param>
-    /// <param name="tiffBinarizationMethod">Optional, Tiff binarization method, possible values are: FloydSteinbergDithering, Threshold. (optional)</param>
-    /// <param name="zipOutput">Optional. A value determining zip output or not. (optional)</param>
-    /// <param name="fontsLocation">Folder in filestorage with custom fonts. (optional)</param>
-    pplx::task<std::shared_ptr<SaveResponse>> putDocumentSaveAsTiff(
-        std::shared_ptr<PutDocumentSaveAsTiffRequest> request
-        );
-    ///<summary>
-    ///Adds  drawing object to document, returns added  drawing object&#39;s data.
-    ///</summary>
-    ///<remarks>
-    ///
-    ///</remarks>
-    /// <param name="name">The document name.</param>
-    /// <param name="drawingObject">Drawing object parameters</param>
-    /// <param name="imageFile">File with image</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    /// <param name="nodePath">Path to node, which contains collection of drawing objects. (optional)</param>
-    pplx::task<std::shared_ptr<DrawingObjectResponse>> putDrawingObject(
-        std::shared_ptr<PutDrawingObjectRequest> request
-        );
-    ///<summary>
-    ///Execute document mail merge online.
-    ///</summary>
-    ///<remarks>
-    ///
-    ///</remarks>
-    /// <param name="_template">File with template</param>
-    /// <param name="data">File with mailmerge data</param>
-    /// <param name="withRegions">With regions flag. (optional, default to false)</param>
-    /// <param name="cleanup">Clean up options. (optional)</param>
-    /// <param name="documentFileName">This file name will be used when resulting document has dynamic field for document file name {filename}. If it is not setted, \&quot;template\&quot; will be used instead.  (optional, default to template)</param>
-    pplx::task<HttpContent> putExecuteMailMergeOnline(
-        std::shared_ptr<PutExecuteMailMergeOnlineRequest> request
-        );
-    ///<summary>
-    ///Populate document template with data online.
-    ///</summary>
-    ///<remarks>
-    ///
-    ///</remarks>
-    /// <param name="_template">File with template</param>
-    /// <param name="data">File with mailmerge data</param>
-    /// <param name="cleanup">Clean up options. (optional)</param>
-    /// <param name="useWholeParagraphAsRegion">Gets or sets a value indicating whether paragraph with TableStart or              TableEnd field should be fully included into mail merge region or particular range between TableStart and TableEnd fields.              The default value is true. (optional, default to true)</param>
-    /// <param name="withRegions">Merge with regions or not. True by default (optional, default to true)</param>
-    /// <param name="documentFileName">This file name will be used when resulting document has dynamic field for document file name {filename}.  If it is not setted, \&quot;template\&quot; will be used instead.  Note: if withRegions &#x3D;&#x3D; true executeTemplate updates fields only inside regions (optional, default to template)</param>
-    pplx::task<HttpContent> putExecuteTemplateOnline(
-        std::shared_ptr<PutExecuteTemplateOnlineRequest> request
-        );
+        /// <param name="drawingObject">Drawing object parameters</param>
+        /// <param name="imageFile">File with image</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<AsposeResponse<DrawingObjectResponse>> WordsApi::insertDrawingObjectWithoutNodePath(
+		std::shared_ptr<InsertDrawingObjectWithoutNodePathRequest> request
+	);
     ///<summary>
     ///Adds field to document, returns inserted field&#39;s data.
     ///</summary>
@@ -2023,19 +2139,38 @@ public:
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="field">Field data.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    /// <param name="nodePath">Path to node, which contains collection of fields. (optional)</param>
-    /// <param name="insertBeforeNode">Field will be inserted before node with id&#x3D;\&quot;nodeId\&quot;. (optional)</param>
-    pplx::task<std::shared_ptr<FieldResponse>> putField(
-        std::shared_ptr<PutFieldRequest> request
-        );
+        /// <param name="field">Field data.</param>
+        /// <param name="nodePath">Path to the node, which contains collection of fields.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+        /// <param name="insertBeforeNode">Field will be inserted before node with id&#x3D;\&quot;nodeId\&quot;. (optional)</param>
+    	pplx::task<AsposeResponse<FieldResponse>> WordsApi::insertField(
+		std::shared_ptr<InsertFieldRequest> request
+	);
+    ///<summary>
+    ///Adds field to document, returns inserted field&#39;s data.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="field">Field data.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+        /// <param name="insertBeforeNode">Field will be inserted before node with id&#x3D;\&quot;nodeId\&quot;. (optional)</param>
+    	pplx::task<AsposeResponse<FieldResponse>> WordsApi::insertFieldWithoutNodePath(
+		std::shared_ptr<InsertFieldWithoutNodePathRequest> request
+	);
     ///<summary>
     ///Adds footnote to document, returns added footnote&#39;s data.
     ///</summary>
@@ -2043,18 +2178,36 @@ public:
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="footnoteDto">Footnote data.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    /// <param name="nodePath">Path to node, which contains collection of footnotes. (optional)</param>
-    pplx::task<std::shared_ptr<FootnoteResponse>> putFootnote(
-        std::shared_ptr<PutFootnoteRequest> request
-        );
+        /// <param name="footnoteDto">Footnote data.</param>
+        /// <param name="nodePath">Path to the node, which contains collection of footnotes.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<AsposeResponse<FootnoteResponse>> WordsApi::insertFootnote(
+		std::shared_ptr<InsertFootnoteRequest> request
+	);
+    ///<summary>
+    ///Adds footnote to document, returns added footnote&#39;s data.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="footnoteDto">Footnote data.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<AsposeResponse<FootnoteResponse>> WordsApi::insertFootnoteWithoutNodePath(
+		std::shared_ptr<InsertFootnoteWithoutNodePathRequest> request
+	);
     ///<summary>
     ///Adds form field to paragraph, returns added form field&#39;s data.
     ///</summary>
@@ -2062,38 +2215,75 @@ public:
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="formField">From field data.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    /// <param name="nodePath">Path to node that contains collection of formfields. (optional)</param>
-    /// <param name="insertBeforeNode">Form field will be inserted before node with index. (optional)</param>
-    pplx::task<std::shared_ptr<FormFieldResponse>> putFormField(
-        std::shared_ptr<PutFormFieldRequest> request
-        );
+        /// <param name="formField">From field data.</param>
+        /// <param name="nodePath">Path to the node that contains collection of formfields.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+        /// <param name="insertBeforeNode">Form field will be inserted before node with index. (optional)</param>
+    	pplx::task<AsposeResponse<FormFieldResponse>> WordsApi::insertFormField(
+		std::shared_ptr<InsertFormFieldRequest> request
+	);
     ///<summary>
-    ///Insert to document header or footer.
+    ///Adds form field to paragraph, returns added form field&#39;s data.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="headerFooterType">Type of header/footer.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    /// <param name="sectionPath">Path to parent section. (optional)</param>
-    pplx::task<std::shared_ptr<HeaderFooterResponse>> putHeaderFooter(
-        std::shared_ptr<PutHeaderFooterRequest> request
-        );
+        /// <param name="formField">From field data.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+        /// <param name="insertBeforeNode">Form field will be inserted before node with index. (optional)</param>
+    	pplx::task<AsposeResponse<FormFieldResponse>> WordsApi::insertFormFieldWithoutNodePath(
+		std::shared_ptr<InsertFormFieldWithoutNodePathRequest> request
+	);
+    ///<summary>
+    ///Inserts to document header or footer.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="headerFooterType">Type of header/footer.</param>
+        /// <param name="sectionPath">Path to parent section.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<AsposeResponse<HeaderFooterResponse>> WordsApi::insertHeaderFooter(
+		std::shared_ptr<InsertHeaderFooterRequest> request
+	);
+    ///<summary>
+    ///Inserts document page numbers.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">A document name.</param>
+        /// <param name="pageNumber">with the page numbers settings.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<AsposeResponse<DocumentResponse>> WordsApi::insertPageNumbers(
+		std::shared_ptr<InsertPageNumbersRequest> request
+	);
     ///<summary>
     ///Adds paragraph to document, returns added paragraph&#39;s data.
     ///</summary>
@@ -2101,35 +2291,19 @@ public:
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="paragraph">Paragraph data.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    /// <param name="nodePath">Path to node which contains paragraphs. (optional)</param>
-    /// <param name="insertBeforeNode">Paragraph will be inserted before node with index. (optional)</param>
-    pplx::task<std::shared_ptr<ParagraphResponse>> putParagraph(
-        std::shared_ptr<PutParagraphRequest> request
-        );
-    ///<summary>
-    ///Protect document.
-    ///</summary>
-    ///<remarks>
-    ///
-    ///</remarks>
-    /// <param name="name">The document name.</param>
-    /// <param name="protectionRequest">with protection settings.            </param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    pplx::task<std::shared_ptr<ProtectionDataResponse>> putProtectDocument(
-        std::shared_ptr<PutProtectDocumentRequest> request
-        );
+        /// <param name="paragraph">Paragraph data.</param>
+        /// <param name="nodePath">Path to the node which contains paragraphs.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+        /// <param name="insertBeforeNode">Paragraph will be inserted before node with index. (optional)</param>
+    	pplx::task<AsposeResponse<ParagraphResponse>> WordsApi::insertParagraph(
+		std::shared_ptr<InsertParagraphRequest> request
+	);
     ///<summary>
     ///Adds run to document, returns added paragraph&#39;s data.
     ///</summary>
@@ -2137,186 +2311,828 @@ public:
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="paragraphPath">Path to parent paragraph.</param>
-    /// <param name="run">Run data.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    /// <param name="insertBeforeNode">Paragraph will be inserted before node with index. (optional)</param>
-    pplx::task<std::shared_ptr<RunResponse>> putRun(
-        std::shared_ptr<PutRunRequest> request
-        );
+        /// <param name="paragraphPath">Path to parent paragraph.</param>
+        /// <param name="run">Run data.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+        /// <param name="insertBeforeNode">Paragraph will be inserted before node with index. (optional)</param>
+    	pplx::task<AsposeResponse<RunResponse>> WordsApi::insertRun(
+		std::shared_ptr<InsertRunRequest> request
+	);
     ///<summary>
-    ///Reject all revisions in document
+    ///Adds table to document, returns added table&#39;s data.             
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    pplx::task<std::shared_ptr<RevisionsModificationResponse>> rejectAllRevisions(
-        std::shared_ptr<RejectAllRevisionsRequest> request
-        );
+        /// <param name="nodePath">Path to the node, which contains tables.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+        /// <param name="table">Table parameters/. (optional)</param>
+    	pplx::task<AsposeResponse<TableResponse>> WordsApi::insertTable(
+		std::shared_ptr<InsertTableRequest> request
+	);
+    ///<summary>
+    ///Adds table cell to table, returns added cell&#39;s data.             
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="tableRowPath">Path to table row.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+        /// <param name="cell">Table cell parameters/. (optional)</param>
+    	pplx::task<AsposeResponse<TableCellResponse>> WordsApi::insertTableCell(
+		std::shared_ptr<InsertTableCellRequest> request
+	);
+    ///<summary>
+    ///Adds table row to table, returns added row&#39;s data.             
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="tablePath">Path to table.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+        /// <param name="row">Table row parameters/. (optional)</param>
+    	pplx::task<AsposeResponse<TableRowResponse>> WordsApi::insertTableRow(
+		std::shared_ptr<InsertTableRowRequest> request
+	);
+    ///<summary>
+    ///Adds table to document, returns added table&#39;s data.             
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+        /// <param name="table">Table parameters/. (optional)</param>
+    	pplx::task<AsposeResponse<TableResponse>> WordsApi::insertTableWithoutNodePath(
+		std::shared_ptr<InsertTableWithoutNodePathRequest> request
+	);
+    ///<summary>
+    ///Inserts document watermark image.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="imageFile">File with image (optional)</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+        /// <param name="rotationAngle">The watermark rotation angle. (optional, default to 0.0)</param>
+        /// <param name="image">The image file server full name. If the name is empty the image is expected in request content. (optional)</param>
+    	pplx::task<AsposeResponse<DocumentResponse>> WordsApi::insertWatermarkImage(
+		std::shared_ptr<InsertWatermarkImageRequest> request
+	);
+    ///<summary>
+    ///Inserts document watermark text.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="watermarkText">with the watermark data.            </param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<AsposeResponse<DocumentResponse>> WordsApi::insertWatermarkText(
+		std::shared_ptr<InsertWatermarkTextRequest> request
+	);
+    ///<summary>
+    ///Loads new document from web into the file with any supported format of data.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="data">Parameters of loading.</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+    	pplx::task<AsposeResponse<SaveResponse>> WordsApi::loadWebDocument(
+		std::shared_ptr<LoadWebDocumentRequest> request
+	);
+    ///<summary>
+    ///Move file
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="destPath">Destination file path e.g. &#39;/dest.ext&#39;</param>
+        /// <param name="srcPath">Source file&#39;s path e.g. &#39;/Folder 1/file.ext&#39; or &#39;/Bucket/Folder 1/file.ext&#39;</param>
+        /// <param name="srcStorageName">Source storage name (optional)</param>
+        /// <param name="destStorageName">Destination storage name (optional)</param>
+        /// <param name="versionId">File version ID to move (optional)</param>
+    	pplx::task<std::shared_ptr<web::http::http_response>> WordsApi::moveFile(
+		std::shared_ptr<MoveFileRequest> request
+	);
+    ///<summary>
+    ///Move folder
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="destPath">Destination folder path to move to e.g &#39;/dst&#39;</param>
+        /// <param name="srcPath">Source folder path e.g. /Folder1</param>
+        /// <param name="srcStorageName">Source storage name (optional)</param>
+        /// <param name="destStorageName">Destination storage name (optional)</param>
+    	pplx::task<std::shared_ptr<web::http::http_response>> WordsApi::moveFolder(
+		std::shared_ptr<MoveFolderRequest> request
+	);
+    ///<summary>
+    ///Protects document.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="protectionRequest">with protection settings.            </param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+    	pplx::task<AsposeResponse<ProtectionDataResponse>> WordsApi::protectDocument(
+		std::shared_ptr<ProtectDocumentRequest> request
+	);
+    ///<summary>
+    ///Rejects all revisions in document.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+    	pplx::task<AsposeResponse<RevisionsModificationResponse>> WordsApi::rejectAllRevisions(
+		std::shared_ptr<RejectAllRevisionsRequest> request
+	);
+    ///<summary>
+    ///Removes the range from the document.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document.</param>
+        /// <param name="rangeStartIdentifier">The range start identifier. Identifier is the value of the \&quot;nodeId\&quot; field, which every document node has, extended with the prefix \&quot;id\&quot;. It looks like \&quot;id0.0.7\&quot;. Also values like \&quot;image5\&quot; and \&quot;table3\&quot; can be used as an identifier for images and tables, where the number is an index of the image/table.</param>
+        /// <param name="rangeEndIdentifier">The range end identifier.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+    	pplx::task<AsposeResponse<DocumentResponse>> WordsApi::removeRange(
+		std::shared_ptr<RemoveRangeRequest> request
+	);
     ///<summary>
     ///Renders drawing object to specified format.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
-    /// <param name="name">The file name.</param>
-    /// <param name="format">The destination format.</param>
-    /// <param name="index">Object&#39;s index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="nodePath">Path to node, which contains drawing objects. (optional)</param>
-    /// <param name="fontsLocation">Folder in filestorage with custom fonts. (optional)</param>
-    pplx::task<HttpContent> renderDrawingObject(
-        std::shared_ptr<RenderDrawingObjectRequest> request
-        );
+    /// <param name="name">The document name.</param>
+        /// <param name="format">The destination format.</param>
+        /// <param name="nodePath">Path to the node, which contains drawing objects.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="fontsLocation">Folder in filestorage with custom fonts. (optional)</param>
+    	pplx::task<HttpContent> WordsApi::renderDrawingObject(
+		std::shared_ptr<RenderDrawingObjectRequest> request
+	);
+    ///<summary>
+    ///Renders drawing object to specified format.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="format">The destination format.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="fontsLocation">Folder in filestorage with custom fonts. (optional)</param>
+    	pplx::task<HttpContent> WordsApi::renderDrawingObjectWithoutNodePath(
+		std::shared_ptr<RenderDrawingObjectWithoutNodePathRequest> request
+	);
     ///<summary>
     ///Renders math object to specified format.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
-    /// <param name="name">The file name.</param>
-    /// <param name="format">The destination format.</param>
-    /// <param name="index">Object&#39;s index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="nodePath">Path to node, which contains office math objects. (optional)</param>
-    /// <param name="fontsLocation">Folder in filestorage with custom fonts. (optional)</param>
-    pplx::task<HttpContent> renderMathObject(
-        std::shared_ptr<RenderMathObjectRequest> request
-        );
+    /// <param name="name">The document name.</param>
+        /// <param name="format">The destination format.</param>
+        /// <param name="nodePath">Path to the node, which contains office math objects.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="fontsLocation">Folder in filestorage with custom fonts. (optional)</param>
+    	pplx::task<HttpContent> WordsApi::renderMathObject(
+		std::shared_ptr<RenderMathObjectRequest> request
+	);
+    ///<summary>
+    ///Renders math object to specified format.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="format">The destination format.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="fontsLocation">Folder in filestorage with custom fonts. (optional)</param>
+    	pplx::task<HttpContent> WordsApi::renderMathObjectWithoutNodePath(
+		std::shared_ptr<RenderMathObjectWithoutNodePathRequest> request
+	);
     ///<summary>
     ///Renders page to specified format.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
-    /// <param name="name">The file name.</param>
-    /// <param name="pageIndex">Comment index</param>
-    /// <param name="format">The destination format.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="fontsLocation">Folder in filestorage with custom fonts. (optional)</param>
-    pplx::task<HttpContent> renderPage(
-        std::shared_ptr<RenderPageRequest> request
-        );
+    /// <param name="name">The document name.</param>
+        /// <param name="pageIndex">Comment index.</param>
+        /// <param name="format">The destination format.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="fontsLocation">Folder in filestorage with custom fonts. (optional)</param>
+    	pplx::task<HttpContent> WordsApi::renderPage(
+		std::shared_ptr<RenderPageRequest> request
+	);
     ///<summary>
     ///Renders paragraph to specified format.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
-    /// <param name="name">The file name.</param>
-    /// <param name="format">The destination format.</param>
-    /// <param name="index">Object&#39;s index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="nodePath">Path to node, which contains paragraphs. (optional)</param>
-    /// <param name="fontsLocation">Folder in filestorage with custom fonts. (optional)</param>
-    pplx::task<HttpContent> renderParagraph(
-        std::shared_ptr<RenderParagraphRequest> request
-        );
+    /// <param name="name">The document name.</param>
+        /// <param name="format">The destination format.</param>
+        /// <param name="nodePath">Path to the node, which contains paragraphs.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="fontsLocation">Folder in filestorage with custom fonts. (optional)</param>
+    	pplx::task<HttpContent> WordsApi::renderParagraph(
+		std::shared_ptr<RenderParagraphRequest> request
+	);
+    ///<summary>
+    ///Renders paragraph to specified format.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="format">The destination format.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="fontsLocation">Folder in filestorage with custom fonts. (optional)</param>
+    	pplx::task<HttpContent> WordsApi::renderParagraphWithoutNodePath(
+		std::shared_ptr<RenderParagraphWithoutNodePathRequest> request
+	);
     ///<summary>
     ///Renders table to specified format.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
-    /// <param name="name">The file name.</param>
-    /// <param name="format">The destination format.</param>
-    /// <param name="index">Object&#39;s index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="nodePath">Path to node, which contains tables. (optional)</param>
-    /// <param name="fontsLocation">Folder in filestorage with custom fonts. (optional)</param>
-    pplx::task<HttpContent> renderTable(
-        std::shared_ptr<RenderTableRequest> request
-        );
+    /// <param name="name">The document name.</param>
+        /// <param name="format">The destination format.</param>
+        /// <param name="nodePath">Path to the node, which contains tables.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="fontsLocation">Folder in filestorage with custom fonts. (optional)</param>
+    	pplx::task<HttpContent> WordsApi::renderTable(
+		std::shared_ptr<RenderTableRequest> request
+	);
+    ///<summary>
+    ///Renders table to specified format.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="format">The destination format.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="fontsLocation">Folder in filestorage with custom fonts. (optional)</param>
+    	pplx::task<HttpContent> WordsApi::renderTableWithoutNodePath(
+		std::shared_ptr<RenderTableWithoutNodePathRequest> request
+	);
+    ///<summary>
+    ///Replaces document text.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="replaceText">with the replace operation settings.            </param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<AsposeResponse<ReplaceTextResponse>> WordsApi::replaceText(
+		std::shared_ptr<ReplaceTextRequest> request
+	);
+    ///<summary>
+    ///Replaces the content in the range.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document.</param>
+        /// <param name="rangeStartIdentifier">The range start identifier. Identifier is the value of the \&quot;nodeId\&quot; field, which every document node has, extended with the prefix \&quot;id\&quot;. It looks like \&quot;id0.0.7\&quot;. Also values like \&quot;image5\&quot; and \&quot;table3\&quot; can be used as an identifier for images and tables, where the number is an index of the image/table.</param>
+        /// <param name="rangeText">Model with text for replacement.</param>
+        /// <param name="rangeEndIdentifier">The range end identifier.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+    	pplx::task<AsposeResponse<DocumentResponse>> WordsApi::replaceWithText(
+		std::shared_ptr<ReplaceWithTextRequest> request
+	);
     ///<summary>
     ///Resets font&#39;s cache.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
-    pplx::task<std::shared_ptr<AsposeResponse>> resetCache(
-        std::shared_ptr<ResetCacheRequest> request
-        );
+	pplx::task<std::shared_ptr<web::http::http_response>> WordsApi::resetCache(
+		std::shared_ptr<ResetCacheRequest> request
+	);
     ///<summary>
-    ///Search text in document.
+    ///Converts document to destination format with detailed settings and saves result to storage.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="pattern">The regular expression used to find matches.</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    pplx::task<std::shared_ptr<SearchResponse>> search(
-        std::shared_ptr<SearchRequest> request
-        );
+        /// <param name="saveOptionsData">Save options.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="fontsLocation">Folder in filestorage with custom fonts. (optional)</param>
+    	pplx::task<AsposeResponse<SaveResponse>> WordsApi::saveAs(
+		std::shared_ptr<SaveAsRequest> request
+	);
+    ///<summary>
+    ///Saves the selected range as a new document.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document.</param>
+        /// <param name="rangeStartIdentifier">The range start identifier. Identifier is the value of the \&quot;nodeId\&quot; field, which every document node has, extended with the prefix \&quot;id\&quot;. It looks like \&quot;id0.0.7\&quot;. Also values like \&quot;image5\&quot; and \&quot;table3\&quot; can be used as an identifier for images and tables, where the number is an index of the image/table.</param>
+        /// <param name="documentParameters">Parameters of a new document.</param>
+        /// <param name="rangeEndIdentifier">The range end identifier.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<DocumentResponse>> WordsApi::saveAsRange(
+		std::shared_ptr<SaveAsRangeRequest> request
+	);
+    ///<summary>
+    ///Converts document to tiff with detailed settings and saves result to storage.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="saveOptions">Tiff save options.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="useAntiAliasing">Use antialiasing flag. (optional)</param>
+        /// <param name="useHighQualityRendering">Use high quality flag. (optional)</param>
+        /// <param name="imageBrightness">Brightness for the generated images. (optional)</param>
+        /// <param name="imageColorMode">Color mode for the generated images. (optional)</param>
+        /// <param name="imageContrast">The contrast for the generated images. (optional)</param>
+        /// <param name="numeralFormat">The images numeral format. (optional)</param>
+        /// <param name="pageCount">Number of pages to render. (optional)</param>
+        /// <param name="pageIndex">Page index to start rendering. (optional)</param>
+        /// <param name="paperColor">Background image color. (optional)</param>
+        /// <param name="pixelFormat">The pixel format of generated images. (optional)</param>
+        /// <param name="resolution">The resolution of generated images. (optional)</param>
+        /// <param name="scale">Zoom factor for generated images. (optional)</param>
+        /// <param name="tiffCompression">The compression tipe. (optional)</param>
+        /// <param name="dmlRenderingMode">Optional, default is Fallback. (optional)</param>
+        /// <param name="dmlEffectsRenderingMode">Optional, default is Simplified. (optional)</param>
+        /// <param name="tiffBinarizationMethod">Optional, Tiff binarization method, possible values are: FloydSteinbergDithering, Threshold. (optional)</param>
+        /// <param name="zipOutput">Optional. A value determining zip output or not. (optional)</param>
+        /// <param name="fontsLocation">Folder in filestorage with custom fonts. (optional)</param>
+    	pplx::task<AsposeResponse<SaveResponse>> WordsApi::saveAsTiff(
+		std::shared_ptr<SaveAsTiffRequest> request
+	);
+    ///<summary>
+    ///Searches text in document.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="pattern">The regular expression used to find matches.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    	pplx::task<AsposeResponse<SearchResponse>> WordsApi::search(
+		std::shared_ptr<SearchRequest> request
+	);
+    ///<summary>
+    ///Splits document.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">Original document name.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="format">Format to split. (optional)</param>
+        /// <param name="from">Start page. (optional)</param>
+        /// <param name="to">End page. (optional)</param>
+        /// <param name="zipOutput">ZipOutput or not. (optional, default to false)</param>
+        /// <param name="fontsLocation">Folder in filestorage with custom fonts. (optional)</param>
+    	pplx::task<AsposeResponse<SplitDocumentResponse>> WordsApi::splitDocument(
+		std::shared_ptr<SplitDocumentRequest> request
+	);
+    ///<summary>
+    ///Unprotects document.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="protectionRequest">with protection settings.            </param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+    	pplx::task<AsposeResponse<ProtectionDataResponse>> WordsApi::unprotectDocument(
+		std::shared_ptr<UnprotectDocumentRequest> request
+	);
+    ///<summary>
+    ///Updates document bookmark.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="bookmarkData">with new bookmark data.            </param>
+        /// <param name="bookmarkName">The bookmark name.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<AsposeResponse<BookmarkResponse>> WordsApi::updateBookmark(
+		std::shared_ptr<UpdateBookmarkRequest> request
+	);
     ///<summary>
     ///Updates border properties.             
     ///</summary>
     ///<remarks>
-    ///&#39;nodePath&#39; should refer to node with cell or row
+    ///&#39;nodePath&#39; should refer to paragraph, cell or row.
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="borderProperties">Border properties</param>
-    /// <param name="nodePath">Path to node with border(node should be cell or row).</param>
-    /// <param name="index">Object&#39;s index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    pplx::task<std::shared_ptr<BorderResponse>> updateBorder(
-        std::shared_ptr<UpdateBorderRequest> request
-        );
+        /// <param name="borderProperties">Border properties.</param>
+        /// <param name="nodePath">Path to the node with border(node should be paragraph, cell or row).</param>
+        /// <param name="borderType">Border type.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<AsposeResponse<BorderResponse>> WordsApi::updateBorder(
+		std::shared_ptr<UpdateBorderRequest> request
+	);
     ///<summary>
-    ///Update page setup of section.
+    ///Updates the comment, returns updated comment data.
     ///</summary>
     ///<remarks>
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="sectionIndex">Section index</param>
-    /// <param name="pageSetup">Page setup properties dto</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    pplx::task<std::shared_ptr<SectionPageSetupResponse>> updateSectionPageSetup(
-        std::shared_ptr<UpdateSectionPageSetupRequest> request
-        );
+        /// <param name="commentIndex">The comment index.</param>
+        /// <param name="comment">The comment data.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<AsposeResponse<CommentResponse>> WordsApi::updateComment(
+		std::shared_ptr<UpdateCommentRequest> request
+	);
+    ///<summary>
+    ///Updates drawing object, returns updated  drawing object&#39;s data.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="drawingObject">Drawing object parameters</param>
+        /// <param name="imageFile">File with image</param>
+        /// <param name="nodePath">Path to the node, which contains collection of drawing objects.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<AsposeResponse<DrawingObjectResponse>> WordsApi::updateDrawingObject(
+		std::shared_ptr<UpdateDrawingObjectRequest> request
+	);
+    ///<summary>
+    ///Updates drawing object, returns updated  drawing object&#39;s data.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="drawingObject">Drawing object parameters</param>
+        /// <param name="imageFile">File with image</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<AsposeResponse<DrawingObjectResponse>> WordsApi::updateDrawingObjectWithoutNodePath(
+		std::shared_ptr<UpdateDrawingObjectWithoutNodePathRequest> request
+	);
+    ///<summary>
+    ///Updates field&#39;s properties, returns updated field&#39;s data.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="field">Field data.</param>
+        /// <param name="nodePath">Path to the node, which contains collection of fields.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<AsposeResponse<FieldResponse>> WordsApi::updateField(
+		std::shared_ptr<UpdateFieldRequest> request
+	);
+    ///<summary>
+    ///Updates (reevaluate) fields in document.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+    	pplx::task<AsposeResponse<DocumentResponse>> WordsApi::updateFields(
+		std::shared_ptr<UpdateFieldsRequest> request
+	);
+    ///<summary>
+    ///Updates footnote&#39;s properties, returns updated run&#39;s data.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="footnoteDto">Footnote data.</param>
+        /// <param name="nodePath">Path to the node, which contains collection of footnotes.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<AsposeResponse<FootnoteResponse>> WordsApi::updateFootnote(
+		std::shared_ptr<UpdateFootnoteRequest> request
+	);
+    ///<summary>
+    ///Updates footnote&#39;s properties, returns updated run&#39;s data.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="footnoteDto">Footnote data.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<AsposeResponse<FootnoteResponse>> WordsApi::updateFootnoteWithoutNodePath(
+		std::shared_ptr<UpdateFootnoteWithoutNodePathRequest> request
+	);
+    ///<summary>
+    ///Updates properties of form field, returns updated form field.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="formField">From field data.</param>
+        /// <param name="nodePath">Path to the node that contains collection of formfields.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<AsposeResponse<FormFieldResponse>> WordsApi::updateFormField(
+		std::shared_ptr<UpdateFormFieldRequest> request
+	);
+    ///<summary>
+    ///Updates properties of form field, returns updated form field.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="formField">From field data.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<AsposeResponse<FormFieldResponse>> WordsApi::updateFormFieldWithoutNodePath(
+		std::shared_ptr<UpdateFormFieldWithoutNodePathRequest> request
+	);
+    ///<summary>
+    ///Updates paragraph format properties, returns updated format properties.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="dto">Paragraph format object.</param>
+        /// <param name="nodePath">Path to the node which contains paragraphs.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<AsposeResponse<ParagraphFormatResponse>> WordsApi::updateParagraphFormat(
+		std::shared_ptr<UpdateParagraphFormatRequest> request
+	);
+    ///<summary>
+    ///Updates run&#39;s properties, returns updated run&#39;s data.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="run">Run data.</param>
+        /// <param name="paragraphPath">Path to parent paragraph.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<AsposeResponse<RunResponse>> WordsApi::updateRun(
+		std::shared_ptr<UpdateRunRequest> request
+	);
+    ///<summary>
+    ///Updates font properties, returns updated font data.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="fontDto">Font dto object.</param>
+        /// <param name="paragraphPath">Path to parent paragraph.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<AsposeResponse<FontResponse>> WordsApi::updateRunFont(
+		std::shared_ptr<UpdateRunFontRequest> request
+	);
+    ///<summary>
+    ///Updates page setup of section.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="sectionIndex">Section index.</param>
+        /// <param name="pageSetup">Page setup properties dto.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    	pplx::task<AsposeResponse<SectionPageSetupResponse>> WordsApi::updateSectionPageSetup(
+		std::shared_ptr<UpdateSectionPageSetupRequest> request
+	);
     ///<summary>
     ///Updates a table cell format.
     ///</summary>
@@ -2324,19 +3140,19 @@ public:
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="tableRowPath">Path to table row.</param>
-    /// <param name="index">Object&#39;s index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    /// <param name="format">The properties. (optional)</param>
-    pplx::task<std::shared_ptr<TableCellFormatResponse>> updateTableCellFormat(
-        std::shared_ptr<UpdateTableCellFormatRequest> request
-        );
+        /// <param name="tableRowPath">Path to table row.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+        /// <param name="format">The properties. (optional)</param>
+    	pplx::task<AsposeResponse<TableCellFormatResponse>> WordsApi::updateTableCellFormat(
+		std::shared_ptr<UpdateTableCellFormatRequest> request
+	);
     ///<summary>
     ///Updates a table properties.
     ///</summary>
@@ -2344,19 +3160,38 @@ public:
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="index">Object&#39;s index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    /// <param name="properties">The properties. (optional)</param>
-    /// <param name="nodePath">Path to node, which contains tables. (optional)</param>
-    pplx::task<std::shared_ptr<TablePropertiesResponse>> updateTableProperties(
-        std::shared_ptr<UpdateTablePropertiesRequest> request
-        );
+        /// <param name="nodePath">Path to the node, which contains tables.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+        /// <param name="properties">The properties. (optional)</param>
+    	pplx::task<AsposeResponse<TablePropertiesResponse>> WordsApi::updateTableProperties(
+		std::shared_ptr<UpdateTablePropertiesRequest> request
+	);
+    ///<summary>
+    ///Updates a table properties.
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="name">The document name.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+        /// <param name="properties">The properties. (optional)</param>
+    	pplx::task<AsposeResponse<TablePropertiesResponse>> WordsApi::updateTablePropertiesWithoutNodePath(
+		std::shared_ptr<UpdateTablePropertiesWithoutNodePathRequest> request
+	);
     ///<summary>
     ///Updates a table row format.
     ///</summary>
@@ -2364,19 +3199,31 @@ public:
     ///
     ///</remarks>
     /// <param name="name">The document name.</param>
-    /// <param name="tablePath">Path to table.</param>
-    /// <param name="index">Object&#39;s index</param>
-    /// <param name="folder">Original document folder. (optional)</param>
-    /// <param name="storage">File storage, which have to be used. (optional)</param>
-    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
-    /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    /// <param name="destFileName">Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
-    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
-    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
-    /// <param name="format">Table row format. (optional)</param>
-    pplx::task<std::shared_ptr<TableRowFormatResponse>> updateTableRowFormat(
-        std::shared_ptr<UpdateTableRowFormatRequest> request
-        );
+        /// <param name="tablePath">Path to table.</param>
+        /// <param name="index">Object index.</param>
+        /// <param name="folder">Original document folder. (optional)</param>
+        /// <param name="storage">Original document storage. (optional)</param>
+        /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+        /// <param name="password">Password for opening an encrypted document. (optional)</param>
+        /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+        /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+        /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+        /// <param name="format">Table row format. (optional)</param>
+    	pplx::task<AsposeResponse<TableRowFormatResponse>> WordsApi::updateTableRowFormat(
+		std::shared_ptr<UpdateTableRowFormatRequest> request
+	);
+    ///<summary>
+    ///Upload file
+    ///</summary>
+    ///<remarks>
+    ///
+    ///</remarks>
+    /// <param name="fileContent">File to upload</param>
+        /// <param name="path">Path where to upload including filename and extension e.g. /file.ext or /Folder 1/file.ext              If the content is multipart and path does not contains the file name it tries to get them from filename parameter              from Content-Disposition header.</param>
+        /// <param name="storageName">Storage name (optional)</param>
+    	pplx::task<AsposeResponse<FilesUploadResult>> WordsApi::uploadFile(
+		std::shared_ptr<UploadFileRequest> request
+	);
 
 public:
     explicit WordsApi(std::shared_ptr<ApiClient> apiClient );
