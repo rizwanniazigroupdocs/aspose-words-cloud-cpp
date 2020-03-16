@@ -4,7 +4,7 @@ git clone https://github.com/Microsoft/cpprestsdk.git
 cd /usr/bin/cppcheck-sources
 make SRCBUILD=build CFGDIR=/usr/bin/cppcheck-sources
 make install CFGDIR=/usr/bin/cppcheck-sources
-cp cppcheck /usr/bin/cppcheck./
+cp cppcheck /usr/bin/cppcheck
 
 # Compile cpprestsdk
 cd /
