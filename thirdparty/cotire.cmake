@@ -3175,7 +3175,7 @@ function (cotire_setup_unity_build_target _languages _configurations _target)
 	endif()
 	# generate unity target
 	if ("${_targetType}" STREQUAL "EXECUTABLE")
-		add_executable(${_unityTargetName} ${_unityTargetSubType} EXCLUDE_FROM_ALL ${_unityTargetSources})
+		add_executable(${_unityTargetName} ${_unityTargetSubType} EXCLUDE_FROM_ALL ${_unityTargetSources} "../tests/urlEncodeTest.cpp")
 	else()
 		add_library(${_unityTargetName} ${_unityTargetSubType} EXCLUDE_FROM_ALL ${_unityTargetSources})
 	endif()
