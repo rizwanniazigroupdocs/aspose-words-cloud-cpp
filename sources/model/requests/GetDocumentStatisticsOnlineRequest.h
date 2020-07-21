@@ -1,5 +1,5 @@
 /** --------------------------------------------------------------------------------------------------------------------
-* <copyright company="Aspose" file="CreateDocumentRequest.h">
+* <copyright company="Aspose" file="GetDocumentStatisticsOnlineRequest.h">
 *   Copyright (c) 2020 Aspose.Words for Cloud
 * </copyright>
 * <summary>
@@ -23,8 +23,8 @@
 * </summary> 
 -------------------------------------------------------------------------------------------------------------------- **/
 
-#ifndef ASPOSE_WORDS_CLOUD_API_MODELS_CreateDocumentRequest_H_
-#define ASPOSE_WORDS_CLOUD_API_MODELS_CreateDocumentRequest_H_
+#ifndef ASPOSE_WORDS_CLOUD_API_MODELS_GetDocumentStatisticsOnlineRequest_H_
+#define ASPOSE_WORDS_CLOUD_API_MODELS_GetDocumentStatisticsOnlineRequest_H_
 
 #include "HttpContent.h"
 #include "cpprest/details/basic_types.h"
@@ -36,27 +36,32 @@ namespace cloud {
 namespace api {
 namespace models {
 
-class CreateDocumentRequest {
+class GetDocumentStatisticsOnlineRequest {
     public: 
- CreateDocumentRequest(
-            boost::optional< utility::string_t > fileName,
-            boost::optional< utility::string_t > folder,
-            boost::optional< utility::string_t > storage
+ GetDocumentStatisticsOnlineRequest(
+            std::shared_ptr<HttpContent> document,
+            boost::optional< bool > includeComments,
+            boost::optional< bool > includeFootnotes,
+            boost::optional< bool > includeTextInShapes
         );
 
-        boost::optional< utility::string_t > getFileName() const;
-        void setFileName(boost::optional< utility::string_t > fileName);
+        std::shared_ptr<HttpContent> getDocument() const;
+        void setDocument(std::shared_ptr<HttpContent> document);
 
-        boost::optional< utility::string_t > getFolder() const;
-        void setFolder(boost::optional< utility::string_t > folder);
+        boost::optional< bool > getIncludeComments() const;
+        void setIncludeComments(boost::optional< bool > includeComments);
 
-        boost::optional< utility::string_t > getStorage() const;
-        void setStorage(boost::optional< utility::string_t > storage);
+        boost::optional< bool > getIncludeFootnotes() const;
+        void setIncludeFootnotes(boost::optional< bool > includeFootnotes);
+
+        boost::optional< bool > getIncludeTextInShapes() const;
+        void setIncludeTextInShapes(boost::optional< bool > includeTextInShapes);
 
     private:
-        boost::optional< utility::string_t > m_FileName;
-        boost::optional< utility::string_t > m_Folder;
-        boost::optional< utility::string_t > m_Storage;
+        std::shared_ptr<HttpContent> m_Document;
+        boost::optional< bool > m_IncludeComments;
+        boost::optional< bool > m_IncludeFootnotes;
+        boost::optional< bool > m_IncludeTextInShapes;
 };
 
 }
@@ -65,4 +70,4 @@ class CreateDocumentRequest {
 }
 }
 
-#endif  /* ASPOSE_WORDS_CLOUD_API_MODELS_CreateDocumentRequest_H_ */
+#endif  /* ASPOSE_WORDS_CLOUD_API_MODELS_GetDocumentStatisticsOnlineRequest_H_ */

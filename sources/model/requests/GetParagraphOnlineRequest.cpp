@@ -1,5 +1,5 @@
 /** --------------------------------------------------------------------------------------------------------------------
-* <copyright company="Aspose" file="GetDocumentFieldNamesOnlineRequest.cpp">
+* <copyright company="Aspose" file="GetParagraphOnlineRequest.cpp">
 *   Copyright (c) 2020 Aspose.Words for Cloud
 * </copyright>
 * <summary>
@@ -23,38 +23,74 @@
 * </summary> 
 -------------------------------------------------------------------------------------------------------------------- **/
 
-#include "GetDocumentFieldNamesOnlineRequest.h"
+#include "GetParagraphOnlineRequest.h"
 namespace aspose {
 namespace words {
 namespace cloud {
 namespace api {
 namespace models {
-GetDocumentFieldNamesOnlineRequest::GetDocumentFieldNamesOnlineRequest(
+GetParagraphOnlineRequest::GetParagraphOnlineRequest(
+    utility::string_t nodePath,
     std::shared_ptr<HttpContent> document,
-    boost::optional< bool > useNonMergeFields
-) : m_Document(std::move(document)),
-m_UseNonMergeFields(std::move(useNonMergeFields))
+    int32_t index,
+    boost::optional< utility::string_t > loadEncoding,
+    boost::optional< utility::string_t > password
+) : m_NodePath(std::move(nodePath)),
+m_Document(std::move(document)),
+m_Index(std::move(index)),
+m_LoadEncoding(std::move(loadEncoding)),
+m_Password(std::move(password))
 {
 }
 
-std::shared_ptr<HttpContent> GetDocumentFieldNamesOnlineRequest::getDocument() const
+utility::string_t GetParagraphOnlineRequest::getNodePath() const
+{
+    return m_NodePath;
+}
+
+void GetParagraphOnlineRequest::setNodePath(utility::string_t nodePath)
+{
+    m_NodePath = std::move(nodePath);
+}
+
+std::shared_ptr<HttpContent> GetParagraphOnlineRequest::getDocument() const
 {
     return m_Document;
 }
 
-void GetDocumentFieldNamesOnlineRequest::setDocument(std::shared_ptr<HttpContent> document)
+void GetParagraphOnlineRequest::setDocument(std::shared_ptr<HttpContent> document)
 {
     m_Document = std::move(document);
 }
 
-boost::optional< bool > GetDocumentFieldNamesOnlineRequest::getUseNonMergeFields() const
+int32_t GetParagraphOnlineRequest::getIndex() const
 {
-    return m_UseNonMergeFields;
+    return m_Index;
 }
 
-void GetDocumentFieldNamesOnlineRequest::setUseNonMergeFields(boost::optional< bool > useNonMergeFields)
+void GetParagraphOnlineRequest::setIndex(int32_t index)
 {
-    m_UseNonMergeFields = std::move(useNonMergeFields);
+    m_Index = std::move(index);
+}
+
+boost::optional< utility::string_t > GetParagraphOnlineRequest::getLoadEncoding() const
+{
+    return m_LoadEncoding;
+}
+
+void GetParagraphOnlineRequest::setLoadEncoding(boost::optional< utility::string_t > loadEncoding)
+{
+    m_LoadEncoding = std::move(loadEncoding);
+}
+
+boost::optional< utility::string_t > GetParagraphOnlineRequest::getPassword() const
+{
+    return m_Password;
+}
+
+void GetParagraphOnlineRequest::setPassword(boost::optional< utility::string_t > password)
+{
+    m_Password = std::move(password);
 }
 
 }

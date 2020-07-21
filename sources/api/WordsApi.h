@@ -35,6 +35,7 @@
 
 #include "requests/AcceptAllRevisionsRequest.h"
 #include "requests/AppendDocumentRequest.h"
+#include "requests/AppendDocumentOnlineRequest.h"
 #include "requests/ApplyStyleToDocumentElementRequest.h"
 #include "requests/BuildReportRequest.h"
 #include "requests/BuildReportOnlineRequest.h"
@@ -74,6 +75,7 @@
 #include "requests/DeleteParagraphRequest.h"
 #include "requests/DeleteParagraphListFormatRequest.h"
 #include "requests/DeleteParagraphListFormatWithoutNodePathRequest.h"
+#include "requests/DeleteParagraphOnlineRequest.h"
 #include "requests/DeleteParagraphTabStopRequest.h"
 #include "requests/DeleteParagraphTabStopWithoutNodePathRequest.h"
 #include "requests/DeleteParagraphWithoutNodePathRequest.h"
@@ -111,6 +113,7 @@
 #include "requests/GetDocumentPropertyRequest.h"
 #include "requests/GetDocumentProtectionRequest.h"
 #include "requests/GetDocumentStatisticsRequest.h"
+#include "requests/GetDocumentStatisticsOnlineRequest.h"
 #include "requests/GetDocumentWithFormatRequest.h"
 #include "requests/GetFieldRequest.h"
 #include "requests/GetFieldsRequest.h"
@@ -139,7 +142,9 @@
 #include "requests/GetParagraphFormatWithoutNodePathRequest.h"
 #include "requests/GetParagraphListFormatRequest.h"
 #include "requests/GetParagraphListFormatWithoutNodePathRequest.h"
+#include "requests/GetParagraphOnlineRequest.h"
 #include "requests/GetParagraphsRequest.h"
+#include "requests/GetParagraphsOnlineRequest.h"
 #include "requests/GetParagraphsWithoutNodePathRequest.h"
 #include "requests/GetParagraphTabStopsRequest.h"
 #include "requests/GetParagraphTabStopsWithoutNodePathRequest.h"
@@ -179,6 +184,7 @@
 #include "requests/InsertOrUpdateParagraphTabStopWithoutNodePathRequest.h"
 #include "requests/InsertPageNumbersRequest.h"
 #include "requests/InsertParagraphRequest.h"
+#include "requests/InsertParagraphOnlineRequest.h"
 #include "requests/InsertParagraphWithoutNodePathRequest.h"
 #include "requests/InsertRunRequest.h"
 #include "requests/InsertStyleRequest.h"
@@ -208,6 +214,7 @@
 #include "requests/ReplaceWithTextRequest.h"
 #include "requests/ResetCacheRequest.h"
 #include "requests/SaveAsRequest.h"
+#include "requests/SaveAsOnlineRequest.h"
 #include "requests/SaveAsRangeRequest.h"
 #include "requests/SaveAsTiffRequest.h"
 #include "requests/SearchRequest.h"
@@ -506,7 +513,7 @@ public:
     /// Appends documents to original document.
     /// </summary>
     /// <param name="name">Original document name.</param>
-    /// <param name="documentList">DocumentEntryList with a list of documents to append.</param>
+    /// <param name="documentList"><see cref="DocumentEntryList"/> with a list of documents to append.</param>
     /// <param name="folder">Original document folder. (optional)</param>
     /// <param name="storage">Original document storage. (optional)</param>
     /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
@@ -516,6 +523,15 @@ public:
     /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
     pplx::task<AsposeResponse<DocumentResponse>> appendDocument(
     	std::shared_ptr<AppendDocumentRequest> request
+    );
+
+    /// <summary>
+    /// Appends documents to original document.
+    /// </summary>
+    /// <param name="document">The document.</param>
+    /// <param name="documentList"><see cref="DocumentEntryList"/> with a list of documents to append.</param>
+    pplx::task<HttpContent> appendDocumentOnline(
+    	std::shared_ptr<AppendDocumentOnlineRequest> request
     );
 
     /// <summary>
@@ -603,9 +619,9 @@ public:
     /// </summary>
     /// <param name="document">Converting document.</param>
     /// <param name="format">Format to convert.</param>
-    /// <param name="storage">Original document storage. (optional)</param>
     /// <param name="outPath">Path for saving operation result to the local storage. (optional)</param>
     /// <param name="fileNameFieldValue">This file name will be used when resulting document has dynamic field for document file name {filename}. If it is not set, "sourceFilename" will be used instead. (optional)</param>
+    /// <param name="storage">Original document storage. (optional)</param>
     /// <param name="fontsLocation">Folder in filestorage with custom fonts. (optional)</param>
     pplx::task<HttpContent> convertDocument(
     	std::shared_ptr<ConvertDocumentRequest> request
@@ -655,9 +671,9 @@ public:
     /// Document is created with format which is recognized from file extensions.
     /// Supported extensions: ".doc", ".docx", ".docm", ".dot", ".dotm", ".dotx", ".flatopc", ".fopc", ".flatopc_macro", ".fopc_macro", ".flatopc_template", ".fopc_template", ".flatopc_template_macro", ".fopc_template_macro", ".wordml", ".wml", ".rtf".
     /// </summary>
-    /// <param name="storage">Original document storage. (optional)</param>
     /// <param name="fileName">The document name. (optional)</param>
     /// <param name="folder">The document folder. (optional)</param>
+    /// <param name="storage">Original document storage. (optional)</param>
     pplx::task<AsposeResponse<DocumentResponse>> createDocument(
     	std::shared_ptr<CreateDocumentRequest> request
     );
@@ -1098,6 +1114,21 @@ public:
     );
 
     /// <summary>
+    /// Removes paragraph from section.
+    /// </summary>
+    /// <param name="nodePath">Path to the node which contains paragraphs.</param>
+    /// <param name="document">The document.</param>
+    /// <param name="index">Object index.</param>
+    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+    /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    pplx::task<HttpContent> deleteParagraphOnline(
+    	std::shared_ptr<DeleteParagraphOnlineRequest> request
+    );
+
+    /// <summary>
     /// Remove the i-th tab stop.
     /// </summary>
     /// <param name="name">The document name.</param>
@@ -1518,9 +1549,9 @@ public:
     /// <summary>
     /// Reads document field names.
     /// </summary>
-    /// <param name="template">File with template.</param>
-    /// <param name="useNonMergeFields">Use non merge fields or not. (optional)</param>
-    pplx::task<AsposeResponse<FieldNamesResponse>> getDocumentFieldNamesOnline(
+    /// <param name="document">The document.</param>
+    /// <param name="useNonMergeFields">If true, result includes "mustache" field names. (optional)</param>
+    pplx::task<HttpContent> getDocumentFieldNamesOnline(
     	std::shared_ptr<GetDocumentFieldNamesOnlineRequest> request
     );
 
@@ -1599,6 +1630,17 @@ public:
     /// <param name="includeTextInShapes">Support including/excluding shape's text from the WordCount. Default value is "false". (optional)</param>
     pplx::task<AsposeResponse<StatDataResponse>> getDocumentStatistics(
     	std::shared_ptr<GetDocumentStatisticsRequest> request
+    );
+
+    /// <summary>
+    /// Reads document statistics.
+    /// </summary>
+    /// <param name="document">The document.</param>
+    /// <param name="includeComments">Support including/excluding comments from the WordCount. Default value is "false". (optional)</param>
+    /// <param name="includeFootnotes">Support including/excluding footnotes from the WordCount. Default value is "false". (optional)</param>
+    /// <param name="includeTextInShapes">Support including/excluding shape's text from the WordCount. Default value is "false". (optional)</param>
+    pplx::task<HttpContent> getDocumentStatisticsOnline(
+    	std::shared_ptr<GetDocumentStatisticsOnlineRequest> request
     );
 
     /// <summary>
@@ -1911,7 +1953,7 @@ public:
     /// <param name="storage">Original document storage. (optional)</param>
     /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
     /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    pplx::task<AsposeResponse<ParagraphResponse>> getParagraph(
+    pplx::task<HttpContent> getParagraph(
     	std::shared_ptr<GetParagraphRequest> request
     );
 
@@ -1970,6 +2012,18 @@ public:
     );
 
     /// <summary>
+    /// This resource represents one of the paragraphs contained in the document.
+    /// </summary>
+    /// <param name="nodePath">Path to the node which contains paragraphs.</param>
+    /// <param name="document">The document.</param>
+    /// <param name="index">Object index.</param>
+    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+    /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    pplx::task<HttpContent> getParagraphOnline(
+    	std::shared_ptr<GetParagraphOnlineRequest> request
+    );
+
+    /// <summary>
     /// Returns a list of paragraphs that are contained in the document.
     /// </summary>
     /// <param name="name">The document name.</param>
@@ -1978,8 +2032,19 @@ public:
     /// <param name="storage">Original document storage. (optional)</param>
     /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
     /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    pplx::task<AsposeResponse<ParagraphLinkCollectionResponse>> getParagraphs(
+    pplx::task<HttpContent> getParagraphs(
     	std::shared_ptr<GetParagraphsRequest> request
+    );
+
+    /// <summary>
+    /// Returns a list of paragraphs that are contained in the document.
+    /// </summary>
+    /// <param name="nodePath">Path to the node which contains paragraphs.</param>
+    /// <param name="document">The document.</param>
+    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+    /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    pplx::task<HttpContent> getParagraphsOnline(
+    	std::shared_ptr<GetParagraphsOnlineRequest> request
     );
 
     /// <summary>
@@ -1990,7 +2055,7 @@ public:
     /// <param name="storage">Original document storage. (optional)</param>
     /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
     /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    pplx::task<AsposeResponse<ParagraphLinkCollectionResponse>> getParagraphsWithoutNodePath(
+    pplx::task<HttpContent> getParagraphsWithoutNodePath(
     	std::shared_ptr<GetParagraphsWithoutNodePathRequest> request
     );
 
@@ -2030,7 +2095,7 @@ public:
     /// <param name="storage">Original document storage. (optional)</param>
     /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
     /// <param name="password">Password for opening an encrypted document. (optional)</param>
-    pplx::task<AsposeResponse<ParagraphResponse>> getParagraphWithoutNodePath(
+    pplx::task<HttpContent> getParagraphWithoutNodePath(
     	std::shared_ptr<GetParagraphWithoutNodePathRequest> request
     );
 
@@ -2538,8 +2603,8 @@ public:
     /// Adds paragraph to document, returns added paragraph's data.
     /// </summary>
     /// <param name="name">The document name.</param>
-    /// <param name="paragraph">Paragraph data.</param>
     /// <param name="nodePath">Path to the node which contains paragraphs.</param>
+    /// <param name="paragraph">Paragraph data.</param>
     /// <param name="folder">Original document folder. (optional)</param>
     /// <param name="storage">Original document storage. (optional)</param>
     /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
@@ -2548,8 +2613,24 @@ public:
     /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
     /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
     /// <param name="insertBeforeNode">Paragraph will be inserted before node with index. (optional)</param>
-    pplx::task<AsposeResponse<ParagraphResponse>> insertParagraph(
+    pplx::task<HttpContent> insertParagraph(
     	std::shared_ptr<InsertParagraphRequest> request
+    );
+
+    /// <summary>
+    /// Adds paragraph to document, returns added paragraph's data.
+    /// </summary>
+    /// <param name="nodePath">Path to the node which contains paragraphs.</param>
+    /// <param name="document">The document.</param>
+    /// <param name="paragraph">Paragraph data.</param>
+    /// <param name="loadEncoding">Encoding that will be used to load an HTML (or TXT) document if the encoding is not specified in HTML. (optional)</param>
+    /// <param name="password">Password for opening an encrypted document. (optional)</param>
+    /// <param name="destFileName">Result path of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document. (optional)</param>
+    /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
+    /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
+    /// <param name="insertBeforeNode">Paragraph will be inserted before node with index. (optional)</param>
+    pplx::task<HttpContent> insertParagraphOnline(
+    	std::shared_ptr<InsertParagraphOnlineRequest> request
     );
 
     /// <summary>
@@ -2565,7 +2646,7 @@ public:
     /// <param name="revisionAuthor">Initials of the author to use for revisions.If you set this parameter and then make some changes to the document programmatically, save the document and later open the document in MS Word you will see these changes as revisions. (optional)</param>
     /// <param name="revisionDateTime">The date and time to use for revisions. (optional)</param>
     /// <param name="insertBeforeNode">Paragraph will be inserted before node with index. (optional)</param>
-    pplx::task<AsposeResponse<ParagraphResponse>> insertParagraphWithoutNodePath(
+    pplx::task<HttpContent> insertParagraphWithoutNodePath(
     	std::shared_ptr<InsertParagraphWithoutNodePathRequest> request
     );
 
@@ -2984,6 +3065,16 @@ public:
     /// <param name="fontsLocation">Folder in filestorage with custom fonts. (optional)</param>
     pplx::task<AsposeResponse<SaveResponse>> saveAs(
     	std::shared_ptr<SaveAsRequest> request
+    );
+
+    /// <summary>
+    /// Converts document to destination format with detailed settings and saves result to storage.
+    /// </summary>
+    /// <param name="document">The document.</param>
+    /// <param name="saveOptionsData">Save options.</param>
+    /// <param name="fontsLocation">Folder in filestorage with custom fonts. (optional)</param>
+    pplx::task<HttpContent> saveAsOnline(
+    	std::shared_ptr<SaveAsOnlineRequest> request
     );
 
     /// <summary>

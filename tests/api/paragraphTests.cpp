@@ -58,8 +58,22 @@ TEST_F(ParagraphTests, TestGetDocumentParagraphByIndex) {
         boost::none
     ));
 
-   auto actual = get_api()->getParagraph(request).get();
-   ASSERT_EQ(200, actual.httpResponse->status_code());
+   get_api()->getParagraph(request).get();
+}
+
+/// <summary>
+/// Test for getting paragraph online.
+/// </summary>
+TEST_F(ParagraphTests, TestGetDocumentParagraphOnline) {
+    std::shared_ptr< GetParagraphOnlineRequest > request(new GetParagraphOnlineRequest(
+        STCONVERT("sections/0"),
+        generate_http_content_from_file(path_combine(LocalTestDataFolder, localFile)),
+        0,
+        boost::none,
+        boost::none
+    ));
+
+   get_api()->getParagraphOnline(request).get();
 }
 
 /// <summary>
@@ -82,8 +96,7 @@ TEST_F(ParagraphTests, TestGetDocumentParagraphByIndexWithoutNodePath) {
         boost::none
     ));
 
-   auto actual = get_api()->getParagraphWithoutNodePath(request).get();
-   ASSERT_EQ(200, actual.httpResponse->status_code());
+   get_api()->getParagraphWithoutNodePath(request).get();
 }
 
 /// <summary>
@@ -106,8 +119,21 @@ TEST_F(ParagraphTests, TestGetDocumentParagraphs) {
         boost::none
     ));
 
-   auto actual = get_api()->getParagraphs(request).get();
-   ASSERT_EQ(200, actual.httpResponse->status_code());
+   get_api()->getParagraphs(request).get();
+}
+
+/// <summary>
+/// Test for getting all paragraphs online.
+/// </summary>
+TEST_F(ParagraphTests, TestGetDocumentParagraphsOnline) {
+    std::shared_ptr< GetParagraphsOnlineRequest > request(new GetParagraphsOnlineRequest(
+        STCONVERT("sections/0"),
+        generate_http_content_from_file(path_combine(LocalTestDataFolder, localFile)),
+        boost::none,
+        boost::none
+    ));
+
+   get_api()->getParagraphsOnline(request).get();
 }
 
 /// <summary>
@@ -129,8 +155,7 @@ TEST_F(ParagraphTests, TestGetDocumentParagraphsWithoutNodePath) {
         boost::none
     ));
 
-   auto actual = get_api()->getParagraphsWithoutNodePath(request).get();
-   ASSERT_EQ(200, actual.httpResponse->status_code());
+   get_api()->getParagraphsWithoutNodePath(request).get();
 }
 
 /// <summary>
@@ -255,8 +280,8 @@ TEST_F(ParagraphTests, TestInsertParagraph) {
 
     std::shared_ptr< InsertParagraphRequest > request(new InsertParagraphRequest(
         remoteFileName,
-        requestParagraph,
         STCONVERT("sections/0"),
+        requestParagraph,
         remoteDataFolder,
         boost::none,
         boost::none,
@@ -267,8 +292,29 @@ TEST_F(ParagraphTests, TestInsertParagraph) {
         boost::none
     ));
 
-   auto actual = get_api()->insertParagraph(request).get();
-   ASSERT_EQ(200, actual.httpResponse->status_code());
+   get_api()->insertParagraph(request).get();
+}
+
+/// <summary>
+/// Test for adding paragraph online.
+/// </summary>
+TEST_F(ParagraphTests, TestInsertParagraphOnline) {
+    auto requestParagraph = std::make_shared< ParagraphInsert >();
+    requestParagraph->setText(STCONVERT("This is a new paragraph for your document"));
+
+    std::shared_ptr< InsertParagraphOnlineRequest > request(new InsertParagraphOnlineRequest(
+        STCONVERT("sections/0"),
+        generate_http_content_from_file(path_combine(LocalTestDataFolder, localFile)),
+        requestParagraph,
+        boost::none,
+        boost::none,
+        boost::none,
+        boost::none,
+        boost::none,
+        boost::none
+    ));
+
+   get_api()->insertParagraphOnline(request).get();
 }
 
 /// <summary>
@@ -298,8 +344,7 @@ TEST_F(ParagraphTests, TestInsertParagraphWithoutNodePath) {
         boost::none
     ));
 
-   auto actual = get_api()->insertParagraphWithoutNodePath(request).get();
-   ASSERT_EQ(200, actual.httpResponse->status_code());
+   get_api()->insertParagraphWithoutNodePath(request).get();
 }
 
 /// <summary>
@@ -459,6 +504,24 @@ TEST_F(ParagraphTests, TestDeleteParagraph) {
     ));
 
    get_api()->deleteParagraph(request).get();
+}
+
+/// <summary>
+/// Test for deleting  a paragraph online.
+/// </summary>
+TEST_F(ParagraphTests, TestDeleteParagraphOnline) {
+    std::shared_ptr< DeleteParagraphOnlineRequest > request(new DeleteParagraphOnlineRequest(
+        STCONVERT(""),
+        generate_http_content_from_file(path_combine(LocalTestDataFolder, localFile)),
+        0,
+        boost::none,
+        boost::none,
+        boost::none,
+        boost::none,
+        boost::none
+    ));
+
+   get_api()->deleteParagraphOnline(request).get();
 }
 
 /// <summary>

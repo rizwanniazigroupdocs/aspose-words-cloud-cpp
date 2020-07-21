@@ -1,5 +1,5 @@
 /** --------------------------------------------------------------------------------------------------------------------
-* <copyright company="Aspose" file="CreateDocumentRequest.h">
+* <copyright company="Aspose" file="AppendDocumentOnlineRequest.cpp">
 *   Copyright (c) 2020 Aspose.Words for Cloud
 * </copyright>
 * <summary>
@@ -23,46 +23,42 @@
 * </summary> 
 -------------------------------------------------------------------------------------------------------------------- **/
 
-#ifndef ASPOSE_WORDS_CLOUD_API_MODELS_CreateDocumentRequest_H_
-#define ASPOSE_WORDS_CLOUD_API_MODELS_CreateDocumentRequest_H_
-
-#include "HttpContent.h"
-#include "cpprest/details/basic_types.h"
-#include <boost/optional.hpp>
-
+#include "AppendDocumentOnlineRequest.h"
 namespace aspose {
 namespace words {
 namespace cloud {
 namespace api {
 namespace models {
+AppendDocumentOnlineRequest::AppendDocumentOnlineRequest(
+    std::shared_ptr<HttpContent> document,
+    std::shared_ptr<DocumentEntryList> documentList
+) : m_Document(std::move(document)),
+m_DocumentList(std::move(documentList))
+{
+}
 
-class CreateDocumentRequest {
-    public: 
- CreateDocumentRequest(
-            boost::optional< utility::string_t > fileName,
-            boost::optional< utility::string_t > folder,
-            boost::optional< utility::string_t > storage
-        );
+std::shared_ptr<HttpContent> AppendDocumentOnlineRequest::getDocument() const
+{
+    return m_Document;
+}
 
-        boost::optional< utility::string_t > getFileName() const;
-        void setFileName(boost::optional< utility::string_t > fileName);
+void AppendDocumentOnlineRequest::setDocument(std::shared_ptr<HttpContent> document)
+{
+    m_Document = std::move(document);
+}
 
-        boost::optional< utility::string_t > getFolder() const;
-        void setFolder(boost::optional< utility::string_t > folder);
+std::shared_ptr<DocumentEntryList> AppendDocumentOnlineRequest::getDocumentList() const
+{
+    return m_DocumentList;
+}
 
-        boost::optional< utility::string_t > getStorage() const;
-        void setStorage(boost::optional< utility::string_t > storage);
-
-    private:
-        boost::optional< utility::string_t > m_FileName;
-        boost::optional< utility::string_t > m_Folder;
-        boost::optional< utility::string_t > m_Storage;
-};
+void AppendDocumentOnlineRequest::setDocumentList(std::shared_ptr<DocumentEntryList> documentList)
+{
+    m_DocumentList = std::move(documentList);
+}
 
 }
 }
 }
 }
 }
-
-#endif  /* ASPOSE_WORDS_CLOUD_API_MODELS_CreateDocumentRequest_H_ */

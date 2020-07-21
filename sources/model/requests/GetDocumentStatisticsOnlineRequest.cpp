@@ -1,5 +1,5 @@
 /** --------------------------------------------------------------------------------------------------------------------
-* <copyright company="Aspose" file="GetDocumentFieldNamesOnlineRequest.cpp">
+* <copyright company="Aspose" file="GetDocumentStatisticsOnlineRequest.cpp">
 *   Copyright (c) 2020 Aspose.Words for Cloud
 * </copyright>
 * <summary>
@@ -23,38 +23,62 @@
 * </summary> 
 -------------------------------------------------------------------------------------------------------------------- **/
 
-#include "GetDocumentFieldNamesOnlineRequest.h"
+#include "GetDocumentStatisticsOnlineRequest.h"
 namespace aspose {
 namespace words {
 namespace cloud {
 namespace api {
 namespace models {
-GetDocumentFieldNamesOnlineRequest::GetDocumentFieldNamesOnlineRequest(
+GetDocumentStatisticsOnlineRequest::GetDocumentStatisticsOnlineRequest(
     std::shared_ptr<HttpContent> document,
-    boost::optional< bool > useNonMergeFields
+    boost::optional< bool > includeComments,
+    boost::optional< bool > includeFootnotes,
+    boost::optional< bool > includeTextInShapes
 ) : m_Document(std::move(document)),
-m_UseNonMergeFields(std::move(useNonMergeFields))
+m_IncludeComments(std::move(includeComments)),
+m_IncludeFootnotes(std::move(includeFootnotes)),
+m_IncludeTextInShapes(std::move(includeTextInShapes))
 {
 }
 
-std::shared_ptr<HttpContent> GetDocumentFieldNamesOnlineRequest::getDocument() const
+std::shared_ptr<HttpContent> GetDocumentStatisticsOnlineRequest::getDocument() const
 {
     return m_Document;
 }
 
-void GetDocumentFieldNamesOnlineRequest::setDocument(std::shared_ptr<HttpContent> document)
+void GetDocumentStatisticsOnlineRequest::setDocument(std::shared_ptr<HttpContent> document)
 {
     m_Document = std::move(document);
 }
 
-boost::optional< bool > GetDocumentFieldNamesOnlineRequest::getUseNonMergeFields() const
+boost::optional< bool > GetDocumentStatisticsOnlineRequest::getIncludeComments() const
 {
-    return m_UseNonMergeFields;
+    return m_IncludeComments;
 }
 
-void GetDocumentFieldNamesOnlineRequest::setUseNonMergeFields(boost::optional< bool > useNonMergeFields)
+void GetDocumentStatisticsOnlineRequest::setIncludeComments(boost::optional< bool > includeComments)
 {
-    m_UseNonMergeFields = std::move(useNonMergeFields);
+    m_IncludeComments = std::move(includeComments);
+}
+
+boost::optional< bool > GetDocumentStatisticsOnlineRequest::getIncludeFootnotes() const
+{
+    return m_IncludeFootnotes;
+}
+
+void GetDocumentStatisticsOnlineRequest::setIncludeFootnotes(boost::optional< bool > includeFootnotes)
+{
+    m_IncludeFootnotes = std::move(includeFootnotes);
+}
+
+boost::optional< bool > GetDocumentStatisticsOnlineRequest::getIncludeTextInShapes() const
+{
+    return m_IncludeTextInShapes;
+}
+
+void GetDocumentStatisticsOnlineRequest::setIncludeTextInShapes(boost::optional< bool > includeTextInShapes)
+{
+    m_IncludeTextInShapes = std::move(includeTextInShapes);
 }
 
 }

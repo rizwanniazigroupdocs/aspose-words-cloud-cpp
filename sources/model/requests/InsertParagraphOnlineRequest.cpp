@@ -1,5 +1,5 @@
 /** --------------------------------------------------------------------------------------------------------------------
-* <copyright company="Aspose" file="InsertParagraphRequest.cpp">
+* <copyright company="Aspose" file="InsertParagraphOnlineRequest.cpp">
 *   Copyright (c) 2020 Aspose.Words for Cloud
 * </copyright>
 * <summary>
@@ -23,29 +23,25 @@
 * </summary> 
 -------------------------------------------------------------------------------------------------------------------- **/
 
-#include "InsertParagraphRequest.h"
+#include "InsertParagraphOnlineRequest.h"
 namespace aspose {
 namespace words {
 namespace cloud {
 namespace api {
 namespace models {
-InsertParagraphRequest::InsertParagraphRequest(
-    utility::string_t name,
+InsertParagraphOnlineRequest::InsertParagraphOnlineRequest(
     utility::string_t nodePath,
+    std::shared_ptr<HttpContent> document,
     std::shared_ptr<ParagraphInsert> paragraph,
-    boost::optional< utility::string_t > folder,
-    boost::optional< utility::string_t > storage,
     boost::optional< utility::string_t > loadEncoding,
     boost::optional< utility::string_t > password,
     boost::optional< utility::string_t > destFileName,
     boost::optional< utility::string_t > revisionAuthor,
     boost::optional< utility::string_t > revisionDateTime,
     boost::optional< utility::string_t > insertBeforeNode
-) : m_Name(std::move(name)),
-m_NodePath(std::move(nodePath)),
+) : m_NodePath(std::move(nodePath)),
+m_Document(std::move(document)),
 m_Paragraph(std::move(paragraph)),
-m_Folder(std::move(folder)),
-m_Storage(std::move(storage)),
 m_LoadEncoding(std::move(loadEncoding)),
 m_Password(std::move(password)),
 m_DestFileName(std::move(destFileName)),
@@ -55,112 +51,92 @@ m_InsertBeforeNode(std::move(insertBeforeNode))
 {
 }
 
-utility::string_t InsertParagraphRequest::getName() const
-{
-    return m_Name;
-}
-
-void InsertParagraphRequest::setName(utility::string_t name)
-{
-    m_Name = std::move(name);
-}
-
-utility::string_t InsertParagraphRequest::getNodePath() const
+utility::string_t InsertParagraphOnlineRequest::getNodePath() const
 {
     return m_NodePath;
 }
 
-void InsertParagraphRequest::setNodePath(utility::string_t nodePath)
+void InsertParagraphOnlineRequest::setNodePath(utility::string_t nodePath)
 {
     m_NodePath = std::move(nodePath);
 }
 
-std::shared_ptr<ParagraphInsert> InsertParagraphRequest::getParagraph() const
+std::shared_ptr<HttpContent> InsertParagraphOnlineRequest::getDocument() const
+{
+    return m_Document;
+}
+
+void InsertParagraphOnlineRequest::setDocument(std::shared_ptr<HttpContent> document)
+{
+    m_Document = std::move(document);
+}
+
+std::shared_ptr<ParagraphInsert> InsertParagraphOnlineRequest::getParagraph() const
 {
     return m_Paragraph;
 }
 
-void InsertParagraphRequest::setParagraph(std::shared_ptr<ParagraphInsert> paragraph)
+void InsertParagraphOnlineRequest::setParagraph(std::shared_ptr<ParagraphInsert> paragraph)
 {
     m_Paragraph = std::move(paragraph);
 }
 
-boost::optional< utility::string_t > InsertParagraphRequest::getFolder() const
-{
-    return m_Folder;
-}
-
-void InsertParagraphRequest::setFolder(boost::optional< utility::string_t > folder)
-{
-    m_Folder = std::move(folder);
-}
-
-boost::optional< utility::string_t > InsertParagraphRequest::getStorage() const
-{
-    return m_Storage;
-}
-
-void InsertParagraphRequest::setStorage(boost::optional< utility::string_t > storage)
-{
-    m_Storage = std::move(storage);
-}
-
-boost::optional< utility::string_t > InsertParagraphRequest::getLoadEncoding() const
+boost::optional< utility::string_t > InsertParagraphOnlineRequest::getLoadEncoding() const
 {
     return m_LoadEncoding;
 }
 
-void InsertParagraphRequest::setLoadEncoding(boost::optional< utility::string_t > loadEncoding)
+void InsertParagraphOnlineRequest::setLoadEncoding(boost::optional< utility::string_t > loadEncoding)
 {
     m_LoadEncoding = std::move(loadEncoding);
 }
 
-boost::optional< utility::string_t > InsertParagraphRequest::getPassword() const
+boost::optional< utility::string_t > InsertParagraphOnlineRequest::getPassword() const
 {
     return m_Password;
 }
 
-void InsertParagraphRequest::setPassword(boost::optional< utility::string_t > password)
+void InsertParagraphOnlineRequest::setPassword(boost::optional< utility::string_t > password)
 {
     m_Password = std::move(password);
 }
 
-boost::optional< utility::string_t > InsertParagraphRequest::getDestFileName() const
+boost::optional< utility::string_t > InsertParagraphOnlineRequest::getDestFileName() const
 {
     return m_DestFileName;
 }
 
-void InsertParagraphRequest::setDestFileName(boost::optional< utility::string_t > destFileName)
+void InsertParagraphOnlineRequest::setDestFileName(boost::optional< utility::string_t > destFileName)
 {
     m_DestFileName = std::move(destFileName);
 }
 
-boost::optional< utility::string_t > InsertParagraphRequest::getRevisionAuthor() const
+boost::optional< utility::string_t > InsertParagraphOnlineRequest::getRevisionAuthor() const
 {
     return m_RevisionAuthor;
 }
 
-void InsertParagraphRequest::setRevisionAuthor(boost::optional< utility::string_t > revisionAuthor)
+void InsertParagraphOnlineRequest::setRevisionAuthor(boost::optional< utility::string_t > revisionAuthor)
 {
     m_RevisionAuthor = std::move(revisionAuthor);
 }
 
-boost::optional< utility::string_t > InsertParagraphRequest::getRevisionDateTime() const
+boost::optional< utility::string_t > InsertParagraphOnlineRequest::getRevisionDateTime() const
 {
     return m_RevisionDateTime;
 }
 
-void InsertParagraphRequest::setRevisionDateTime(boost::optional< utility::string_t > revisionDateTime)
+void InsertParagraphOnlineRequest::setRevisionDateTime(boost::optional< utility::string_t > revisionDateTime)
 {
     m_RevisionDateTime = std::move(revisionDateTime);
 }
 
-boost::optional< utility::string_t > InsertParagraphRequest::getInsertBeforeNode() const
+boost::optional< utility::string_t > InsertParagraphOnlineRequest::getInsertBeforeNode() const
 {
     return m_InsertBeforeNode;
 }
 
-void InsertParagraphRequest::setInsertBeforeNode(boost::optional< utility::string_t > insertBeforeNode)
+void InsertParagraphOnlineRequest::setInsertBeforeNode(boost::optional< utility::string_t > insertBeforeNode)
 {
     m_InsertBeforeNode = std::move(insertBeforeNode);
 }

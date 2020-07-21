@@ -1,5 +1,5 @@
 /** --------------------------------------------------------------------------------------------------------------------
-* <copyright company="Aspose" file="CreateDocumentRequest.h">
+* <copyright company="Aspose" file="SaveAsOnlineRequest.cpp">
 *   Copyright (c) 2020 Aspose.Words for Cloud
 * </copyright>
 * <summary>
@@ -23,46 +23,54 @@
 * </summary> 
 -------------------------------------------------------------------------------------------------------------------- **/
 
-#ifndef ASPOSE_WORDS_CLOUD_API_MODELS_CreateDocumentRequest_H_
-#define ASPOSE_WORDS_CLOUD_API_MODELS_CreateDocumentRequest_H_
-
-#include "HttpContent.h"
-#include "cpprest/details/basic_types.h"
-#include <boost/optional.hpp>
-
+#include "SaveAsOnlineRequest.h"
 namespace aspose {
 namespace words {
 namespace cloud {
 namespace api {
 namespace models {
+SaveAsOnlineRequest::SaveAsOnlineRequest(
+    std::shared_ptr<HttpContent> document,
+    std::shared_ptr<SaveOptionsData> saveOptionsData,
+    boost::optional< utility::string_t > fontsLocation
+) : m_Document(std::move(document)),
+m_SaveOptionsData(std::move(saveOptionsData)),
+m_FontsLocation(std::move(fontsLocation))
+{
+}
 
-class CreateDocumentRequest {
-    public: 
- CreateDocumentRequest(
-            boost::optional< utility::string_t > fileName,
-            boost::optional< utility::string_t > folder,
-            boost::optional< utility::string_t > storage
-        );
+std::shared_ptr<HttpContent> SaveAsOnlineRequest::getDocument() const
+{
+    return m_Document;
+}
 
-        boost::optional< utility::string_t > getFileName() const;
-        void setFileName(boost::optional< utility::string_t > fileName);
+void SaveAsOnlineRequest::setDocument(std::shared_ptr<HttpContent> document)
+{
+    m_Document = std::move(document);
+}
 
-        boost::optional< utility::string_t > getFolder() const;
-        void setFolder(boost::optional< utility::string_t > folder);
+std::shared_ptr<SaveOptionsData> SaveAsOnlineRequest::getSaveOptionsData() const
+{
+    return m_SaveOptionsData;
+}
 
-        boost::optional< utility::string_t > getStorage() const;
-        void setStorage(boost::optional< utility::string_t > storage);
+void SaveAsOnlineRequest::setSaveOptionsData(std::shared_ptr<SaveOptionsData> saveOptionsData)
+{
+    m_SaveOptionsData = std::move(saveOptionsData);
+}
 
-    private:
-        boost::optional< utility::string_t > m_FileName;
-        boost::optional< utility::string_t > m_Folder;
-        boost::optional< utility::string_t > m_Storage;
-};
+boost::optional< utility::string_t > SaveAsOnlineRequest::getFontsLocation() const
+{
+    return m_FontsLocation;
+}
+
+void SaveAsOnlineRequest::setFontsLocation(boost::optional< utility::string_t > fontsLocation)
+{
+    m_FontsLocation = std::move(fontsLocation);
+}
 
 }
 }
 }
 }
 }
-
-#endif  /* ASPOSE_WORDS_CLOUD_API_MODELS_CreateDocumentRequest_H_ */

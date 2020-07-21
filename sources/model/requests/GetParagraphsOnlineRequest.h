@@ -1,5 +1,5 @@
 /** --------------------------------------------------------------------------------------------------------------------
-* <copyright company="Aspose" file="CreateDocumentRequest.h">
+* <copyright company="Aspose" file="GetParagraphsOnlineRequest.h">
 *   Copyright (c) 2020 Aspose.Words for Cloud
 * </copyright>
 * <summary>
@@ -23,8 +23,8 @@
 * </summary> 
 -------------------------------------------------------------------------------------------------------------------- **/
 
-#ifndef ASPOSE_WORDS_CLOUD_API_MODELS_CreateDocumentRequest_H_
-#define ASPOSE_WORDS_CLOUD_API_MODELS_CreateDocumentRequest_H_
+#ifndef ASPOSE_WORDS_CLOUD_API_MODELS_GetParagraphsOnlineRequest_H_
+#define ASPOSE_WORDS_CLOUD_API_MODELS_GetParagraphsOnlineRequest_H_
 
 #include "HttpContent.h"
 #include "cpprest/details/basic_types.h"
@@ -36,27 +36,32 @@ namespace cloud {
 namespace api {
 namespace models {
 
-class CreateDocumentRequest {
+class GetParagraphsOnlineRequest {
     public: 
- CreateDocumentRequest(
-            boost::optional< utility::string_t > fileName,
-            boost::optional< utility::string_t > folder,
-            boost::optional< utility::string_t > storage
+ GetParagraphsOnlineRequest(
+            utility::string_t nodePath,
+            std::shared_ptr<HttpContent> document,
+            boost::optional< utility::string_t > loadEncoding,
+            boost::optional< utility::string_t > password
         );
 
-        boost::optional< utility::string_t > getFileName() const;
-        void setFileName(boost::optional< utility::string_t > fileName);
+        utility::string_t getNodePath() const;
+        void setNodePath(utility::string_t nodePath);
 
-        boost::optional< utility::string_t > getFolder() const;
-        void setFolder(boost::optional< utility::string_t > folder);
+        std::shared_ptr<HttpContent> getDocument() const;
+        void setDocument(std::shared_ptr<HttpContent> document);
 
-        boost::optional< utility::string_t > getStorage() const;
-        void setStorage(boost::optional< utility::string_t > storage);
+        boost::optional< utility::string_t > getLoadEncoding() const;
+        void setLoadEncoding(boost::optional< utility::string_t > loadEncoding);
+
+        boost::optional< utility::string_t > getPassword() const;
+        void setPassword(boost::optional< utility::string_t > password);
 
     private:
-        boost::optional< utility::string_t > m_FileName;
-        boost::optional< utility::string_t > m_Folder;
-        boost::optional< utility::string_t > m_Storage;
+        utility::string_t m_NodePath;
+        std::shared_ptr<HttpContent> m_Document;
+        boost::optional< utility::string_t > m_LoadEncoding;
+        boost::optional< utility::string_t > m_Password;
 };
 
 }
@@ -65,4 +70,4 @@ class CreateDocumentRequest {
 }
 }
 
-#endif  /* ASPOSE_WORDS_CLOUD_API_MODELS_CreateDocumentRequest_H_ */
+#endif  /* ASPOSE_WORDS_CLOUD_API_MODELS_GetParagraphsOnlineRequest_H_ */

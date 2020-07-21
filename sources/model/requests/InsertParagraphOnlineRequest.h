@@ -1,5 +1,5 @@
 /** --------------------------------------------------------------------------------------------------------------------
-* <copyright company="Aspose" file="InsertParagraphRequest.h">
+* <copyright company="Aspose" file="InsertParagraphOnlineRequest.h">
 *   Copyright (c) 2020 Aspose.Words for Cloud
 * </copyright>
 * <summary>
@@ -23,8 +23,8 @@
 * </summary> 
 -------------------------------------------------------------------------------------------------------------------- **/
 
-#ifndef ASPOSE_WORDS_CLOUD_API_MODELS_InsertParagraphRequest_H_
-#define ASPOSE_WORDS_CLOUD_API_MODELS_InsertParagraphRequest_H_
+#ifndef ASPOSE_WORDS_CLOUD_API_MODELS_InsertParagraphOnlineRequest_H_
+#define ASPOSE_WORDS_CLOUD_API_MODELS_InsertParagraphOnlineRequest_H_
 
 #include "ParagraphInsert.h"
 #include "HttpContent.h"
@@ -37,14 +37,12 @@ namespace cloud {
 namespace api {
 namespace models {
 
-class InsertParagraphRequest {
+class InsertParagraphOnlineRequest {
     public: 
- InsertParagraphRequest(
-            utility::string_t name,
+ InsertParagraphOnlineRequest(
             utility::string_t nodePath,
+            std::shared_ptr<HttpContent> document,
             std::shared_ptr<ParagraphInsert> paragraph,
-            boost::optional< utility::string_t > folder,
-            boost::optional< utility::string_t > storage,
             boost::optional< utility::string_t > loadEncoding,
             boost::optional< utility::string_t > password,
             boost::optional< utility::string_t > destFileName,
@@ -53,20 +51,14 @@ class InsertParagraphRequest {
             boost::optional< utility::string_t > insertBeforeNode
         );
 
-        utility::string_t getName() const;
-        void setName(utility::string_t name);
-
         utility::string_t getNodePath() const;
         void setNodePath(utility::string_t nodePath);
 
+        std::shared_ptr<HttpContent> getDocument() const;
+        void setDocument(std::shared_ptr<HttpContent> document);
+
         std::shared_ptr<ParagraphInsert> getParagraph() const;
         void setParagraph(std::shared_ptr<ParagraphInsert> paragraph);
-
-        boost::optional< utility::string_t > getFolder() const;
-        void setFolder(boost::optional< utility::string_t > folder);
-
-        boost::optional< utility::string_t > getStorage() const;
-        void setStorage(boost::optional< utility::string_t > storage);
 
         boost::optional< utility::string_t > getLoadEncoding() const;
         void setLoadEncoding(boost::optional< utility::string_t > loadEncoding);
@@ -87,11 +79,9 @@ class InsertParagraphRequest {
         void setInsertBeforeNode(boost::optional< utility::string_t > insertBeforeNode);
 
     private:
-        utility::string_t m_Name;
         utility::string_t m_NodePath;
+        std::shared_ptr<HttpContent> m_Document;
         std::shared_ptr<ParagraphInsert> m_Paragraph;
-        boost::optional< utility::string_t > m_Folder;
-        boost::optional< utility::string_t > m_Storage;
         boost::optional< utility::string_t > m_LoadEncoding;
         boost::optional< utility::string_t > m_Password;
         boost::optional< utility::string_t > m_DestFileName;
@@ -106,4 +96,4 @@ class InsertParagraphRequest {
 }
 }
 
-#endif  /* ASPOSE_WORDS_CLOUD_API_MODELS_InsertParagraphRequest_H_ */
+#endif  /* ASPOSE_WORDS_CLOUD_API_MODELS_InsertParagraphOnlineRequest_H_ */
