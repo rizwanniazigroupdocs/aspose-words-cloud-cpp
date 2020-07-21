@@ -76,6 +76,13 @@ TEST_F(AppendDocumentTests, TestAppendDocument) {
 /// Test for appending document online.
 /// </summary>
 TEST_F(AppendDocumentTests, TestAppendDocumentOnline) {
+    utility::string_t remoteFileName = STCONVERT("TestAppendDocument.docx");
+
+    UploadFileToStorage(
+        remoteDataFolder + STCONVERT("/") + remoteFileName,
+        path_combine(LocalTestDataFolder, localFile)
+    );
+
     auto requestDocumentListDocumentEntries0 = std::make_shared< DocumentEntry >();
     requestDocumentListDocumentEntries0->setHref(remoteDataFolder + STCONVERT("/") + remoteFileName);
     requestDocumentListDocumentEntries0->setImportFormatMode(STCONVERT("KeepSourceFormatting"));
