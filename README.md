@@ -1,12 +1,13 @@
+![](https://img.shields.io/badge/api-v4.0-lightgrey) ![Nuget](https://img.shields.io/nuget/v/Aspose.Words-Cloud) ![Nuget](https://img.shields.io/nuget/dt/Aspose.Words-Cloud) [![GitHub license](https://img.shields.io/github/license/aspose-words-cloud/aspose-words-cloud-cpp)](https://github.com/aspose-words-cloud/aspose-words-cloud-cpp/blob/master/LICENSE)
 ASpose.Words Cloud SDK for C++ wraps Aspose.Words REST API so you could seamlessly integrate Microsoft Word® document generation, manipulation, conversion & inspection features into your own C++ applications.
 
-# Word Document Processing in the Cloud
+# C++ SDK for Word Documents Processing in the Cloud
 
 [Aspose.Words Cloud SDK for C++](https://products.aspose.cloud/words/cpp) allows to work with document headers, footers, page numbering, tables, sections, document comments, drawing objects, FormFields, fonts, hyperlinks, ranges, paragraphs, math objects, watermarks, track changes and document protection. It also assists in appending documents, splitting documents as well as converting document to other supported file formats. 
 
 Feel free to explore the [Developer's Guide](https://docs.aspose.cloud/display/wordscloud/Developer+Guide) & [API Reference](https://apireference.aspose.cloud/words/) to know all about Aspose.Words Cloud API. 
 
-## Document Processing Features
+## Document Processing Services in REST
 
 - Convert between various document-related formats, including Word to PDF & vice versa.
 - Mail merge and report generation in the Cloud.
@@ -16,11 +17,29 @@ Feel free to explore the [Developer's Guide](https://docs.aspose.cloud/display/w
 - Add & remove watermarks and protection.
 - Read & write access to Document Object Model.
 
+Check out the [Developer's Guide](https://docs.aspose.cloud/display/wordscloud/Developer+Guide) to know more about Aspose Words Cloud REST API.
+
+## Read & Write Document Formats
+
+**Microsoft Word:** DOC, DOCX, RTF, DOT, DOTX, DOTM, FlatOPC (XML)
+**OpenOffice:** ODT, OTT
+**WordprocessingML:** XML
+**Web:** HTML, MHTML, HtmlFixed
+**Text:** TXT
+**Fixed Layout:** PDF
+
+## Save Document As
+
+**Fixed Layout:** PDF/A, XPS, OpenXPS, PS
+**Images:** JPEG, PNG, BMP, SVG, TIFF, EMF
+**Others:** PCL
+
+
 ## Enhancements in Version 20.11
 
 - In configuration json file appSid / appKey has been replaced to clientId / clientSecret.
 - In Words API initialization methods clientId parameter precedes clientSecret parameter.
-- Fixed the problem with methods passing boolean values as query parameters (they were ignored by the server).
+
 
 ## Enhancements in Version 20.10
 
@@ -43,73 +62,6 @@ Feel free to explore the [Developer's Guide](https://docs.aspose.cloud/display/w
 
 - Added 'Markdown' save format
 - Added endpoint to update paragraph format without node path (PUT '/words/{name}/paragraphs/{index}/format')
-
-
-## Enhancements in Version 20.6
-
-- Added new methods:
-  - DeleteAllParagraphTabStopsWithoutNodePath
-  - DeleteParagraphTabStopWithoutNodePath
-  - GetParagraphTabStopsWithoutNodePath
-  - InsertOrUpdateParagraphTabStopWithoutNodePath
-  - InsertParagraphWithoutNodePath
-  - UpdateParagraphFormatWithoutNodePath
-  - UpdateParagraphListFormatWithoutNodePath
-  - DeleteParagraphListFormatWithoutNodePath
-- DrawingObject related methods have been changed body content. Special request classes are introduced instead of strings.
-- InsertOrUpdateParagraphTabStop, DeleteParagraphTabStop methods have been changed parameter order
-- OoxmlSaveOptionsData.CompressionLevel property has been added
-
-
-## Enhancements in Version 20.5
-
-- Added methods to work with Word document lists
-  - GetLists
-  - GetList
-  - InsertList
-  - UpdateList
-  - UpdateListLevel
-- Added methods to work with styles
-  - GetStyles
-  - UpdateStyle
-  - InsertStyle
-  - CopyStyle
-  - GetStyleFromDocumentElement
-  - ApplyStyleToDocumentElement
-- Added methods to work with paragraph list format
-  - GetParagraphListFormat
-  - GetParagraphListFormatWithoutNodePath
-  - UpdateParagraphListFormat
-  - DeleteParagraphListFormat
-- Added methods to work with paragraph tab stops
-  - GetParagraphTabStops
-  - InsertOrUpdateParagraphTabStop
-  - DeleteAllParagraphTabStops
-  - DeleteParagraphTabStop
-- Added methods to build reports
-  - BuildReport
-  - BuildReportOnline
-- Added Shading property to ParagraphFormat
-
-
-## Read & Write Document Formats
-
-**Microsoft Word:** DOC, DOCX, RTF, DOT, DOTX, DOTM, FlatOPC (XML)
-**OpenOffice:** ODT, OTT
-**WordprocessingML:** XML
-**Web:** HTML, MHTML, HtmlFixed
-**Text:** TXT
-**Fixed Layout:** PDF
-
-## Save Document As
-
-**Fixed Layout:** PDF/A, XPS, OpenXPS, PS
-**Images:** JPEG, PNG, BMP, SVG, TIFF, EMF
-**Others:** PCL
-
-## Getting Started with Aspose.Words Cloud SDK for C++
-
-Firstly, create an account at [Aspose for Cloud](https://dashboard.aspose.cloud/#/apps) to get your application information and free quota to use the API. 
 
 ### How to build Aspose.Words.Cloud SDK on Windows
 Download and run installer for [Boost library](https://downloads.sourceforge.net/project/boost/boost-binaries/1.68.0/boost_1_68_0-msvc-14.0-64.exe?r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Fboost%2Ffiles%2Fboost-binaries%2F1.68.0%2Fboost_1_68_0-msvc-14.0-64.exe%2Fdownload&ts=1545814847)
